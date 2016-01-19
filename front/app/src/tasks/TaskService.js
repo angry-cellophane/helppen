@@ -2,7 +2,7 @@
    'use strict';
 
    angular.module('tasks')
-          .service('userService', ['$q', TaskService]);
+          .service('taskService', ['$q', TaskService]);
 
 
    function TaskService($q){

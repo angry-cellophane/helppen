@@ -17,29 +17,38 @@
       </style>
    </head>
 
-   <body ng-app="appStarter" layout="row" ng-controller="TaskController as ul" ng-cloak>
-      <h1>Hello</h1>
+   <body ng-app="appStarter" layout="column" ng-controller="TaskController as ul" ng-cloak>
+      <md-toolbar md-scroll-shrink ng-if="true">
+         <div class="md-toolbar-tools">
+            <h1>Helppen!</h1>
+         </div>
+      </md-toolbar>
+      <md-content flex>
+         <md-list>
+            <md-list-item class="md-3-line" ng-repeat="task in ul.tasks">
+               <md-checkbox ng-model="task.isDone" aria-label="hello"  flex="5"></md-checkbox>
+               <div class="md-list-item-text">
+                  <h3>{{task.title}}</h3>
+                  <h4>{{task.desc}}</h4>
+               </div>
+               <md-divider inset></md-divider>               
+            </md-list-item>
+         </md-list>
+      </md-content>
+
+
       <script src="./bower_components/angular/angular.js"></script>
       <script src="./bower_components/angular-animate/angular-animate.js"></script>
       <script src="./bower_components/angular-aria/angular-aria.js"></script>
       <script type="text/javascript" src="./bower_components/angular-material/angular-material.js"></script>
 
+      <script src="./src/tasks/Tasks.js"></script>
+      <script src="./src/tasks/TaskController.js"></script>
+      <script src="./src/tasks/TaskService.js"></script>
+
       <script type="text/javascript">
           angular
-              .module('starterApp', ['ngMaterial', 'users'])
-              .config(function($mdThemingProvider, $mdIconProvider){
-                  $mdIconProvider
-                      .defaultIconSet("./assets/svg/avatars.svg", 128)
-                      .icon("menu"       , "./assets/svg/menu.svg"        , 24)
-                      .icon("share"      , "./assets/svg/share.svg"       , 24)
-                      .icon("google_plus", "./assets/svg/google_plus.svg" , 512)
-                      .icon("hangouts"   , "./assets/svg/hangouts.svg"    , 512)
-                      .icon("twitter"    , "./assets/svg/twitter.svg"     , 512)
-                      .icon("phone"      , "./assets/svg/phone.svg"       , 512);
-                      $mdThemingProvider.theme('default')
-                          .primaryPalette('brown')
-                          .accentPalette('red');
-              });
+              .module('appStarter', ['ngMaterial', 'tasks']);
        </script>
    </body>
 </html>

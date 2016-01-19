@@ -1,5 +1,5 @@
 (function() {
    'use strict';
 
-   angular.module('tasks', ['ngMaterail']);
+   angular.module('tasks', ['ngMaterial']);
 })();
