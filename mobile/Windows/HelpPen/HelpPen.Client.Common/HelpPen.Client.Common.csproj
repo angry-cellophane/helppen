@@ -108,8 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HelpPenService.cs" />
+    <Compile Include="IAuthService.cs" />
     <Compile Include="IHelpPenService.cs" />
-    <Compile Include="Model\API\Credentials.cs" />
+    <Compile Include="Model\API\Session.cs" />
     <Compile Include="Model\API\Task.cs" />
     <Compile Include="Model\API\TaskState.cs" />
     <Compile Include="Model\API\User.cs" />

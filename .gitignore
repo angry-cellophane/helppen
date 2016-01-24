@@ -18,3 +18,4 @@ hs_err_pid*
 /mobile/Windows/HelpPen/HelpPen.Client.Windows/project.lock.json
 /mobile/Windows/HelpPen/HelpPen.Client.Common/project.lock.json
 *.ldb
+/mobile/Windows/HelpPen/HelpPen.Client.Common/bin/x86/Debug
