@@ -10,12 +10,12 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/mobile/Windows/HelpPen/HelpPen.Client.Common/obj/x86/Debug
+/mobile/Windows/HelpPen/HelpPen.Client.Common/obj
 *.suo
-/mobile/Windows/HelpPen/HelpPen.Client.Windows/bin/x86/Debug
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/bin
 /mobile/Windows/HelpPen/HelpPen.Client.Windows/obj
 *.user
 /mobile/Windows/HelpPen/HelpPen.Client.Windows/project.lock.json
 /mobile/Windows/HelpPen/HelpPen.Client.Common/project.lock.json
 *.ldb
-/mobile/Windows/HelpPen/HelpPen.Client.Common/bin/x86/Debug
+/mobile/Windows/HelpPen/HelpPen.Client.Common/bin
