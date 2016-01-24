@@ -11,4 +11,12 @@
    function TaskController(taskService, $log, $q) {
       var self = this;
 
+      taskService.loadAllTasks()
+		.then(function(tasks) {
+			self.tasks = [].concat(tasks);
+		});
+
+   }
+})();
+
       
