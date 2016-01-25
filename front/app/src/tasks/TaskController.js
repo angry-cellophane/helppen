@@ -27,6 +27,9 @@
       var newText = this.scope.newTaskText;
       var newTask = this.taskService.createNewTask(newText);
       this.tasks.unshift(newTask);
+      this.scope.newTaskForm.$setPristine();
+      this.scope.newTaskForm.$setUntouched();
+      this.scope.newTaskText = null;
    }
 
    function moveUp(id) {
