@@ -107,14 +107,18 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationException.cs" />
+    <Compile Include="AuthService.cs" />
     <Compile Include="HelpPenService.cs" />
     <Compile Include="IAuthService.cs" />
     <Compile Include="IHelpPenService.cs" />
+    <Compile Include="InvalidCredentialException.cs" />
     <Compile Include="Model\API\Session.cs" />
     <Compile Include="Model\API\Task.cs" />
     <Compile Include="Model\API\TaskState.cs" />
     <Compile Include="Model\API\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="Properties\HelpPen.Client.Common.rd.xml" />
   </ItemGroup>
   <ItemGroup>

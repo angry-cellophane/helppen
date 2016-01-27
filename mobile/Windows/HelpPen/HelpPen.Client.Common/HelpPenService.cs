@@ -28,7 +28,7 @@ namespace HelpPen.Client.Common
 		public HelpPenService(IAuthService authService)
 		{
 			_authService = authService;
-			_serviceUri = new Uri("helppen.atomnas.ru");
+			_serviceUri = Settings.ServerUri;
 		}
 
 		/// <summary>
