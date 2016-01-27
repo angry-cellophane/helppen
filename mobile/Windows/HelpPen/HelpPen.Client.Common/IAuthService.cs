@@ -16,7 +16,7 @@ namespace HelpPen.Client.Common
 		/// <param name="credentials">Удостоврение пользователя.</param>
 		/// <param name="cancellationToken">Токен отмены.</param>
 		/// <returns>Возвращает задачу <see cref="Task{TResult}"/>,  в рамках которой происходит получение <see cref="Session"/>.</returns>
-		/// <exception cref="AuthenticationException">Инициируется при невозможности получить сессию <see cref="Session"/> для указанного удостоверения <paramref name="credentials"/>.</exception>
+		/// <exception cref="System.Security.Authentication.AuthenticationException">Инициируется при невозможности получить сессию <see cref="Session"/> для указанного удостоверения <paramref name="credentials"/>.</exception>
 		Task<Session> Login(ICredentials credentials, CancellationToken cancellationToken);
 
 		/// <summary>

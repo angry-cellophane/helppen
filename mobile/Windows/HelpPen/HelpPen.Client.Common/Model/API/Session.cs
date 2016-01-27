@@ -17,7 +17,7 @@ namespace HelpPen.Client.Common.Model.API
 		/// <param name="id">Идентификатор сесии.</param>
 		/// <param name="createTime">Время создания сесии.</param>
 		/// <param name="expirationTime">Время истечения сесии.</param>
-		public Session(string id, DateTimeOffset createTime, DateTimeOffset expirationTime)
+		public Session(string id, DateTimeOffset createTime, DateTimeOffset? expirationTime)
 		{
 			Id = id;
 			CreateTime = createTime;
@@ -25,18 +25,18 @@ namespace HelpPen.Client.Common.Model.API
 		}
 
 		/// <summary>
-		/// Идентификатор сесии.
+		/// Идентификатор сессии.
 		/// </summary>
 		public string Id { get; private set; }
 
 		/// <summary>
-		/// Время создания сесии.
+		/// Время создания сессии.
 		/// </summary>
 		public DateTimeOffset CreateTime { get; private set; }
 
 		/// <summary>
-		/// Время истечения сесии.
+		/// Время истечения сессии.
 		/// </summary>
-		public DateTimeOffset ExpirationTime { get; private set; }
+		public DateTimeOffset? ExpirationTime { get; private set; }
 	}
 }
