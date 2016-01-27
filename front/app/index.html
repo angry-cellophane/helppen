@@ -17,20 +17,39 @@
       </style>
    </head>
 
-   <body ng-app="appStarter" layout="column" ng-controller="TaskController as ul" ng-cloak>
+   <body ng-app="appStarter" layout="column" ng-controller="TaskController as ctrl" ng-cloak>
       <md-toolbar md-scroll-shrink ng-if="true">
          <div class="md-toolbar-tools">
             <h1>Helppen!</h1>
          </div>
       </md-toolbar>
       <md-content flex>
+         <form name="newTaskForm" ng-submit="ctrl.addNewTask()" >
+         <div layout="row">
+            <md-input-container >
+               <md-button class="md-icon-button" area-label="AddNewTask" ng-click="ctrl.addNewTask()">
+                  <md-icon md-svg-icon="./assets/svg/plus.svg"></md-icon>
+               </md-button>
+            </md-input-container> 
+            <md-input-container >
+               <label>New task</label>
+               <input name='newTaskText' type="text" ng-model="newTaskText" on-enter="ctrl.addNewTask()" />
+            </md-input-container>
+         </div>
+         </form>
+         <md-divider inset></md-divider>               
          <md-list>
-            <md-list-item class="md-3-line" ng-repeat="task in ul.tasks">
-               <md-checkbox ng-model="task.isDone" aria-label="hello"  flex="5"></md-checkbox>
+            <md-list-item class="md-5-line" ng-repeat="task in ctrl.tasks">
+               <md-checkbox ng-model="task.isDone" aria-label="hello"  flex="5"></md-checkbox> 
                <div class="md-list-item-text">
-                  <h3>{{task.title}}</h3>
-                  <h4>{{task.desc}}</h4>
+                  <h3>{{task.text}}</h3>
                </div>
+               <md-button class="md-icon-button" area-label="MoveUp" ng-click="ctrl.moveUp(task.id)" >
+                  <md-icon md-svg-icon="./assets/svg/arrow-up-bold.svg"></md-icon>
+               </md-button>
+               <md-button class="md-icon-button" area-label="MoveUp" ng-click="ctrl.remove(task.id)" >
+                  <md-icon md-svg-icon="./assets/svg/delete.svg"></md-icon>
+               </md-button>
                <md-divider inset></md-divider>               
             </md-list-item>
          </md-list>
@@ -48,7 +67,12 @@
 
       <script type="text/javascript">
           angular
-              .module('appStarter', ['ngMaterial', 'tasks']);
+              .module('appStarter', ['ngMaterial', 'tasks'])
+	      .config(function($mdThemingProvider) {
+                 $mdThemingProvider.theme('default')
+                          .primaryPalette('teal')
+                          .accentPalette('deep-orange');
+              });
        </script>
    </body>
 </html>
