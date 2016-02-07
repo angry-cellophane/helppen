@@ -2,7 +2,9 @@ package com.helppen.service;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ContextBasedUserService  implements UserService {
 
     private static final String ANONYMOUS = "anonymous";

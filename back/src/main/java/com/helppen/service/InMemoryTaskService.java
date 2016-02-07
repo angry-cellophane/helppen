@@ -3,9 +3,12 @@ package com.helppen.service;
 
 import com.helppen.model.Task;
 import com.helppen.model.TaskState;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
+@Component
 public class InMemoryTaskService implements TaskService {
 
     private final Map<String, List<Task>> tasksByUserName;
@@ -16,9 +19,17 @@ public class InMemoryTaskService implements TaskService {
         tasksById = new HashMap<>();
     }
 
+    @PostConstruct
+    public void init() {
+        for (int i = 0; i < 10; i++) {
+            create("Alex", "Task #" + i);
+        }
+    }
+
     @Override
     public synchronized List<Task> getTasksForUser(String userName) {
-        return tasksByUserName.get(userName);
+        List<Task> tasks = tasksByUserName.get(userName);
+        return tasks == null? Collections.emptyList() : tasks;
     }
 
     @Override
