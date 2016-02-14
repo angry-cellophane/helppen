@@ -1,7 +1,6 @@
 package com.helppen.auth;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.AntPathMatcher;
@@ -16,13 +15,13 @@ public class TokenAuthenticationFilter implements Filter {
 
     private static final Logger LOGGER = Logger.getLogger(TokenAuthenticationFilter.class);
 
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
     private final String filterUrlPattern;
     private final AntPathMatcher pathMatcher;
 
-    public TokenAuthenticationFilter(String filterUrlPattern) {
+    public TokenAuthenticationFilter(TokenService tokenService, String filterUrlPattern) {
+        this.tokenService = tokenService;
         this.filterUrlPattern = filterUrlPattern;
         this.pathMatcher = new AntPathMatcher();
     }

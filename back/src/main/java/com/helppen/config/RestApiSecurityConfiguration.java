@@ -29,8 +29,8 @@ public class RestApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/**").fullyAuthenticated();
-        http.addFilterBefore(new TokenAuthenticationFilter("/api/**"), UsernamePasswordAuthenticationFilter.class);
+                .antMatchers("/api/**").authenticated();
+        http.addFilterBefore(new TokenAuthenticationFilter(tokenService, "/api/**"), UsernamePasswordAuthenticationFilter.class);
         http.csrf().disable();
     }
 
