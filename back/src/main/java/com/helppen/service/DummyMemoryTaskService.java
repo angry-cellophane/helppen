@@ -9,12 +9,12 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Component
-public class InMemoryTaskService implements TaskService {
+public class DummyMemoryTaskService implements TaskService {
 
     private final Map<String, List<Task>> tasksByUserName;
     private final Map<String, Task> tasksById;
 
-    public InMemoryTaskService() {
+    public DummyMemoryTaskService() {
         tasksByUserName = new HashMap<>();
         tasksById = new HashMap<>();
     }

@@ -38,7 +38,7 @@ public class Task {
     }
 
     public void setCreatedBy(String userName) {
-        this.createdBy = createdBy;
+        this.createdBy = userName;
     }
 
     @Override
