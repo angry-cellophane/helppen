@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class DummyMemoryTaskService implements TaskService {
@@ -32,7 +33,11 @@ public class DummyMemoryTaskService implements TaskService {
     @Override
     public synchronized List<Task> getTasksForUser(String userName) {
         List<Task> tasks = tasksByUserName.get(userName);
-        return tasks == null? Collections.emptyList() : tasks;
+        return Optional.ofNullable(tasks)
+                .map(t -> t.stream()
+                            .sorted((o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder()))
+                            .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
     }
 
     @Override
