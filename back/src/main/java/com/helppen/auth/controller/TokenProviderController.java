@@ -48,7 +48,7 @@ public class TokenProviderController {
     @Autowired
     private AuthTokenUserDetailsProvider userDetailsProvider;
 
-    @RequestMapping(value = "/auth/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/token", method = RequestMethod.POST)
     public ResponseEntity<TokenOutput> login(@RequestBody TokenInput input) {
         if (StringUtils.isEmpty(input.getUsername()) || StringUtils.isEmpty(input.getPassword())) {
             return ResponseEntity.badRequest().body(null);

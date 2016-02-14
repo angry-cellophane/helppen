@@ -25,7 +25,7 @@ public class TokenProviderTest {
     }
 
     interface TokenProvider {
-        @RequestLine("POST auth/login")
+        @RequestLine("POST auth/token")
         @Headers("Content-type: application/json")
         TokenWrapper newToken(String content);
     }
