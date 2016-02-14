@@ -46,12 +46,7 @@ public class TokenProviderTest {
         TokenWrapper alexToken = tokenClient.newToken(input);
         System.out.println(alexToken.getToken());
 
-        RequestInterceptor authTokenSupplier = new RequestInterceptor() {
-            @Override
-            public void apply(RequestTemplate template) {
-                template.header(Consts.AUTH_TOKEN_NAME, alexToken.getToken());
-            }
-        };
+        RequestInterceptor authTokenSupplier = template -> template.header(Consts.AUTH_TOKEN_NAME, alexToken.getToken());
         Tasks tasksClient = Feign.builder()
                 .decoder(new JacksonDecoder())
                 .requestInterceptor(authTokenSupplier)

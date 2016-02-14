@@ -6,6 +6,7 @@ public class Task {
     private String text;
     private TaskState state;
     private String createdBy;
+    private int order;
 
     public Task() {}
 
@@ -41,6 +42,14 @@ public class Task {
         this.createdBy = userName;
     }
 
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -48,6 +57,7 @@ public class Task {
                 ", text='" + text + '\'' +
                 ", state=" + state +
                 ", createdBy='" + createdBy + '\'' +
+                ", order=" + order +
                 '}';
     }
 }

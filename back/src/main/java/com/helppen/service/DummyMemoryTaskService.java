@@ -14,9 +14,12 @@ public class DummyMemoryTaskService implements TaskService {
     private final Map<String, List<Task>> tasksByUserName;
     private final Map<String, Task> tasksById;
 
+    private int lastOrder;
+
     public DummyMemoryTaskService() {
         tasksByUserName = new HashMap<>();
         tasksById = new HashMap<>();
+        lastOrder = 0;
     }
 
     @PostConstruct
@@ -50,6 +53,7 @@ public class DummyMemoryTaskService implements TaskService {
         task.setText(text);
         task.setState(TaskState.NOT_COMPLETED);
         task.setCreatedBy(ownerName);
+        task.setOrder(lastOrder++);
 
         tasksById.put(task.getId(), task);
         List<Task> tasks = tasksByUserName.get(ownerName);
