@@ -1,4 +1,4 @@
-package com.helppen.auth;
+package com.helppen.auth.user;
 
 import org.springframework.security.core.userdetails.User;
 

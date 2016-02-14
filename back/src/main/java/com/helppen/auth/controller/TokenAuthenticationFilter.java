@@ -1,17 +1,17 @@
-package com.helppen.auth;
+package com.helppen.auth.controller;
 
+import com.helppen.auth.Consts;
+import com.helppen.auth.token.AuthTokenUserDetailsProvider;
 import org.apache.log4j.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Optional;
 
 public class TokenAuthenticationFilter implements Filter {

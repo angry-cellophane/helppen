@@ -1,4 +1,4 @@
-package com.helppen.auth;
+package com.helppen.auth.token;
 
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;

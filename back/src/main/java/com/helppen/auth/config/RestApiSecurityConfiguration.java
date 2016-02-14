@@ -1,9 +1,8 @@
-package com.helppen.config;
+package com.helppen.auth.config;
 
-import com.helppen.auth.AuthTokenUserDetailsProvider;
-import com.helppen.auth.TokenAuthenticationFilter;
-import com.helppen.auth.TokenService;
-import com.helppen.service.FakeUserDetailService;
+import com.helppen.auth.token.AuthTokenUserDetailsProvider;
+import com.helppen.auth.controller.TokenAuthenticationFilter;
+import com.helppen.auth.user.FakeUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

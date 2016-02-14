@@ -1,5 +1,6 @@
-package com.helppen.auth;
+package com.helppen.auth.controller;
 
+import com.helppen.auth.token.AuthTokenUserDetailsProvider;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

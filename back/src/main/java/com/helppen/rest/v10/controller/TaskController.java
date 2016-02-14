@@ -1,12 +1,10 @@
 package com.helppen.rest.v10.controller;
 
-import com.helppen.auth.UserService;
+import com.helppen.auth.user.UserService;
 import com.helppen.model.Task;
 import com.helppen.model.TaskState;
 import com.helppen.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

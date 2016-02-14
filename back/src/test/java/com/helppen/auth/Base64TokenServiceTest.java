@@ -1,14 +1,11 @@
 package com.helppen.auth;
 
+import com.helppen.auth.token.Base64TokenService;
+import com.helppen.auth.token.UserInfoFromToken;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Date;
-
-import static org.junit.Assert.*;
 
 public class Base64TokenServiceTest {
 

@@ -1,4 +1,4 @@
-package com.helppen.service;
+package com.helppen.auth.user;
 
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer;
 import org.springframework.security.core.userdetails.User;

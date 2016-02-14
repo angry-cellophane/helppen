@@ -1,5 +1,7 @@
 package com.helppen.auth;
 
+import com.helppen.auth.token.AuthTokenUserDetailsProviderImpl;
+import com.helppen.auth.token.Base64TokenService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.security.core.userdetails.User;

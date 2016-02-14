@@ -1,4 +1,4 @@
-package com.helppen.auth;
+package com.helppen.auth.token;
 
 import java.time.ZonedDateTime;
 
