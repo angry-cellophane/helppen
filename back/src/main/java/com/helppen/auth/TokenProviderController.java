@@ -45,7 +45,7 @@ public class TokenProviderController {
     private static Logger LOGGER = Logger.getLogger(TokenProviderController.class);
 
     @Autowired
-    private TokenService tokenService;
+    private AuthTokenUserDetailsProvider userDetailsProvider;
 
     @RequestMapping(value = "/auth/login", method = RequestMethod.POST)
     public ResponseEntity<TokenOutput> login(@RequestBody TokenInput input) {
@@ -56,7 +56,7 @@ public class TokenProviderController {
         LOGGER.info("username = "+input.getUsername());
         LOGGER.info("password = "+input.getPassword());
 
-        TokenOutput output = new TokenOutput(tokenService.encode(input.getUsername()));
+        TokenOutput output = new TokenOutput(userDetailsProvider.tokenForUserName(input.getUsername()));
         return ResponseEntity.ok(output);
     }
 }

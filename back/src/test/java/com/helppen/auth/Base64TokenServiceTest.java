@@ -3,6 +3,11 @@ package com.helppen.auth;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 public class Base64TokenServiceTest {
@@ -12,9 +17,14 @@ public class Base64TokenServiceTest {
     @Test
     public void testService() throws Exception {
         String userName = "Alex";
-        String encode = service.encode(userName);
-        String decode = service.decode(encode);
-        String[] parts = decode.split(":");
-        Assert.assertEquals(userName, parts[0]);
+        long creationTime = ZonedDateTime.now().toEpochSecond();
+        String encode = service.encode(userName, creationTime);
+        UserInfoFromToken userDetails = service.decode(encode);
+
+        System.out.println(userDetails.getCreationDate());
+
+        Assert.assertEquals(userName, userDetails.getUserName());
+        Assert.assertEquals(creationTime, userDetails.getCreationDate().toEpochSecond());
+
     }
 }

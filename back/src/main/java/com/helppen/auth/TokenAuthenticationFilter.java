@@ -3,6 +3,7 @@ package com.helppen.auth;
 import org.apache.log4j.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 
@@ -11,18 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Optional;
 
 public class TokenAuthenticationFilter implements Filter {
 
     private static final Logger LOGGER = Logger.getLogger(TokenAuthenticationFilter.class);
 
-    private final TokenService tokenService;
+    private final AuthTokenUserDetailsProvider userDetailsProvider;
 
     private final String filterUrlPattern;
     private final AntPathMatcher pathMatcher;
 
-    public TokenAuthenticationFilter(TokenService tokenService, String filterUrlPattern) {
-        this.tokenService = tokenService;
+    public TokenAuthenticationFilter(AuthTokenUserDetailsProvider userDetailsProvider, String filterUrlPattern) {
+        this.userDetailsProvider = userDetailsProvider;
         this.filterUrlPattern = filterUrlPattern;
         this.pathMatcher = new AntPathMatcher();
     }
@@ -42,13 +44,21 @@ public class TokenAuthenticationFilter implements Filter {
 
         if (isFiltered) {
             String authToken = httpRequest.getHeader(Consts.AUTH_TOKEN_NAME);
-            if (StringUtils.isEmpty(authToken)) {
+            Optional<UserDetails> userDetailsOptional = userDetailsProvider.loadUserDetailsByToken(authToken);
+            if (!userDetailsOptional.isPresent()) {
                 httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
 
-            String username = tokenService.decode(authToken).split(":")[0];
-            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, authToken, Collections.emptyList()));
+            UserDetails userDetails = userDetailsOptional.get();
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails.getUsername(),
+                            userDetails.getPassword(),
+                            userDetails.getAuthorities());
+            SecurityContextHolder
+                    .getContext()
+                    .setAuthentication(authentication);
         }
 
         chain.doFilter(request, response);
