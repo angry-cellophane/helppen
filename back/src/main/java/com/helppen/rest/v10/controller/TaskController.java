@@ -1,5 +1,6 @@
 package com.helppen.rest.v10.controller;
 
+import com.helppen.auth.UserService;
 import com.helppen.model.Task;
 import com.helppen.model.TaskState;
 import com.helppen.service.TaskService;
@@ -15,7 +16,7 @@ import java.util.List;
 public class TaskController {
 
     @Autowired
-    private UserDetailsService userService;
+    private UserService userService;
 
     @Autowired
     private TaskService taskService;
@@ -23,7 +24,7 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Task> getTasks() {
-        return taskService.getTasksForUser("Alex");
+        return taskService.getTasksForUser(userService.getUserName());
     }
 
     @RequestMapping(method = RequestMethod.POST)

@@ -1,5 +1,6 @@
 package com.helppen.config;
 
+import com.helppen.auth.TokenAuthenticationFilter;
 import com.helppen.auth.TokenService;
 import com.helppen.service.FakeUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class RestApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    private static final String AUTH_TOKEN_NAME = "X-AUTH-TOKEN";
 
     @Autowired
     private TokenService tokenService;
@@ -30,7 +30,7 @@ public class RestApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/api/**").fullyAuthenticated();
-        http.httpBasic();
+        http.addFilterBefore(new TokenAuthenticationFilter("/api/**"), UsernamePasswordAuthenticationFilter.class);
         http.csrf().disable();
     }
 
