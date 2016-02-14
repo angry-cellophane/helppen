@@ -3,17 +3,8 @@ package com.helppen.auth;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.Date;
 
 @RestController
 public class TokenProviderController {
@@ -65,7 +56,7 @@ public class TokenProviderController {
         LOGGER.info("username = "+input.getUsername());
         LOGGER.info("password = "+input.getPassword());
 
-        TokenOutput output = new TokenOutput(tokenService.token(input.getUsername()));
+        TokenOutput output = new TokenOutput(tokenService.encode(input.getUsername()));
         return ResponseEntity.ok(output);
     }
 }

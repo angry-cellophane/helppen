@@ -1,5 +1,6 @@
 package com.helppen.auth;
 
 public interface TokenService {
-    String token(String username);
+    String encode(String username);
+    String decode(String token);
 }

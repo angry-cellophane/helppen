@@ -1,5 +1,6 @@
 package com.helppen.config;
 
+import com.helppen.auth.TokenService;
 import com.helppen.service.FakeUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class RestApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private static final String AUTH_TOKEN_NAME = "X-AUTH-TOKEN";
+
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
