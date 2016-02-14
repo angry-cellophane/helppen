@@ -10,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 
 public class TokenAuthenticationFilter implements Filter {
 
@@ -47,7 +48,7 @@ public class TokenAuthenticationFilter implements Filter {
             }
 
             String username = tokenService.decode(authToken).split(":")[0];
-            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, authToken));
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, authToken, Collections.emptyList()));
         }
 
         chain.doFilter(request, response);

@@ -40,4 +40,14 @@ public class Task {
     public void setCreatedBy(String userName) {
         this.createdBy = createdBy;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", text='" + text + '\'' +
+                ", state=" + state +
+                ", createdBy='" + createdBy + '\'' +
+                '}';
+    }
 }
