@@ -39,6 +39,14 @@ public class TokenProviderTest {
         @RequestLine("POST /api/v1.0/tasks")
         @Headers("Content-type: application/json")
         Task create(Task task);
+
+        @RequestLine("DELETE /api/v1.0/tasks/{id} ")
+        @Headers("Content-type: application/json")
+        void delete(@Param("id") String id);
+
+        @RequestLine("PUT /api/v1.0/tasks/{id}")
+        @Headers("Content-type: application/json")
+        Task update(@Param("id") String id, Task task);
     }
 
     public static void main(String[] args) {
@@ -60,11 +68,20 @@ public class TokenProviderTest {
 
         System.out.println(tasksClient.getTasks());
 
-        tasksClient.create(newDummyTask("Task #1"));
-        tasksClient.create(newDummyTask("Task #2"));
+        Task task1 = tasksClient.create(newDummyTask("Task #1"));
+        Task task2 = tasksClient.create(newDummyTask("Task #2"));
         Task task3 = tasksClient.create(newDummyTask("Task #3"));
 
         System.out.println(task3);
+        System.out.println(tasksClient.getTasks());
+
+        tasksClient.delete(task2.getId());
+
+        System.out.println(tasksClient.getTasks());
+
+        task1.setOrderNumber(4);
+        System.out.println(tasksClient.update(task1.getId(), task1));
+
         System.out.println(tasksClient.getTasks());
     }
 

@@ -33,7 +33,7 @@ public class TaskController {
         return taskService.create(userService.getUserName(), task.getText());
     }
 
-    @RequestMapping(value = "/{taskId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{taskId}", method = RequestMethod.PUT)
     public Task update(@PathVariable String taskId, @RequestBody Task newTask) {
         Optional<Task> taskOp = taskService.get(taskId);
         if (!taskOp.isPresent()) return null;
