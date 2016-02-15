@@ -3,13 +3,12 @@ package com.helppen.service;
 
 import com.helppen.model.Task;
 import com.helppen.model.TaskState;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
+//@Component
 public class DummyMemoryTaskService implements TaskService {
 
     private final Map<String, List<Task>> tasksByUserName;
@@ -31,11 +30,16 @@ public class DummyMemoryTaskService implements TaskService {
     }
 
     @Override
+    public Optional<Task> get(String id) {
+        return Optional.ofNullable(tasksById.get(id));
+    }
+
+    @Override
     public synchronized List<Task> getTasksForUser(String userName) {
         List<Task> tasks = tasksByUserName.get(userName);
         return Optional.ofNullable(tasks)
                 .map(t -> t.stream()
-                            .sorted((o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder()))
+                            .sorted((o1, o2) -> Integer.compare(o1.getOrderNumber(), o2.getOrderNumber()))
                             .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }
@@ -57,8 +61,8 @@ public class DummyMemoryTaskService implements TaskService {
         task.setId(UUID.randomUUID().toString());
         task.setText(text);
         task.setState(TaskState.NOT_COMPLETED);
-        task.setCreatedBy(ownerName);
-        task.setOrder(lastOrder++);
+        task.setOwner(ownerName);
+        task.setOrderNumber(lastOrder++);
 
         tasksById.put(task.getId(), task);
         List<Task> tasks = tasksByUserName.get(ownerName);
@@ -72,11 +76,11 @@ public class DummyMemoryTaskService implements TaskService {
     }
 
     @Override
-    public synchronized boolean delete(String taskId) {
+    public synchronized void delete(String taskId) {
         Task task = tasksById.remove(taskId);
-        if (task == null) return false;
+        if (task == null) return;
 
-        List<Task> tasks = tasksByUserName.get(task.getCreatedBy());
-        return tasks.remove(task);
+        List<Task> tasks = tasksByUserName.get(task.getOwner());
+        tasks.remove(task);
     }
 }

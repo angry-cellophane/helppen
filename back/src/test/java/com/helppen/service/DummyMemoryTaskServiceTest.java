@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class DummyMemoryTaskServiceTest {
 
     @Test
@@ -19,7 +17,7 @@ public class DummyMemoryTaskServiceTest {
         Task task = taskService.create(username, text);
 
         Assert.assertEquals(TaskState.NOT_COMPLETED,task.getState());
-        Assert.assertEquals(username,task.getCreatedBy());
+        Assert.assertEquals(username,task.getOwner());
         Assert.assertEquals(text,task.getText());
 
         List<Task> tasks = taskService.getTasksForUser(username);

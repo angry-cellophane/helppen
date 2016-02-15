@@ -2,22 +2,25 @@ package com.helppen.rest.v10.controller;
 
 import com.helppen.auth.user.UserService;
 import com.helppen.model.Task;
-import com.helppen.model.TaskState;
 import com.helppen.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1.0/tasks")
 public class TaskController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final TaskService taskService;
 
     @Autowired
-    private TaskService taskService;
+    public TaskController(UserService userService, TaskService taskService) {
+        this.userService = userService;
+        this.taskService = taskService;
+    }
 
 
     @RequestMapping(method = RequestMethod.GET)
@@ -26,18 +29,19 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Task createTask(@RequestParam("text") String text) {
-        return taskService.create("Alex", text);
+    public Task createTask(@RequestBody Task task) {
+        return taskService.create(userService.getUserName(), task.getText());
     }
 
     @RequestMapping(value = "/{taskId}", method = RequestMethod.POST)
-    public Task update(@PathVariable String taskId, @RequestParam("text") String text, @RequestParam("state") String stateString) {
-        TaskState state = TaskState.of(stateString);
+    public Task update(@PathVariable String taskId, @RequestBody Task newTask) {
+        Optional<Task> taskOp = taskService.get(taskId);
+        if (!taskOp.isPresent()) return null;
 
-        Task task = new Task();
-        task.setText(text);
-        task.setId(taskId);
-        task.setState(state);
+        Task task = taskOp.get();
+        task.setText(newTask.getText());
+        task.setState(newTask.getState());
+        task.setOrderNumber(newTask.getOrderNumber());
 
         return taskService.update(task);
     }

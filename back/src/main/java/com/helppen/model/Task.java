@@ -1,12 +1,17 @@
 package com.helppen.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Task {
+
+    @Id
     private String id;
     private String text;
     private TaskState state;
-    private String createdBy;
-    private int order;
+    private String owner;
+    private int orderNumber;
 
     public Task() {}
 
@@ -34,20 +39,20 @@ public class Task {
         this.state = state;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setCreatedBy(String userName) {
-        this.createdBy = userName;
+    public void setOwner(String userName) {
+        this.owner = userName;
     }
 
-    public int getOrder() {
-        return order;
+    public int getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     @Override
@@ -56,8 +61,8 @@ public class Task {
                 "id='" + id + '\'' +
                 ", text='" + text + '\'' +
                 ", state=" + state +
-                ", createdBy='" + createdBy + '\'' +
-                ", order=" + order +
+                ", owner='" + owner + '\'' +
+                ", orderNumber=" + orderNumber +
                 '}';
     }
 }
