@@ -1,5 +1,6 @@
 package com.helppen.service;
 
+import com.helppen.dao.TaskRepository;
 import com.helppen.model.Task;
 import com.helppen.model.TaskState;
 import org.springframework.beans.factory.annotation.Autowired;
