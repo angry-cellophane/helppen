@@ -19,12 +19,7 @@ namespace HelpPen.Server.Controllers
 		{
 			_rngCryptoServiceProvider = new RNGCryptoServiceProvider();
 		}
-		[HttpGet]
-		public string Test()
-		{
-			return DateTimeOffset.Now.ToString();
-		}
-
+		
 		[HttpPost]
 		public async Task<IHttpActionResult> Login([FromBody] Credentials credentials, CancellationToken cancellationToken)
 		//public async Task<IHttpActionResult> Login([FromUri]string userName, [FromUri] string password, CancellationToken cancellationToken)

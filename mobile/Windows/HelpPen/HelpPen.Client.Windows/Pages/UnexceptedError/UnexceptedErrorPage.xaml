@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="HelpPen.Client.Windows.Pages.UnexceptedErrorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Border Margin="10" Padding="10" BorderThickness="5" BorderBrush="Coral">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0"  Text="Произошла непредвиденная ошибка, приносим... бла-бла..." TextWrapping="WrapWholeWords" Margin="0,0,0,10" />
+                <TextBox Grid.Row="1" x:Name="ErrorTitleBox" IsReadOnly="True" TextWrapping="Wrap" Margin="0,0,0,10" />
+                <TextBox Grid.Row="2" x:Name="ErrorTextBox" IsReadOnly="True" AcceptsReturn="True" />
+
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

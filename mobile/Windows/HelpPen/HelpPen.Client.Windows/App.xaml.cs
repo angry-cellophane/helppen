@@ -1,22 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using App3.Pages.Login;
+using HelpPen.Client.Windows.Pages;
 
-namespace App3
+namespace HelpPen.Client.Windows
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -47,9 +37,11 @@ namespace App3
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                //this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+
+			App.Current.UnhandledException += CurrentOnUnhandledException;
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -78,11 +70,21 @@ namespace App3
                 // parameter
                 rootFrame.Navigate(typeof(LoginPage), e.Arguments);
             }
+
             // Ensure the current window is active
             Window.Current.Activate();
         }
 
-        /// <summary>
+	    private void CurrentOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+	    {
+			Frame rootFrame = (Frame) Window.Current.Content;
+
+			rootFrame.Navigate(typeof(UnexceptedErrorPage), e.Exception);
+
+			e.Handled = true;
+	    }
+
+	    /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>

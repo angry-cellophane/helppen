@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpPen.Client.Windows", "H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpPen.Server", "HelpPen.Server\HelpPen.Server.csproj", "{96F373E8-95EB-4267-BBC2-7F5D26DE4B65}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "certs", "certs", "{02E20E93-0A37-4234-AB9F-BE5F979C1B83}"
+	ProjectSection(SolutionItems) = preProject
+		certs\Create-Test-Cert.ps1 = certs\Create-Test-Cert.ps1
+		certs\HelpPen.com.pfx = certs\HelpPen.com.pfx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

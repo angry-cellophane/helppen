@@ -47,7 +47,9 @@ namespace HelpPen.Client.Common
 			{
 				var uri = new Uri(Settings.ServerUri, @"auth/login");
 
-				var credentialsData = new CredentialsData(@"1234", @"1234");
+				NetworkCredential networkCredential = credentials.GetCredential(uri, null);
+
+				var credentialsData = new CredentialsData(networkCredential.UserName, networkCredential.Password);
 
 				HttpResponseMessage responseMessage =
 					await httpClient.PostAsync(uri, new ObjectContent<CredentialsData>(credentialsData, _mediaTypeFormatter), cancellationToken);
@@ -104,7 +106,7 @@ namespace HelpPen.Client.Common
 				}
 				else if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
 				{
-					throw new InvalidCredentialException();
+					throw new InvalidCredentialException(@"Неверный логин или пароль.");
 				}
 				else
 				{
