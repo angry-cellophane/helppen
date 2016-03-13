@@ -13,14 +13,9 @@ namespace HelpPen.Client.Common.Model.API
 		public Guid Id { get; set; }
 
 		/// <summary>
-		/// Краткое содержание задачи.
-		/// </summary>
-		public string Title { get; set; }
-
-		/// <summary>
 		/// Текстовое содержание задачи.
 		/// </summary>
-		public string Description { get; set; }
+		public string text { get; set; }
 
 		/// <summary>
 		/// Состояние задачи.

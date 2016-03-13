@@ -104,9 +104,13 @@
     <Compile Include="Pages\Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TaskList\TaskListItemControl.xaml.cs">
+      <DependentUpon>TaskListItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TaskList\TaskListPage.xaml.cs">
       <DependentUpon>TaskListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TaskList\TaskListViewModel.cs" />
     <Compile Include="Pages\UnexceptedError\UnexceptedErrorPage.xaml.cs">
       <DependentUpon>UnexceptedErrorPage.xaml</DependentUpon>
     </Compile>
@@ -136,6 +140,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\TaskList\TaskListItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\TaskList\TaskListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,6 +158,9 @@
       <Project>{855534F8-AD06-4536-BF40-C7739F93EEC5}</Project>
       <Name>HelpPen.Client.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\Authentification\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

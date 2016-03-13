@@ -1,12 +1,52 @@
-﻿<Page
+﻿<mvvm:Page
     x:Class="HelpPen.Client.Windows.Pages.TaskList.TaskListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:taskList="using:HelpPen.Client.Windows.Pages.TaskList"
+    xmlns:mvvm="using:HelpPen.Client.Common.MVVM"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance taskList:TaskListViewModel}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Тут список" FontSize="45" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ProgressRing IsActive="{Binding Path=IsWorking, Mode=OneWay}" 
+                      Width="50"
+                      Height="50"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Top" />
+
+        <TextBlock Grid.Row="0" Text="Список задач" Margin="10" Style="{StaticResource HeaderTextBlockStyle}" />
+
+        <!--               IsSwipeEnabled="True"
+                  CanDragItems="True" -->
+        <ListView Grid.Row="1" ItemsSource="{Binding Path=Tasks}"
+                  IsItemClickEnabled="True"
+                  SelectionMode="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <taskList:TaskListItemControl />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" x:Name="NewTaskTextBox" Margin="5" KeyUp="OnNewTaskTextBoxKeyUp" />
+            <Button Grid.Column="1" x:Name="AddTaskButton" Content="Добавить задачу" HorizontalAlignment="Stretch"
+                    Margin="5" Command="{Binding Path=AddNewTaskCommand, Mode=OneWay}"
+                    IsEnabled="{Binding ElementName=NewTaskTextBox, Path=Text, Converter={StaticResource IsExistsTextConverter}}" />
+
+        </Grid>
+
     </Grid>
-</Page>
+</mvvm:Page>

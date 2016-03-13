@@ -1,9 +1,12 @@
 ﻿{
   "dependencies": {
+    "CommonServiceLocator": "1.3.0",
     "Microsoft.ApplicationInsights": "1.0.0",
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.0.0",
     "Microsoft.ApplicationInsights.WindowsApps": "1.0.0",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
+    "Prism.Windows": "6.0.1",
+    "Unity": "4.0.1"
   },
   "frameworks": {
     "uap10.0": {}

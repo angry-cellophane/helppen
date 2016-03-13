@@ -4,10 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" d:DesignHeight="587" d:DesignWidth="671">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="50,100">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+
+        <TextBlock Grid.Row="0" Text="Вход в систему" Margin="10" Style="{StaticResource HeaderTextBlockStyle}" />
+
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -17,11 +20,41 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Имя пользователя:" />
-            <TextBox Grid.Row="1" x:Name="UserNameTextBox"/>
+            <TextBox Grid.Row="1" x:Name="UserNameTextBox" KeyUp="OnTextBoxKeyUp"
+                     IsEnabled="{Binding ElementName=page, Path=IsInputEnabled,Mode=OneWay}" />
             <TextBlock Grid.Row="2" Text="Пароль:" />
-            <PasswordBox Grid.Row="3" x:Name="PasswordTextBox"/>
-            <Button Grid.Row="4" x:Name="LoginButton" Content="Вход" HorizontalAlignment="Stretch" Margin="0,10" Click="LoginButton_OnClick"/>
-            <ProgressRing Grid.Row="5" x:Name="ProgressRing" IsActive="False" />
+            <PasswordBox Grid.Row="3" x:Name="PasswordTextBox" KeyUp="OnTextBoxKeyUp"
+                         IsEnabled="{Binding Path=IsInputEnabled,Mode=OneWay}" />
+            <Button Grid.Row="4" x:Name="LoginButton" Content="Вход" HorizontalAlignment="Stretch" Margin="0,10"
+                    Click="OnLoginButtonClick"
+                    ToolTipService.ToolTip="Для входа нажмите кнопку или клавишу Enter на клавиатуре вашего компьютера."
+                    IsEnabled="{Binding Path=IsInputEnabled,Mode=OneWay}" />
+            <ProgressRing Grid.Row="5" x:Name="ProgressRing" IsActive="False" Width="50" Height="50" />
         </Grid>
+
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5" Tapped="OnDebugInfoTapped">
+            <Rectangle Fill="Bisque" StrokeThickness="2" RadiusY="2" RadiusX="2" StrokeDashArray="5 1">
+                <Rectangle.Stroke>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="DarkGray" />
+                        <GradientStop Color="DarkGoldenrod" Offset="1" />
+                    </LinearGradientBrush>
+                </Rectangle.Stroke>
+            </Rectangle>
+            <TextBlock Margin="7,5">
+                <TextBlock.Inlines>
+                    <Span>
+                        <Bold xml:space="preserve">Имя пользователя: </Bold>
+                        <Run>любое</Run>
+                    </Span>
+                    <LineBreak />
+                    <Span>
+                        <Bold xml:space="preserve">Пароль: </Bold>
+                        <Run>password</Run>
+                    </Span>
+                </TextBlock.Inlines>
+            </TextBlock>
+        </Grid>
+
     </Grid>
 </Page>

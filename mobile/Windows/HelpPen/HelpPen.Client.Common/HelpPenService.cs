@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net.Http.Headers;
 
 namespace HelpPen.Client.Common
 {
@@ -106,11 +107,14 @@ namespace HelpPen.Client.Common
 
 			using (HttpClientHandler httpClientHandler = new HttpClientHandler())
 			{
-				httpClientHandler.CookieContainer.Add(_serviceUri, new Cookie(@"auth", _authService.CurrentSession.Id));
+				//httpClientHandler.CookieContainer.Add(_serviceUri, new Cookie(@"auth", _authService.CurrentSession.Id));
+
 				httpClientHandler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
 				using (HttpClient httpClient = new HttpClient(httpClientHandler))
 				{
+					httpClient.DefaultRequestHeaders.Add(@"X-AUTH-TOKEN", _authService.CurrentSession.Id);
+
 					await action(httpClientHandler, httpClient);
 				}
 			}
@@ -147,7 +151,15 @@ namespace HelpPen.Client.Common
 
 			using (HttpContent httpContent = new ByteArrayContent(data))
 			{
-				await httpClient.PostAsync(new Uri(_serviceUri, "Tasks"), httpContent, cancellationToken);
+				httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse(@"application/json");
+
+				HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(new Uri(_serviceUri, "/api/v1.0/tasks"), httpContent, cancellationToken);
+
+				if (!httpResponseMessage.IsSuccessStatusCode)
+				{
+					string message = await httpResponseMessage.Content.ReadAsStringAsync();
+					throw new WebServiceException(message);
+				}
 			}
 		}
 
@@ -177,10 +189,11 @@ namespace HelpPen.Client.Common
 		/// <returns>Задача <see cref="Task{TResult}"/>, в рамках которой происходит получение списка задач <see cref="Model.API.Task"/>.</returns>
 		private async Task<ImmutableArray<Model.API.Task>> GetTasksInternal(HttpClientHandler httpClientHandler, HttpClient httpClient, CancellationToken cancellationToken)
 		{
-			using (Stream stream = await httpClient.GetStreamAsync(new Uri(_serviceUri, "Tasks")))
+			using (Stream stream = await httpClient.GetStreamAsync(new Uri(_serviceUri, "/api/v1.0/tasks")))
 			{
 				using (StreamReader streamReader = new StreamReader(stream))
 				{
+					//var readToEnd = streamReader.ReadToEnd();
 					using (JsonReader jsonReader = new JsonTextReader(streamReader))
 					{
 						JsonSerializer serializer = new JsonSerializer();

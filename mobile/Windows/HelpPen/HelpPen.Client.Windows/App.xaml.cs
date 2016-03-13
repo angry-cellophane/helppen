@@ -4,7 +4,10 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using HelpPen.Client.Common;
 using HelpPen.Client.Windows.Pages;
+using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
 
 namespace HelpPen.Client.Windows
 {
@@ -65,6 +68,8 @@ namespace HelpPen.Client.Windows
 
             if (rootFrame.Content == null)
             {
+	            InitializeServices();
+
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
@@ -107,5 +112,17 @@ namespace HelpPen.Client.Windows
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
-    }
+
+		private void InitializeServices()
+		{
+			IUnityContainer container = new UnityContainer();
+
+			container.RegisterType<IAuthService, AuthService>(new ContainerControlledLifetimeManager());
+			container.RegisterType<IHelpPenService, HelpPenService>(new ContainerControlledLifetimeManager());
+
+			UnityServiceLocator unityServiceLocator = new UnityServiceLocator(container);
+
+			ServiceLocator.SetLocatorProvider(() => unityServiceLocator);
+		}
+	}
 }

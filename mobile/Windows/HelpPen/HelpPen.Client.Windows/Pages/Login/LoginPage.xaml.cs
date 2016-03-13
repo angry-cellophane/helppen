@@ -1,49 +1,92 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using HelpPen.Client.Common;
-using HelpPen.Client.Common.Model.API;
 using HelpPen.Client.Windows.Pages.TaskList;
+using Microsoft.Practices.ServiceLocation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace HelpPen.Client.Windows.Pages
 {
 	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
+	///     Страница аутентификации.
 	/// </summary>
-	public sealed partial class LoginPage : Page
+	public sealed partial class LoginPage
 	{
+		public static readonly DependencyProperty IsInputEnabledProperty = DependencyProperty.Register(
+			@"IsInputEnabled", typeof (bool), typeof (LoginPage), new PropertyMetadata(true));
+
 		private readonly IAuthService _authService;
 
 		public LoginPage()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
-			_authService = new AuthService();
+			_authService = ServiceLocator.Current.GetInstance<IAuthService>();
+
+			DataContext = this;
 		}
 
-		private async void LoginButton_OnClick(object sender, RoutedEventArgs e)
+		public bool IsInputEnabled
 		{
+			get { return (bool) GetValue(IsInputEnabledProperty); }
+			set { SetValue(IsInputEnabledProperty, value); }
+		}
+
+		private async void OnLoginButtonClick(object sender, RoutedEventArgs e)
+		{
+			await TryLogin();
+		}
+
+		private async void OnTextBoxKeyUp(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key == VirtualKey.Enter)
+			{
+				await TryLogin();
+			}
+		}
+
+		private async Task TryLogin()
+		{
+			IsInputEnabled = false;
 			ProgressRing.IsActive = true;
 
-			Session session = await TryLogin(UserNameTextBox.Text, PasswordTextBox.Password, CancellationToken.None);
+			try
+			{
+				var credential = new NetworkCredential(UserNameTextBox.Text, PasswordTextBox.Password);
 
+				await _authService.Login(credential, CancellationToken.None);
+
+				Frame.Navigate(typeof (TaskListPage));
+			}
+			catch (InvalidCredentialException ex)
+			{
+				var dialog = new MessageDialog(
+					ex.Message,
+					"Попытка входа в систему не удалась");
+
+				dialog.Commands.Add(new UICommand("OK"));
+
+				await dialog.ShowAsync();
+			}
+
+			IsInputEnabled = true;
 			ProgressRing.IsActive = false;
-
-			Frame.Navigate(typeof(TaskListPage));
 		}
 
-		private async Task<Session> TryLogin(string userName, string password, CancellationToken cancellationToken)
+		private async void OnDebugInfoTapped(object sender, TappedRoutedEventArgs e)
 		{
-			NetworkCredential credential = new NetworkCredential(userName, password);
-
-			Session session = await _authService.Login(credential, cancellationToken);
-
-			return session;
+			UserNameTextBox.Text = @"DebugUser";
+			PasswordTextBox.Password = @"password";
 		}
 	}
 }
