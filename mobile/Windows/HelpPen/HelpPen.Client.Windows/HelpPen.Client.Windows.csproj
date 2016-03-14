@@ -111,6 +111,14 @@
       <DependentUpon>TaskListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\TaskList\TaskListViewModel.cs" />
+    <Compile Include="Pages\TaskList\TestVM.cs" />
+    <Compile Include="Pages\TaskList\TestVM1.cs" />
+    <Compile Include="Pages\TestBindPage.xaml.cs">
+      <DependentUpon>TestBindPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TestPage.xaml.cs">
+      <DependentUpon>TestPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\UnexceptedError\UnexceptedErrorPage.xaml.cs">
       <DependentUpon>UnexceptedErrorPage.xaml</DependentUpon>
     </Compile>
@@ -147,6 +155,14 @@
     <Page Include="Pages\TaskList\TaskListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TestBindPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TestPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\UnexceptedError\UnexceptedErrorPage.xaml">
       <SubType>Designer</SubType>

@@ -87,6 +87,7 @@ namespace HelpPen.Client.Windows.Pages
 		{
 			UserNameTextBox.Text = @"DebugUser";
 			PasswordTextBox.Password = @"password";
+			LoginButton.Focus(FocusState.Keyboard);
 		}
 	}
 }

@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using HelpPen.Client.Common.Model.API;
+using HelpPen.Client.Common.Tracing;
+
 using Newtonsoft.Json;
 using HttpClient = System.Net.Http.HttpClient;
 using HttpResponseMessage = System.Net.Http.HttpResponseMessage;
@@ -23,6 +25,8 @@ namespace HelpPen.Client.Common
 	/// </summary>
 	public class AuthService : IAuthService
 	{
+		internal const string AUTH_TOKEN_SERVICE_URI = @"auth/token";
+
 		private static readonly MediaTypeFormatter _mediaTypeFormatter;
 
 		/// <summary>
@@ -47,7 +51,7 @@ namespace HelpPen.Client.Common
 		{
 			using (var httpClient = new HttpClient())
 			{
-				var uri = new Uri(Settings.ServerUri, @"auth/token");
+				var uri = new Uri(Settings.ServerUri, AUTH_TOKEN_SERVICE_URI);
 
 				NetworkCredential networkCredential = credentials.GetCredential(uri, null);
 
@@ -72,6 +76,8 @@ namespace HelpPen.Client.Common
 					{
 						CurrentSession = new Session(authToken.token, DateTimeOffset.Now, default(DateTimeOffset?));
 						Credentials = credentials;
+
+						AuthEventSource.Instance.Login(networkCredential.UserName);
 
 						return CurrentSession;
 					}

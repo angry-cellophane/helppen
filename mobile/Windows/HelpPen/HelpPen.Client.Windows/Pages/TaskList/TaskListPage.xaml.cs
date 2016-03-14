@@ -1,5 +1,8 @@
 ﻿using System.Windows.Input;
 
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 using HelpPen.Client.Common.MVVM;
@@ -13,6 +16,18 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 	/// </summary>
 	public sealed partial class TaskListPage
 	{
+		#region Constructors and Destructors
+
+		/// <summary>
+		///     Initializes a new instance of the Page class.
+		/// </summary>
+		public TaskListPage()
+		{
+			InitializeComponent();
+		}
+
+		#endregion
+
 		#region Methods
 
 		/// <summary>
@@ -26,11 +41,14 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 		private void OnNewTaskTextBoxKeyUp(object sender, KeyRoutedEventArgs e)
 		{
-			ICommand command = ((TaskListViewModel)ViewModel).AddNewTaskCommand;
-
-			if (command.CanExecute(null))
+			if (e.Key == VirtualKey.Enter)
 			{
-				command.Execute(null);
+				ICommand command = ((TaskListViewModel)DataContext).AddNewTaskCommand;
+
+				if (command.CanExecute(null))
+				{
+					command.Execute(null);
+				}
 			}
 		}
 

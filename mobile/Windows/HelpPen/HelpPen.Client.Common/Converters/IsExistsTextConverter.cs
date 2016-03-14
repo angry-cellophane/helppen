@@ -10,7 +10,7 @@ namespace HelpPen.Client.Common.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{
-			return string.IsNullOrWhiteSpace((string) value);
+			return !string.IsNullOrWhiteSpace((string) value);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -5,6 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using HelpPen.Client.Common;
+using HelpPen.Client.Common.Tracing;
 using HelpPen.Client.Windows.Pages;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
@@ -74,6 +75,11 @@ namespace HelpPen.Client.Windows
                 // configuring the new page by passing required information as a navigation
                 // parameter
                 rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+
+	            rootFrame.NavigationFailed += (sender, args) => { };
+	            rootFrame.NavigationStopped += (sender, args) => { };
+	            rootFrame.Navigating += (sender, args) => { };
+	            rootFrame.Navigated += (sender, args) => { };
             }
 
             // Ensure the current window is active
@@ -118,6 +124,11 @@ namespace HelpPen.Client.Windows
 			IUnityContainer container = new UnityContainer();
 
 			container.RegisterType<IAuthService, AuthService>(new ContainerControlledLifetimeManager());
+
+			container.RegisterType<IAuthService, TraceableAuthService>(
+				new ContainerControlledLifetimeManager(),
+				new InjectionFactory(uc => new TraceableAuthService(uc.Resolve<AuthService>())));
+
 			container.RegisterType<IHelpPenService, HelpPenService>(new ContainerControlledLifetimeManager());
 
 			UnityServiceLocator unityServiceLocator = new UnityServiceLocator(container);
