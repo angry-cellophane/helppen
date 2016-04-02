@@ -4,9 +4,7 @@ module.exports = function() {
   var enc = require('app/js/auth/encrypt');
 
   var provideToken = function(userForm, cb) {
-    console.log(userForm);
     users.findUserByLogin(userForm.login, function(err, user) {
-      console.log(user);
       if (err || !user) {
         cb('Login or password are incorrect');
         return;

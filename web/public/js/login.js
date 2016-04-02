@@ -14,7 +14,8 @@ angular.module('helppen.loginForm', ['ngMaterial', 'ngCookies'])
       }).then(function success(res) {
         $scope.isCredentialsWrong = false;
         $cookies.put('authToken', res.data.token);
-        window.location.replace(window.location.href);
+        // window.location.replace(window.location.href);
+        window.location = '/';
         // console.log($location);
       }, function failure(res) {
         $scope.isCredentialsWrong = true;
