@@ -1,0 +1,33 @@
+<div layout="row" layout-align="center center" layout-fill>
+  <md-whiteframe class="md-whiteframe-z1" layout="column" flex="50" flex-sm="100" layout-padding>
+      <md-content layout-padding>
+        <form name="credentials" ng-submit="submitCredentials()" >
+          <div layout="row" >
+            <h3 class="md-headline">Enter you login and password</h3>
+          </div>
+          <div layout="row" class="alert-message" ng-if="isCredentialsWrong">
+            <h4 class=".md-title">Incorrect credentials. Please try again.</h4>
+          </div>
+          <div layout="row" >
+            <md-input-container flex="80" >
+              <label>Email</label>
+              <input name="login" ng-model="formData.login" required>
+            </md-input-container>
+          </div>
+          <div layout="row" >
+            <md-input-container flex="80" >
+              <label>Password</label>
+              <input name="password" type="password" ng-model="formData.password" required>
+            </md-input-container>
+          </div>
+          <div layout="row">
+            <md-input-container>
+              <div layout="row" layout-sm="column" layout-margin>
+                <md-button class="md-raised" flex="50" flex-sm="100" type="submit" >Login</md-button>
+              </div>
+            </md-input-container>
+          </div>
+        </form>
+      </md-content>
+  </md-whiteframe>
+</div>

@@ -1,0 +1,10 @@
+{
+  "port": 8000,
+  "datasource": {
+    "host": "127.0.0.1",
+    "username": "hpapp",
+    "password": "hpapp",
+    "database": "hpapp",
+    "debug": false
+  }
+}
