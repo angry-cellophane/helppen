@@ -8,15 +8,25 @@ module.exports = function() {
     var login = req.body.login;
     var password = req.body.password;
 
-    tokenService.provideToken(req, function(err, token) {
+    if (!login || !password) {
+      console.log(login + '/' + password);
+      res.status(400).send('Login or password are not passed');
+      return;
+    }
+
+    tokenService.provideToken({
+      login: login,
+      password: password
+    }, function(err, token) {
+      console.log(err);
       if (err || !token) {
-        res.status(400).send('Login or password are incorrect');
+        res.status(400).send(err);
         return;
       }
 
       res.json({
         token: token
-      });
+      })
     });
   }
 

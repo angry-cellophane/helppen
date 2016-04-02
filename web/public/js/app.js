@@ -2,14 +2,16 @@
 
 angular.module('helppen', [
   'ngRoute',
-  'helppen.loginForm',
   'helppen.tasks',
-  'ngMaterial'
+  'ngMaterial',
+  'ngCookies'
 ])
   .config(['$routeProvider', function($routeProvider) {
-    $routeProvider.otherwise({redirectTo: '/loginForm'});
+    $routeProvider.otherwise({redirectTo: '/tasks'});
   }])
-  .controller('MainCtrl', function($scope, $timeout) {
-   
-  });
-
+  .controller('MainCtrl', ['$scope', '$cookies', '$cookieStore', function($scope, $cookie, $cookieStore) {
+    $scope.logout = function() {
+      var authToken = $cookie.get('authToken');
+      console.log('authToken = '+authToken);
+    };
+  }]);
