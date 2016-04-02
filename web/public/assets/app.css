@@ -1,5 +1,5 @@
 body {
-  height: none; 
+  height: none;
   background-color: #E7E7E7;
 }
 
@@ -11,33 +11,33 @@ body {
 }
 
 .fix-top {
-  position: fixed; 
+  position: fixed;
   top:0;
 }
 
 .nornal-btn {
-  width: 56px; 
+  width: 56px;
   height: 56px;
 }
 
 .nornal-round-btn {
-  width: 56px; 
+  width: 56px;
   height: 56px;
   border-radius: 50%;
 }
 
 .float-btn {
-  height:56px; 
-  width: 56px; 
-  position: fixed; 
-  bottom: 55px; 
-  right: 55px; 
+  height:56px;
+  width: 56px;
+  position: fixed;
+  bottom: 55px;
+  right: 55px;
 }
 
 md-whiteframe {
   background: #fff;
   margin: 20px;
-  padding: 20px; 
+  padding: 20px;
 }
 
 .check {
@@ -66,7 +66,7 @@ md-whiteframe {
     }
 
     .sample-show-hide {
-   
+
 }
 
 .sample-show-hide {
@@ -95,7 +95,7 @@ md-whiteframe {
    h2 .md-subheader-content {
   padding-left: 10px; }
 
-  
+
 
  md-backdrop {
   position: fixed !important;
@@ -176,24 +176,24 @@ md-whiteframe {
 }
 
 .list-cont {
-  background-color: #E7E7E7 !important; 
-  max-width: 800px; 
-  margin: 0 auto; 
-  height: 100%; 
-  overflow: hidden; 
+  background-color: #E7E7E7 !important;
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 100%;
+  overflow: hidden;
 }
 
 .list-cb {
-  margin: 0;  
-  position: relative; 
-  top: 15px; 
+  margin: 0;
+  position: relative;
+  top: 18px;
   left: 19px;
 }
 
 .list-check-area {
-  width:56px; 
-  height: 56px; 
-  padding:0; 
+  width:56px;
+  height: 56px;
+  padding:0;
   margin-right: 10px;
 }
 

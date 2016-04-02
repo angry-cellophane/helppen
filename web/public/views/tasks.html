@@ -1,5 +1,5 @@
-<md-content flex>
-  <form name="newTaskForm" ng-submit="addNewTask()">
+<md-content class="list-cont">
+  <!-- <form name="newTaskForm" ng-submit="addNewTask()">
     <div layout="row">
       <md-input-container>
         <md-button class="md-icon-button" area-label="AddNewTask" ng-click="addNewTask()">
@@ -11,21 +11,32 @@
         <input name='newTaskText' type="text" ng-model="newTaskText" on-enter="addNewTask()" />
       </md-input-container>
     </div>
-  </form>
-  <md-divider inset></md-divider>
+  </form> -->
+  <!-- <md-divider inset></md-divider> -->
   <md-list>
-    <md-list-item class="md-5-line" ng-repeat="task in tasks">
-      <md-checkbox ng-model="task.isDone" ng-click="update(task)" aria-label="hello" flex="5"></md-checkbox>
-      <div class="md-list-item-text">
-        <h3>{{task.text}}</h3>
+    <md-item ng-repeat="task in tasks">
+      <div layout="row">
+        <md-whiteframe ng-class="{'md-whiteframe-z2': task.isDone, check:task.isDone }" class="md-whiteframe-z1" style="margin: 10px; padding: 0px;" flex="70">
+          <md-item-content style="padding: 5px; margin: 0;">
+            <div layout="row">
+              <div flex-offset="3" flex="10" >
+                <md-checkbox class="list-cb" ng-model="task.isDone" ng-click="update(task)" aria-label="hello" ></md-checkbox>
+              </div>
+              <div flex>
+                <h4>{{task.text}}</h4>
+              </div>
+              <div flex="15" layout="row" >
+                <md-button class="md-icon-button" area-label="MoveUp" ng-click="moveUp(task)">
+                  <md-icon md-svg-icon="assets/svg/arrow-up-bold.svg"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" area-label="Remove" ng-click="remove(task)">
+                  <md-icon md-svg-icon="assets/svg/delete.svg"></md-icon>
+                </md-button>
+              </div>
+            </div>
+          </md-item-content>
+        </md-whiteframe>
       </div>
-      <md-button class="md-icon-button" area-label="MoveUp" ng-click="moveUp(task)">
-        <md-icon md-svg-icon="assets/svg/arrow-up-bold.svg"></md-icon>
-      </md-button>
-      <md-button class="md-icon-button" area-label="Remove" ng-click="remove(task)">
-        <md-icon md-svg-icon="assets/svg/delete.svg"></md-icon>
-      </md-button>
-      <md-divider inset></md-divider>
-    </md-list-item>
+    </md-item>
   </md-list>
 </md-content>
