@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var token = require('app/js/auth/tokenController');
 var cookieParser = require('cookie-parser');
 var task = require('app/js/task/taskController');
-var loadUser = require('app/js/auth/filter');
+var filters = require('app/js/auth/filters');
 var tokenService = require('app/js/auth/tokenService');
 
 var app = express();
@@ -16,7 +16,7 @@ app.use(cookieParser('cookieSecret'));
 
 var router = express.Router();
 
-router.use(loadUser.authenticate);
+router.use(filters.denyUnauthenticated);
 router.route('/tasks')
   .post(task.create)
   .get(task.getAll);
@@ -33,13 +33,15 @@ app.use(express.static('public'));
 
 app.set('view engine', 'ejs');
 
-app.all('/', function(req, res) {
-  var token = req.cookies.authToken;
+app.all('/', filters.authenticate, function(req, res) {
+  var user = req.currentUser;
 
-  if (!token) {
+  if (!user) {
     res.render('login');
   } else {
-    res.render('tasks');
+    res.render('tasks', {
+      username: user.login
+    });
   }
 });
 
