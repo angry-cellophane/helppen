@@ -11,7 +11,7 @@ angular.module('helppen', [
   }])
   .controller('MainCtrl', ['$scope', '$cookies', '$cookieStore', function($scope, $cookie, $cookieStore) {
     $scope.logout = function() {
-      var authToken = $cookie.get('authToken');
-      console.log('authToken = '+authToken);
+      $cookie.remove('authToken');
+      window.location = '/';
     };
   }]);
