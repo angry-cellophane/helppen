@@ -40,7 +40,7 @@ app.all('/', filters.authenticate, function(req, res) {
     res.render('login');
   } else {
     res.render('tasks', {
-      username: user.login
+      username: user.username
     });
   }
 });
