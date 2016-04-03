@@ -90,7 +90,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies'])
     for (var i in $scope.tasks) {
       if ($scope.tasks[i] !== task) continue;
 
-      var newState = task.isDone ? 'NOT_COMPLITED' : 'COMPLITED';
+      var newState = task.isDone ? 'COMPLITED' : 'NOT_COMPLITED';
 
       $http({
         method: 'PUT',

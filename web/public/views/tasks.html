@@ -26,10 +26,13 @@
               <md-item-content style="padding: 5px; margin: 0;">
                 <div layout="row">
                   <div flex-offset="3" flex="10">
-                    <md-checkbox class="list-cb" ng-model="task.isDone" ng-click="update(task)" aria-label="hello"></md-checkbox>
+                    <md-checkbox class="list-cb" ng-model="task.isDone" ng-change="update(task)" aria-label="hello"></md-checkbox>
                   </div>
                   <div flex>
-                    <h4>{{task.text}}</h4>
+                    <md-input-container class="md-block" >
+                      <input ng-model="task.text" ng-change="update(task)"></input>
+                      <!-- <h4>{{task.text}}</h4> -->
+                    </md-input-container>
                   </div>
                   <div flex="15" layout="row">
                     <md-button class="md-icon-button" area-label="MoveUp" ng-click="moveUp(task)">
