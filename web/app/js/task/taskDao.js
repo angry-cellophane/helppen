@@ -31,12 +31,11 @@ module.exports = function () {
     getNewOrderNumber(ownerId, function (maxOrderNumber) {
       var newTask = {id: newId, text: text, state: 'NOT_COMPLITED', orderNumber: maxOrderNumber, ownerId: ownerId };
       var sql = 'insert into task (id, text, state, ownerId, orderNumber) values (' + db.escape(newTask.id) + ',' + db.escape(newTask.text) +',' + db.escape(newTask.state) + ', ' + ownerId  + ','+db.escape(newTask.orderNumber) +')';
-      console.log(sql);
       db.query(sql, function (err, rows) {
         callback(err, newTask);
       });
     });
-  }; 
+  };
 
   var getById = function (ownerId, taskId, callback) {
     var sql = 'select * from task where ownerId = ' + db.escape(ownerId) + ' and id = ' + db.escape(taskId);
@@ -59,7 +58,7 @@ module.exports = function () {
   var remove = function (ownerId, taskId, callback) {
     var sql = 'delete from task where id = ' + db.escape(taskId) +' and ownerId = ' + db.escape(ownerId);
     db.query(sql, callback);
-  }; 
+  };
 
   return {
     getAll: getAll,
