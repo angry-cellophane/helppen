@@ -13,6 +13,8 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies'])
   $scope.tasks = [];
 
   $scope.addNewTask = function() {
+    if (!$scope.newTaskText) return;
+
     $http({
       method: 'POST',
       url: 'api/tasks',
