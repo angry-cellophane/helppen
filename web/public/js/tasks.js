@@ -9,7 +9,11 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
     $resourceProvider.defaults.stripTrailingSlashes = false;
   }])
   .factory('Tasks', function($resource) {
-    return $resource('/api/tasks/:id');
+    return $resource('/api/tasks/:id', { id: '@id' }, {
+      update: {
+        method: 'PUT'
+      }
+    });
   })
   .controller('TasksCtrl', ['$scope', '$http', 'Tasks', function($scope, $http, Tasks) {
 
@@ -29,7 +33,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       if (!$scope.newTaskText) return;
 
       var newTask = new Task({
-        text : $scope.newTaskText
+        text: $scope.newTaskText
       });
       Tasks.save(newTask).$promise.then(function(rowData) {
         $scope.tasks.unshift(new Task(rowData));
@@ -43,47 +47,21 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       for (var i in $scope.tasks) {
         if ($scope.tasks[i] !== task) continue;
 
-        var toUp = task;
-        var toDown = $scope.tasks[i - 1];
+        var toUp = new Task(task);
+        var toDown = new Task($scope.tasks[i - 1]);
 
-        $http({
-          method: 'PUT',
-          url: 'api/tasks/' + toUp.id,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            id: toUp.id,
-            text: toUp.text,
-            state: toUp.state,
-            orderNumber: toDown.orderNumber,
-            ownerId: toUp.ownerId
-          }
-        }).then(function success(res) {
-          $http({
-            method: 'PUT',
-            url: 'api/tasks/' + toDown.id,
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            data: {
-              id: toDown.id,
-              text: toDown.text,
-              state: toDown.state,
-              orderNumber: toUp.orderNumber,
-              ownerId: toDown.ownerId
-            }
-          }).then(function success(res) {
-            var temp = toUp.orderNumber;
-            toUp.orderNumber = toDown.orderNumber;
-            toDown.orderNumber = temp;
+        var temp = toUp.orderNumber;
+
+        toUp.orderNumber = toDown.orderNumber;
+        toDown.orderNumber = temp;
+
+        Tasks.update(toUp, function(newToUp) {
+          Tasks.update(toDown, function(newToDown) {
+            toUp = newToUp.orderNumber;
+            toDown = newToDown.orderNumber;
             $scope.tasks.splice(i, 1);
             $scope.tasks.splice(i - 1, 0, task);
-          }, function failure(res) {
-            console.log(res);
           });
-        }, function failure(res) {
-          console.log(res);
         });
 
         return;
@@ -143,8 +121,8 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       console.log('the task ' + task + ' is not found');
     };
 
-    Tasks.query().$promise.then(function(tasks){
-      angular.forEach(tasks, function (task) {
+    Tasks.query().$promise.then(function(tasks) {
+      angular.forEach(tasks, function(task) {
         task.isDone = task.state === 'COMPLITED';
       });
       $scope.tasks = tasks;
