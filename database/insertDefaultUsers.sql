@@ -18,7 +18,7 @@ INSERT INTO user(id, login, password_hash, username) VALUES (
   'Pavel Petyanov'
 );
 INSERT INTO user(id, login, password_hash, username) VALUES (
-  2,
+  4,
   'Eugeny',
   '42d077ba26d88ff4',
   'Eugeny Levin'

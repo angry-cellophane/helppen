@@ -1,6 +1,11 @@
 #!/bin/bash
 
-mysql -uroot --password < ./appDatabase.sql
-mysql -uroot --password hpapp < ./userTable.sql
-mysql -uroot --password hpapp < ./taskTable.sql
-mysql -uroot --password hpapp < ./appUser.sql
+> all.sql
+
+for file in './appDatabase.sql' './userTable.sql' './taskTable.sql' './appUser.sql' './insertDefaultUsers.sql' ; do
+  cat "$file" >> all.sql
+done
+
+mysql -uroot --password < all.sql
+
+rm all.sql
