@@ -8,32 +8,32 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
     });
     $resourceProvider.defaults.stripTrailingSlashes = false;
   }])
-  .factory('Task', function($resource) {
+  .factory('Tasks', function($resource) {
     return $resource('/api/tasks/:id');
   })
-  .controller('TasksCtrl', ['$scope', '$http', 'Task', function($scope, $http, Task) {
+  .controller('TasksCtrl', ['$scope', '$http', 'Tasks', function($scope, $http, Tasks) {
+
+    var Task = function(rowData) {
+      this.id = rowData.id;
+      this.text = rowData.text;
+      this.state = rowData.state;
+      this.orderNumber = rowData.orderNumber;
+      this.ownerId = rowData.ownerId;
+      this.isDone = this.state === 'COMPLITED';
+    }
+
     $scope.newTaskText = '';
     $scope.tasks = [];
 
     $scope.addNewTask = function() {
       if (!$scope.newTaskText) return;
 
-      $http({
-        method: 'POST',
-        url: 'api/tasks',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: {
-          text: $scope.newTaskText
-        }
-      }).then(function success(res) {
-        var newTask = res.data;
-        newTask.isDone = false;
-        $scope.tasks.unshift(newTask);
+      var newTask = new Task({
+        text : $scope.newTaskText
+      });
+      Tasks.save(newTask).$promise.then(function(rowData) {
+        $scope.tasks.unshift(new Task(rowData));
         $scope.newTaskText = '';
-      }, function failure(res) {
-        console.log(res);
       });
     };
 
@@ -143,7 +143,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       console.log('the task ' + task + ' is not found');
     };
 
-    Task.query().$promise.then(function(tasks){
+    Tasks.query().$promise.then(function(tasks){
       angular.forEach(tasks, function (task) {
         task.isDone = task.state === 'COMPLITED';
       });
