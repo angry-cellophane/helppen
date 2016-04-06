@@ -3,7 +3,7 @@
   "datasource": {
     "host": "127.0.0.1",
     "username": "hpapp",
-    "password": "hpapp",
+    "password": "<<secret>>",
     "database": "hpapp",
     "debug": false
   }
