@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mysql -u hpapp --password < ./appDatabase.sql
-mysql -u hpapp --password < ./taskTable.sql
-mysql -u hpapp --password < ./userTable.sql
-mysql -u hpapp --password < ./appUser.sql
+mysql -uroot --password < ./appDatabase.sql
+mysql -uroot --password hpapp < ./userTable.sql
+mysql -uroot --password hpapp < ./taskTable.sql
+mysql -uroot --password hpapp < ./appUser.sql
