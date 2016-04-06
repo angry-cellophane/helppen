@@ -93,7 +93,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
         Tasks.delete(task, function(data) {
           $scope.tasks.splice(i, 1);
         });
-        
+
         return;
       };
 
