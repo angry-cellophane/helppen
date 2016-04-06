@@ -90,18 +90,10 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       for (var i in $scope.tasks) {
         if ($scope.tasks[i] !== task) continue;
 
-        $http({
-          method: 'DELETE',
-          url: 'api/tasks/' + task.id,
-          data: task,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }).then(function success(res) {
+        Tasks.delete(task, function(data) {
           $scope.tasks.splice(i, 1);
-        }, function failure(res) {
-          console.log(res);
         });
+        
         return;
       };
 
