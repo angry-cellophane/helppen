@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var compression = require('compression');
 var token = require('app/js/auth/tokenController');
 var cookieParser = require('cookie-parser');
 var task = require('app/js/task/taskController');
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(cookieParser('cookieSecret'));
+app.use(compression());
 
 
 var router = express.Router();
