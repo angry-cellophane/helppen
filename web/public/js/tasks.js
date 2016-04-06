@@ -75,23 +75,10 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
 
         var newState = task.isDone ? 'COMPLITED' : 'NOT_COMPLITED';
 
-        $http({
-          method: 'PUT',
-          url: 'api/tasks/' + task.id,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            id: task.id,
-            text: task.text,
-            state: newState,
-            orderNumber: task.orderNumber,
-            ownerId: task.ownerId
-          }
-        }).then(function success(res) {
+        var dto = new Task(task);
+        dto.state = newState;
+        Tasks.update(dto, function(rowData) {
           task.state = newState;
-        }, function failure(res) {
-          console.log(res);
         });
 
         return;
