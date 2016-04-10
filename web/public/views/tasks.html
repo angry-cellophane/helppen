@@ -25,7 +25,7 @@
             </div>
             <div flex>
               <md-input-container class="md-block">
-                <input ng-model="task.text" ng-change="update(task)"></input>
+                <input ng-model="task.text" ng-change="update(task)" ng-class="task.isDone ? 'strike' : ''"></input>
               </md-input-container>
             </div>
             <div flex="20">

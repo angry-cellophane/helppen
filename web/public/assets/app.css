@@ -200,3 +200,7 @@ md-whiteframe {
 .alert-message {
   color: rgb(221,44,0);
 }
+
+.strike {
+  text-decoration:line-through;
+}
