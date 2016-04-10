@@ -28,6 +28,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
 
     $scope.newTaskText = '';
     $scope.tasks = [];
+    $scope.stash = [];
 
     $scope.addNewTask = function() {
       if (!$scope.newTaskText) return;
