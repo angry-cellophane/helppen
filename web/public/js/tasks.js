@@ -26,6 +26,18 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       this.isDone = this.state === 'COMPLITED';
     }
 
+    var findMaxNumber = function(tasks) {
+      console.log('typeof tasks == undefined ' + (typeof tasks == 'undefined'));
+      if (typeof tasks == 'undefined') return 0;
+      console.log('tasks.length < 1 ' + (tasks.length < 1));
+      if (tasks.length < 1) return 0;
+      console.log('typeof tasks[0].orderNumber == undefined ' + (typeof tasks[0].orderNumber == 'undefined'));
+      if (typeof tasks[0].orderNumber == 'undefined') return 0;
+
+      console.log('max number: ' + tasks[0].orderNumber);
+      return tasks[0].orderNumber;
+    }
+
     $scope.newTaskText = '';
     $scope.tasks = [];
     $scope.stash = [];
@@ -101,11 +113,53 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       console.log('the task ' + task + ' is not found');
     };
 
+    $scope.moveToStash = function (task) {
+      for (var i in $scope.tasks) {
+        if ($scope.tasks[i] !== task) continue;
+
+        var dto = new Task(task);
+        dto.state = 'STASH';
+        dto.orderNumber = findMaxNumber($scope.stash) + 1;
+
+        Tasks.update(dto, function (res) {
+          $scope.stash.unshift(dto);
+          $scope.tasks.splice(i, 1);
+        });
+        return;
+      }
+    };
+
+    $scope.moveFromStash = function (task) {
+      for (var i in $scope.stash) {
+        if ($scope.stash[i] !== task) continue;
+
+        var dto = new Task(task);
+        dto.state = 'NOT_COMPLITED';
+        dto.orderNumber = findMaxNumber($scope.tasks) + 1;
+
+        Tasks.update(dto, function (res) {
+          $scope.tasks.unshift(dto);
+          $scope.stash.splice(i, 1);
+        });
+        return;
+      }
+    };
+
     Tasks.query().$promise.then(function(tasks) {
+      var actualTasks = [];
+      var stashTasks = [];
+
       angular.forEach(tasks, function(task) {
-        task.isDone = task.state === 'COMPLITED';
+        if (task.state === 'STASH') {
+          stashTasks.push(task);
+        } else {
+          task.isDone = task.state === 'COMPLITED';
+          actualTasks.push(task);
+        }
       });
-      $scope.tasks = tasks;
+
+      $scope.tasks = actualTasks;
+      $scope.stash = stashTasks;
     });
 
   }]);
