@@ -24,18 +24,18 @@
               <md-item-content>
                 <md-whiteframe ng-class="{'md-whiteframe-z2': task.isDone, check:task.isDone }" class="md-whiteframe-z1" style="margin: 10px; padding: 0px;" layout="row">
                   <div flex-offset="3" flex="10">
-                    <md-checkbox class="list-cb" ng-model="task.isDone" ng-change="update(task)" aria-label="hello"></md-checkbox>
+                    <md-checkbox class="list-cb" ng-model="task.isDone" ng-change="update(task, tasks)" aria-label="hello"></md-checkbox>
                   </div>
                   <div flex>
                     <md-input-container class="md-block">
-                      <input ng-model="task.text" ng-change="update(task)" ng-class="task.isDone ? 'strike' : ''"></input>
+                      <input ng-model="task.text" ng-change="update(task, tasks)" ng-class="task.isDone ? 'strike' : ''"></input>
                     </md-input-container>
                   </div>
                   <div flex="20">
-                    <md-button class="md-icon-button" area-label="MoveUp" ng-click="moveUp(task)">
+                    <md-button class="md-icon-button" area-label="MoveUp" ng-click="moveUp(task, tasks)">
                       <md-icon md-svg-icon="assets/svg/arrow-up-bold.svg"></md-icon>
                     </md-button>
-                    <md-button class="md-icon-button" area-label="Remove" ng-click="remove(task)">
+                    <md-button class="md-icon-button" area-label="Remove" ng-click="remove(task, tasks)">
                       <md-icon md-svg-icon="assets/svg/delete.svg"></md-icon>
                     </md-button>
                     <md-button class="md-icon-button" area-label="ToStash" ng-click="moveToStash(task)">
@@ -61,17 +61,17 @@
                   </div> -->
                   <div flex flex-offset="5">
                     <md-input-container class="md-block">
-                      <input ng-model="task.text" ng-change="update(task)"></input>
+                      <input ng-model="task.text" ng-change="update(task, stash)"></input>
                     </md-input-container>
                   </div>
                   <div flex="20">
                     <md-button class="md-icon-button" area-label="FromStash" ng-click="moveFromStash(task)">
                       <md-icon md-svg-icon="assets/svg/backup-restore.svg"></md-icon>
                     </md-button>
-                    <md-button class="md-icon-button" area-label="MoveUp" ng-click="moveUp(task)">
+                    <md-button class="md-icon-button" area-label="MoveUp" ng-click="moveUp(task, stash)">
                       <md-icon md-svg-icon="assets/svg/arrow-up-bold.svg"></md-icon>
                     </md-button>
-                    <md-button class="md-icon-button" area-label="Remove" ng-click="remove(task)">
+                    <md-button class="md-icon-button" area-label="Remove" ng-click="remove(task, stash)">
                       <md-icon md-svg-icon="assets/svg/delete.svg"></md-icon>
                     </md-button>
                   </div>

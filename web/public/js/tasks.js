@@ -54,14 +54,14 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       });
     };
 
-    $scope.moveUp = function(task) {
-      if ($scope.tasks[0] === task) return;
+    $scope.moveUp = function(task, tasks) {
+      if (tasks[0] === task) return;
 
-      for (var i in $scope.tasks) {
-        if ($scope.tasks[i] !== task) continue;
+      for (var i in tasks) {
+        if (tasks[i] !== task) continue;
 
         var toUp = new Task(task);
-        var toDown = new Task($scope.tasks[i - 1]);
+        var toDown = new Task(tasks[i - 1]);
 
         var temp = toUp.orderNumber;
 
@@ -72,8 +72,8 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
           Tasks.update(toDown, function(newToDown) {
             toUp = newToUp.orderNumber;
             toDown = newToDown.orderNumber;
-            $scope.tasks.splice(i, 1);
-            $scope.tasks.splice(i - 1, 0, task);
+            tasks.splice(i, 1);
+            tasks.splice(i - 1, 0, task);
           });
         });
 
@@ -82,9 +82,9 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       console.log('Task ' + task.id + ' not found');
     };
 
-    $scope.update = function(task) {
-      for (var i in $scope.tasks) {
-        if ($scope.tasks[i] !== task) continue;
+    $scope.update = function(task, tasks) {
+      for (var i in tasks) {
+        if (tasks[i] !== task) continue;
 
         var newState = task.isDone ? 'COMPLITED' : 'NOT_COMPLITED';
 
@@ -99,12 +99,12 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       console.log('Task ' + task.id + ' not found');
     };
 
-    $scope.remove = function(task) {
-      for (var i in $scope.tasks) {
-        if ($scope.tasks[i] !== task) continue;
+    $scope.remove = function(task, tasks) {
+      for (var i in tasks) {
+        if (tasks[i] !== task) continue;
 
         Tasks.delete(task, function(data) {
-          $scope.tasks.splice(i, 1);
+          tasks.splice(i, 1);
         });
 
         return;
