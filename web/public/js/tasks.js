@@ -27,14 +27,10 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
     }
 
     var findMaxNumber = function(tasks) {
-      console.log('typeof tasks == undefined ' + (typeof tasks == 'undefined'));
       if (typeof tasks == 'undefined') return 0;
-      console.log('tasks.length < 1 ' + (tasks.length < 1));
       if (tasks.length < 1) return 0;
-      console.log('typeof tasks[0].orderNumber == undefined ' + (typeof tasks[0].orderNumber == 'undefined'));
       if (typeof tasks[0].orderNumber == 'undefined') return 0;
 
-      console.log('max number: ' + tasks[0].orderNumber);
       return tasks[0].orderNumber;
     }
 
