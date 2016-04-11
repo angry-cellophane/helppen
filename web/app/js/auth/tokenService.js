@@ -10,7 +10,7 @@ module.exports = function() {
         return;
       }
 
-      var passwordHash = enc.encrypt(userForm.password);
+      var passwordHash = enc.encrypt(userForm.login + ':' + userForm.password);
 
       if (passwordHash !== user.passwordHash) {
         cb('Login or password are incorrect');
