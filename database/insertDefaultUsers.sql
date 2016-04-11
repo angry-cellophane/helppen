@@ -8,7 +8,7 @@ INSERT INTO user(id, login, password_hash, username) VALUES (
 INSERT INTO user(id, login, password_hash, username) VALUES (
   2,
   'Nikolay',
-  '7cd86fa63dd684aaede7165b6ff462b2',
+  '7cd86fa63dd684aaf5e3095868fe7ea6175c99',
   'Nikolay Nuyakshin'
 );
 INSERT INTO user(id, login, password_hash, username) VALUES (
@@ -23,4 +23,11 @@ INSERT INTO user(id, login, password_hash, username) VALUES (
   '77c463ac3fcec7e0fcf5165f77e974',
   'Eugeny Levin'
 );
+INSERT INTO user(id, login, password_hash, username) VALUES (
+  5,
+  'Eugeny',
+  '76d469a66bf398fdf2',
+  'Demo'
+);
+
 commit;
