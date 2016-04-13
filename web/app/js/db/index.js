@@ -23,8 +23,10 @@ module.exports = function () {
         callback(err);
         return;
       }
-      
-      connection.query(sql, function(err, rows){ 
+
+      console.log('2: ' + sql);
+      connection.query(sql, function(err, rows){
+        console.log('3: ' + sql);
         connection.release();
         if (err) {
           console.log(err);

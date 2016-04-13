@@ -2,9 +2,22 @@ module.exports = function () {
 
   var uuid = require('node-uuid');
   var db = require('app/js/db');
+  var date = require('app/js/date');
 
-  var getAll = function (ownerId, callback) {
+  var getAllByUser = function (ownerId, callback) {
     var sql = 'select * from task where ownerId = ' + db.escape(ownerId) + ' order by orderNumber desc';
+    db.query(sql, callback);
+  };
+
+
+  var getAll = function (callback) {
+    var sql = 'select * from task';
+    db.query(sql, callback);
+  };
+
+
+  var getByStateAndLessThenDate = function (state, date, callback) {
+    var sql = 'select * from task where state = '+db.escape(state) + ' and creationDateTime < '+db.escape(date);
     db.query(sql, callback);
   };
 
@@ -28,7 +41,7 @@ module.exports = function () {
     var newId = uuid.v4();
     getNewOrderNumber(ownerId, function (maxOrderNumber) {
       var newTask = {id: newId, text: text, state: 'NOT_COMPLITED', orderNumber: maxOrderNumber, ownerId: ownerId };
-      var creationDateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      var creationDateTime = date.now();
       var sql = 'insert into task (id, text, state, ownerId, orderNumber, creationDateTime) values ('
         + db.escape(newTask.id)
         + ',' + db.escape(newTask.text)
@@ -57,7 +70,7 @@ module.exports = function () {
   var update = function (ownerId, task, callback) {
     var sql = 'update task set text = ' + db.escape(task.text) + ', state = ' + db.escape(task.state) + ', orderNumber = ' + db.escape(task.orderNumber) + ' where id = ' + db.escape(task.id) + ' and ownerId = ' + ownerId;
     db.query(sql, function (err, rows) {
-      callback(err, task);
+      callback(err, rows);
     });
   };
 
@@ -67,6 +80,8 @@ module.exports = function () {
   };
 
   return {
+    getAllByUser: getAllByUser,
+    getByStateAndLessThenDate: getByStateAndLessThenDate,
     getAll: getAll,
     getById: getById,
     create: create,

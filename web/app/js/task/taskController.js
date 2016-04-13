@@ -4,10 +4,10 @@ module.exports = function () {
   var enc = require('app/js/auth/encrypt');
 
   var getAll = function(req, res) {
-    var user = req.currentUser; 
-    tasks.getAll(user.id, function(err, rows) {
+    var user = req.currentUser;
+    tasks.getAllByUser(user.id, function(err, rows) {
       res.json(rows);
-    });  
+    });
   };
 
   var getById = function(req, res) {
@@ -25,20 +25,20 @@ module.exports = function () {
         res.status(503).send('Internal server error');
         return;
       }
-    
-      if (!task || !task.id) { 
+
+      if (!task || !task.id) {
         res.status(404).send();
         return;
-      } 
+      }
 
       res.json(task);
-    });  
+    });
   };
 
   var create = function (req, res) {
     var user = req.currentUser;
     var text = req.body.text;
-  
+
     tasks.create(user.id, text, function (err, task) {
       if (err) {
         console.log(err);
@@ -47,14 +47,14 @@ module.exports = function () {
       }
 
       res.json(task);
-    }); 
+    });
   };
 
   var update = function (req, res) {
     var user = req.currentUser;
     var taskId = req.params.taskId;
     var task = req.body;
-  
+
     task.ownerId = user.id;
 
     tasks.update(user.id, task, function (err) {
@@ -65,7 +65,7 @@ module.exports = function () {
       }
 
       res.status(200).send();
-    }); 
+    });
   };
 
   var remove = function (req, res) {
