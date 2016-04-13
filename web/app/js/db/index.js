@@ -24,9 +24,7 @@ module.exports = function () {
         return;
       }
 
-      console.log('2: ' + sql);
       connection.query(sql, function(err, rows){
-        console.log('3: ' + sql);
         connection.release();
         if (err) {
           console.log(err);
@@ -36,6 +34,7 @@ module.exports = function () {
 
       connection.on('error', function(err) {
         console.log(err);
+        connection.release();
         callback(err);
       });
     });
