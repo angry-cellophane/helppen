@@ -17,11 +17,9 @@ module.exports = function () {
       }
 
       var maxOrderNumber = 0;
-      console.log(rows);
       if (rows[0].orderNumber !== null) {
         maxOrderNumber = rows[0].orderNumber + 1.0;
       }
-      console.log('new order number = ' + maxOrderNumber);
       callback(maxOrderNumber);
     });
   };
@@ -30,7 +28,15 @@ module.exports = function () {
     var newId = uuid.v4();
     getNewOrderNumber(ownerId, function (maxOrderNumber) {
       var newTask = {id: newId, text: text, state: 'NOT_COMPLITED', orderNumber: maxOrderNumber, ownerId: ownerId };
-      var sql = 'insert into task (id, text, state, ownerId, orderNumber) values (' + db.escape(newTask.id) + ',' + db.escape(newTask.text) +',' + db.escape(newTask.state) + ', ' + ownerId  + ','+db.escape(newTask.orderNumber) +')';
+      var creationDateTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      var sql = 'insert into task (id, text, state, ownerId, orderNumber, creationDateTime) values ('
+        + db.escape(newTask.id)
+        + ',' + db.escape(newTask.text)
+        +',' + db.escape(newTask.state)
+        + ', ' + ownerId
+        + ',' + db.escape(newTask.orderNumber)
+        + ',' + db.escape(creationDateTime)
+        +')';
       db.query(sql, function (err, rows) {
         callback(err, newTask);
       });
