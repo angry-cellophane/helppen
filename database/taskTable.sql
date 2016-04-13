@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS task(
   state varchar(50)  NOT NULL,
   ownerId mediumint(9) NOT NULL,
   orderNumber int(11) NOT NULL,
+  creationDateTime datetime not null,
   FOREIGN KEY (ownerId)
         REFERENCES user(id)
         ON DELETE CASCADE
