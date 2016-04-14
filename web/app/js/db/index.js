@@ -17,15 +17,14 @@ module.exports = function () {
 
   var query = function (sql, callback) {
     pool.getConnection(function (err, connection) {
+      connection.release();
       if (err) {
-        connection.release();
         console.log(err);
         callback(err);
         return;
       }
 
       connection.query(sql, function(err, rows){
-        connection.release();
         if (err) {
           console.log(err);
         }
@@ -34,9 +33,9 @@ module.exports = function () {
 
       connection.on('error', function(err) {
         console.log(err);
-        connection.release();
         callback(err);
       });
+
     });
   };
 

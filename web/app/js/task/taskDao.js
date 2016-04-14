@@ -9,15 +9,8 @@ module.exports = function () {
     db.query(sql, callback);
   };
 
-
   var getAll = function (callback) {
     var sql = 'select * from task';
-    db.query(sql, callback);
-  };
-
-
-  var getByStateAndLessThenDate = function (state, date, callback) {
-    var sql = 'select * from task where state = '+db.escape(state) + ' and creationDateTime < '+db.escape(date);
     db.query(sql, callback);
   };
 
@@ -81,7 +74,6 @@ module.exports = function () {
 
   return {
     getAllByUser: getAllByUser,
-    getByStateAndLessThenDate: getByStateAndLessThenDate,
     getAll: getAll,
     getById: getById,
     create: create,
