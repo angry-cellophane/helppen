@@ -35,12 +35,13 @@ module.exports = function () {
     getNewOrderNumber(ownerId, function (maxOrderNumber) {
       var newTask = {id: newId, text: text, state: 'NOT_COMPLITED', orderNumber: maxOrderNumber, ownerId: ownerId };
       var creationDateTime = date.now();
-      var sql = 'insert into task (id, text, state, ownerId, orderNumber, creationDateTime) values ('
+      var sql = 'insert into task (id, text, state, ownerId, orderNumber, creationDateTime, lastChangeDateTime) values ('
         + db.escape(newTask.id)
         + ',' + db.escape(newTask.text)
         +',' + db.escape(newTask.state)
         + ', ' + ownerId
         + ',' + db.escape(newTask.orderNumber)
+        + ',' + db.escape(creationDateTime)
         + ',' + db.escape(creationDateTime)
         +')';
       db.query(sql, function (err, rows) {
@@ -61,7 +62,13 @@ module.exports = function () {
   };
 
   var update = function (ownerId, task, callback) {
-    var sql = 'update task set text = ' + db.escape(task.text) + ', state = ' + db.escape(task.state) + ', orderNumber = ' + db.escape(task.orderNumber) + ' where id = ' + db.escape(task.id) + ' and ownerId = ' + ownerId;
+    var now = date.now();
+    var sql = 'update task set '
+      + ' text = ' + db.escape(task.text)
+      + ', state = ' + db.escape(task.state)
+      + ', orderNumber = ' + db.escape(task.orderNumber)
+      + ', lastChangeDateTime = ' + db.escape(now)
+      + ' where id = ' + db.escape(task.id) + ' and ownerId = ' + ownerId;
     db.query(sql, function (err, rows) {
       callback(err, rows);
     });
