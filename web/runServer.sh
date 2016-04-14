@@ -1,7 +1,8 @@
 #!/bin/bash
 
-export NODE_PATH="$(pwd)"
+export NODE_PATH="$(dirname "$0")"
+mkdir -p "${NODE_PATH}/logs"
 while :
 do
-  node server.js | tee ./logs/server.$(date +%Y_%m_%d_%H_%M).log
+  node "${NODE_PATH}"/server.js | tee "${NODE_PATH}/logs/server.$(date +%Y_%m_%d_%H_%M).log"
 done
