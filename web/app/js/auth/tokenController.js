@@ -15,7 +15,7 @@ module.exports = function() {
     }
 
     tokenService.provideToken({
-      login: login,
+      login: login.toLowerCase(),
       password: password
     }, function(err, token) {
       console.log(err);
