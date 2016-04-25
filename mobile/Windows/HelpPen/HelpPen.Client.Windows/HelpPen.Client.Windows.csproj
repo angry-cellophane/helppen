@@ -17,8 +17,11 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>HelpPen.com.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>EF08FAF1655C359B276D5D74F0570219A168782D</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>HelpPen.Client.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>D7D2EBA56FDA94A2696AA6FD49E41DF686A1DD22</PackageCertificateThumbprint>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -94,6 +97,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="HelpPen.Client.Windows_TemporaryKey.pfx" />
     <None Include="HelpPen.com.pfx" />
     <None Include="project.json" />
   </ItemGroup>
@@ -112,10 +116,6 @@
     </Compile>
     <Compile Include="Pages\TaskList\TaskListViewModel.cs" />
     <Compile Include="Pages\TaskList\TestVM.cs" />
-    <Compile Include="Pages\TaskList\TestVM1.cs" />
-    <Compile Include="Pages\TestBindPage.xaml.cs">
-      <DependentUpon>TestBindPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
@@ -144,6 +144,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Assets\MainResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Assets\PivotStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Pages\Login\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -155,10 +165,6 @@
     <Page Include="Pages\TaskList\TaskListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\TestBindPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\TestPage.xaml">
       <SubType>Designer</SubType>

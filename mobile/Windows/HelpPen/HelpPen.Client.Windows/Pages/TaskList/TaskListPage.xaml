@@ -6,57 +6,88 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:taskList="using:HelpPen.Client.Windows.Pages.TaskList"
     xmlns:mvvm="using:HelpPen.Client.Common.MVVM"
+    Style="{StaticResource DefaultPageStyle}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <!--<Style TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}" />
+        <Style TargetType="TextBlock" BasedOn="{StaticResource DefaultTextBlockStyle}" />
+        <Style TargetType="PasswordBox" BasedOn="{StaticResource DefaultPasswordBoxStyle}" />-->
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    </Page.Resources>
+    <Pivot Style="{StaticResource PivotStyle1}">
+        <PivotItem>
+            <PivotItem.Header>
+                <Grid>
+                    <TextBlock Text="Список задач" />
+                </Grid>
+            </PivotItem.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-        <ProgressRing IsActive="{Binding Path=IsWorking, Mode=OneWay}"
-                      Width="50"
-                      Height="50"
-                      HorizontalAlignment="Right"
-                      VerticalAlignment="Top" />
+                <ProgressRing IsActive="{Binding Path=IsWorking, Mode=OneWay}"
+                              Width="50"
+                              Height="50"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Top" />
+                <ListView Grid.Row="1"
+                          ItemsSource="{Binding Path=Tasks, Mode=OneWay}"
+                          IsItemClickEnabled="True"
+                          SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <taskList:TaskListItemControl />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
 
-        <TextBlock Grid.Row="0" Text="Список задач" Margin="10" Style="{StaticResource HeaderTextBlockStyle}" />
-
-        <!--               IsSwipeEnabled="True"
-                  CanDragItems="True" -->
-        <ListView Grid.Row="1"
-                  ItemsSource="{Binding Path=Tasks, Mode=OneWay}"
-                  IsItemClickEnabled="True"
-                  SelectionMode="None">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <taskList:TaskListItemControl />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <TextBox Grid.Column="0"
-                     x:Name="NewTaskTextBox"
-                     Margin="5"
-                     
-                     Text="{Binding Path=NewTaskText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     KeyUp="OnNewTaskTextBoxKeyUp"/>
-
-            <Button Grid.Column="1"
-                    Content="Добавить задачу"
-                    HorizontalAlignment="Stretch"
-                    Margin="5"
+                <Grid Grid.Row="2">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource DefaultTextBlockStyle}" />
+                    </Grid.Resources>
                     
-                    IsEnabled="{Binding Path=NewTaskText, Converter={StaticResource IsExistsTextConverter}, Mode=OneWay}" />
-            <!-- Command="{Binding Path=AddNewTaskCommand, Mode=OneWay}" -->
-        </Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-    </Grid>
+                    <TextBox Grid.Column="0"
+                             x:Name="NewTaskTextBox"
+                             Margin="5"
+                             Text="{Binding Path=NewTaskText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             KeyUp="OnNewTaskTextBoxKeyUp" />
+
+                    <Button Grid.Column="1"
+                            Content="Добавить задачу"
+                            HorizontalAlignment="Stretch"
+                            Margin="5"
+                            Command="{Binding Path=AddNewTaskCommand}" />
+                    <!-- IsEnabled="{Binding Path=NewTaskText, Converter={StaticResource IsExistsTextConverter}, Mode=OneWay}" -->
+                </Grid>
+
+            </Grid>
+        </PivotItem>
+        <PivotItem>
+            <PivotItem.Header>
+                <Grid>
+                    <TextBlock Text="Кладовка" />
+                </Grid>
+            </PivotItem.Header>
+        </PivotItem>
+        <PivotItem>
+            <PivotItem.Header>
+                <Grid>
+                    <TextBlock Text="Настройки" />
+                </Grid>
+            </PivotItem.Header>
+        </PivotItem>
+    </Pivot>
 </mvvm:Page>

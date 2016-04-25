@@ -11,18 +11,22 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25"/>
             <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Rectangle Grid.Column="0" Fill="BlanchedAlmond" RadiusX="2" RadiusY="2" Margin="1" StrokeThickness="1" Tapped="OnStateIndicatorTapped" >
+        <!--<Rectangle Grid.Column="0" Fill="BlanchedAlmond" RadiusX="2" RadiusY="2" Margin="1" StrokeThickness="1"
+                   Tapped="OnStateIndicatorTapped">
             <Rectangle.Stroke>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="DarkKhaki" Offset="0"/>
-                    <GradientStop Color="Chocolate" Offset="1"/>
+                    <GradientStop Color="DarkKhaki" Offset="0" />
+                    <GradientStop Color="Chocolate" Offset="1" />
                 </LinearGradientBrush>
             </Rectangle.Stroke>
-        </Rectangle>
-        <TextBlock Grid.Column="1" TextWrapping="WrapWholeWords" Text="{Binding Path=text, Mode=OneWay}" />
+        </Rectangle>-->
+        <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords" Text="{Binding Path=text, Mode=OneWay}" VerticalAlignment="Center" />
+        <Button Grid.Column="1" Content="↑" Click="ButtonBase_OnClick" />
+        <Button  Grid.Column="2" Content="×" Click="ButtonBase_OnClick1" />
     </Grid>
 </UserControl>

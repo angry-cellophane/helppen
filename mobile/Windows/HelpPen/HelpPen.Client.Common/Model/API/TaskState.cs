@@ -12,16 +12,16 @@ namespace HelpPen.Client.Common.Model.API
 		/// <summary>
 		/// Задача не завершена.
 		/// </summary>
-		NOT_COMPLETED = 0,
+		NOT_COMPLITED = 0,
 
 		/// <summary>
 		/// Задача завершена.
 		/// </summary>
-		Completed = 1,
+		COMPLITED = 1,
 
 		/// <summary>
 		/// Задача отложена.
 		/// </summary>
-		Stash = 2
+		STASH = 2
 	}
 }

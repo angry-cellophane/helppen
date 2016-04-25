@@ -85,7 +85,7 @@ namespace HelpPen.Client.Windows.Pages
 
 		private async void OnDebugInfoTapped(object sender, TappedRoutedEventArgs e)
 		{
-			UserNameTextBox.Text = @"DebugUser";
+			UserNameTextBox.Text = @"Eugeny";
 			PasswordTextBox.Password = @"password";
 			LoginButton.Focus(FocusState.Keyboard);
 		}

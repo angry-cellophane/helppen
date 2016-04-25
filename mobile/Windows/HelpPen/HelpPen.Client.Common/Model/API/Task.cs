@@ -20,6 +20,14 @@ namespace HelpPen.Client.Common.Model.API
 		/// <summary>
 		/// Состояние задачи.
 		/// </summary>
-		public TaskState State { get; set; }
+		public TaskState state { get; set; }
+
+		public int ownerId { get; set; }
+
+		public int orderNumber { get; set; }
+
+		public DateTimeOffset creationDateTime { get; set; }
+
+		public DateTimeOffset lastChangeDateTime { get; set; }
 	}
 }

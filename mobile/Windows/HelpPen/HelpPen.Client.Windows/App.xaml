@@ -5,6 +5,14 @@
     xmlns:converters="using:HelpPen.Client.Common.Converters"
     RequestedTheme="Light">
     <Application.Resources>
-        <converters:IsExistsTextConverter x:Key="IsExistsTextConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/MainResources.xaml" />
+                <ResourceDictionary Source="Assets/PivotStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:IsExistsTextConverter x:Key="IsExistsTextConverter" />
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

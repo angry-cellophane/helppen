@@ -121,13 +121,13 @@ namespace HelpPen.Client.Common
 
 		private class CredentialsData
 		{
-			public CredentialsData(string username, string password)
+			public CredentialsData(string login, string password)
 			{
-				this.username = username;
+				this.login = login;
 				this.password = password;
 			}
 
-			public string username { get; }
+			public string login { get; }
 
 			public string password { get; }
 		}

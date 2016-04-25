@@ -15,7 +15,7 @@ namespace HelpPen.Client.Windows
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    sealed partial class App
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -47,7 +47,7 @@ namespace HelpPen.Client.Windows
 
 			App.Current.UnhandledException += CurrentOnUnhandledException;
 
-            Frame rootFrame = Window.Current.Content as Frame;
+			Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

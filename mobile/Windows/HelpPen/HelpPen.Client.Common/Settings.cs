@@ -9,7 +9,7 @@ namespace HelpPen.Client.Common
 	{
 		static Settings()
 		{
-			ServerUri = new Uri(@"http://cheap.atomnas.ru:8080");
+			ServerUri = new Uri(@"http://dev.helppen.com");
 		}
 
 		/// <summary>

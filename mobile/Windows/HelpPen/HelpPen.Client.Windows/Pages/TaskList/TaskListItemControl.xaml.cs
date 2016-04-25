@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -13,7 +15,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
+
+using HelpPen.Client.Common;
 using HelpPen.Client.Common.Model.API;
+
+using Microsoft.Practices.ServiceLocation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -34,11 +40,34 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			{
 				Task task = (Task)rectangle.DataContext;
 
-				if (task.State == TaskState.NOT_COMPLETED)
+				if (task.state == TaskState.NOT_COMPLITED)
 				{
-					task.State = TaskState.Completed;
+					task.state = TaskState.COMPLITED;
 				}
 			}
+		}
+
+		private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			Task task = (Task)DataContext;
+
+			if (task.orderNumber > 0)
+			{
+				task.orderNumber--;
+
+				IHelpPenService helpPenService = ServiceLocator.Current.GetInstance<IHelpPenService>();
+
+				await helpPenService.ChangeTask(task, CancellationToken.None);
+			}
+		}
+
+		private async void ButtonBase_OnClick1(object sender, RoutedEventArgs e)
+		{
+			Task task = (Task)DataContext;
+
+			IHelpPenService helpPenService = ServiceLocator.Current.GetInstance<IHelpPenService>();
+
+			await helpPenService.RemoveTask(task.Id, CancellationToken.None);
 		}
 	}
 }
