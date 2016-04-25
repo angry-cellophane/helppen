@@ -26,7 +26,7 @@ INSERT INTO user(id, login, password_hash, username) VALUES (
 INSERT INTO user(id, login, password_hash, username) VALUES (
   5,
   'demo',
-  '76d469a66bf398fdf2',
+  '56d469a66bd398fdf2',
   'Demo'
 );
 
