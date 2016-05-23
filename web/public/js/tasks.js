@@ -9,7 +9,9 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
     $resourceProvider.defaults.stripTrailingSlashes = false;
   }])
   .factory('Tasks', function($resource) {
-    return $resource('/api/tasks/:id', { id: '@id' }, {
+    return $resource('/api/tasks/:id', {
+      id: '@id'
+    }, {
       update: {
         method: 'PUT'
       }
@@ -50,32 +52,17 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       });
     };
 
-    $scope.moveUp = function(task, tasks) {
-      if (tasks[0] === task) return;
+    $scope.moveUp = function(task) {
+      if ($scope.tasks.length === 0 || $scope.tasks[0] === task) return;
 
-      for (var i in tasks) {
-        if (tasks[i] !== task) continue;
+      var dto = new Task(task);
+      dto.orderNumber = findMaxNumber($scope.tasks) + 1;
 
-        var toUp = new Task(task);
-        var toDown = new Task(tasks[i - 1]);
+      Tasks.update(dto, function(newToUp) {
+        $scope.tasks.unshift(dto);
+        $scope.tasks.splice($scope.tasks.indexOf(task), 1);
+      });
 
-        var temp = toUp.orderNumber;
-
-        toUp.orderNumber = toDown.orderNumber;
-        toDown.orderNumber = temp;
-
-        Tasks.update(toUp, function(newToUp) {
-          Tasks.update(toDown, function(newToDown) {
-            toUp = newToUp.orderNumber;
-            toDown = newToDown.orderNumber;
-            tasks.splice(i, 1);
-            tasks.splice(i - 1, 0, task);
-          });
-        });
-
-        return;
-      }
-      console.log('Task ' + task.id + ' not found');
     };
 
     $scope.update = function(task, tasks) {
@@ -109,23 +96,23 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       console.log('the task ' + task + ' is not found');
     };
 
-    $scope.moveToStash = function (task) {
+    $scope.moveToStash = function(task) {
       for (var i in $scope.tasks) {
         if ($scope.tasks[i] !== task) continue;
 
-        var dto = new Task(task);
         dto.state = 'STASH';
         dto.orderNumber = findMaxNumber($scope.stash) + 1;
 
-        Tasks.update(dto, function (res) {
+        Tasks.update(dto, function(res) {
           $scope.stash.unshift(dto);
+          var dto = new Task(task);
           $scope.tasks.splice(i, 1);
         });
         return;
       }
     };
 
-    $scope.moveFromStash = function (task) {
+    $scope.moveFromStash = function(task) {
       for (var i in $scope.stash) {
         if ($scope.stash[i] !== task) continue;
 
@@ -133,7 +120,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
         dto.state = 'NOT_COMPLITED';
         dto.orderNumber = findMaxNumber($scope.tasks) + 1;
 
-        Tasks.update(dto, function (res) {
+        Tasks.update(dto, function(res) {
           $scope.tasks.unshift(dto);
           $scope.stash.splice(i, 1);
         });
