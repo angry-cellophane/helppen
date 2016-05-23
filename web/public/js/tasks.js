@@ -62,70 +62,55 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
         tasks.unshift(dto);
         tasks.splice(tasks.indexOf(task), 1);
       });
-
     };
 
     $scope.update = function(task, tasks) {
-      for (var i in tasks) {
-        if (tasks[i] !== task) continue;
+      var i = tasks.indexOf(task);
 
+      if (i === -1) {
+        console.log('Task ' + task.id + ' not found');
+      } else {
         var newState = task.isDone ? 'COMPLITED' : 'NOT_COMPLITED';
-
         var dto = new Task(task);
         dto.state = newState;
         Tasks.update(dto, function(rowData) {
           task.state = newState;
         });
-
-        return;
       }
-      console.log('Task ' + task.id + ' not found');
     };
 
     $scope.remove = function(task, tasks) {
-      for (var i in tasks) {
-        if (tasks[i] !== task) continue;
+      var i = tasks.indexOf(task);
 
+      if (i === -1) {
+        console.log('the task ' + task + ' is not found');
+      } else {
         Tasks.delete(task, function(data) {
           tasks.splice(i, 1);
         });
-
-        return;
-      };
-
-      console.log('the task ' + task + ' is not found');
+      }
     };
 
     $scope.moveToStash = function(task) {
-      for (var i in $scope.tasks) {
-        if ($scope.tasks[i] !== task) continue;
+      var dto = new Task(task);
+      dto.state = 'STASH';
+      dto.orderNumber = findMaxNumber($scope.stash) + 1;
 
-        dto.state = 'STASH';
-        dto.orderNumber = findMaxNumber($scope.stash) + 1;
-
-        Tasks.update(dto, function(res) {
-          $scope.stash.unshift(dto);
-          var dto = new Task(task);
-          $scope.tasks.splice(i, 1);
-        });
-        return;
-      }
+      Tasks.update(dto, function(res) {
+        $scope.stash.unshift(dto);
+        $scope.tasks.splice($scope.tasks.indexOf(task), 1);
+      });
     };
 
     $scope.moveFromStash = function(task) {
-      for (var i in $scope.stash) {
-        if ($scope.stash[i] !== task) continue;
+      var dto = new Task(task);
+      dto.state = 'NOT_COMPLITED';
+      dto.orderNumber = findMaxNumber($scope.tasks) + 1;
 
-        var dto = new Task(task);
-        dto.state = 'NOT_COMPLITED';
-        dto.orderNumber = findMaxNumber($scope.tasks) + 1;
-
-        Tasks.update(dto, function(res) {
-          $scope.tasks.unshift(dto);
-          $scope.stash.splice(i, 1);
-        });
-        return;
-      }
+      Tasks.update(dto, function(res) {
+        $scope.tasks.unshift(dto);
+        $scope.stash.splice($scope.tasks.indexOf(task), 1);
+      });
     };
 
     Tasks.query().$promise.then(function(tasks) {
