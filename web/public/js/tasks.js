@@ -52,15 +52,15 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       });
     };
 
-    $scope.moveUp = function(task) {
-      if ($scope.tasks.length === 0 || $scope.tasks[0] === task) return;
+    $scope.moveUp = function(task, tasks) {
+      if (tasks.length === 0 || tasks[0] === task) return;
 
       var dto = new Task(task);
-      dto.orderNumber = findMaxNumber($scope.tasks) + 1;
+      dto.orderNumber = findMaxNumber(tasks) + 1;
 
       Tasks.update(dto, function(newToUp) {
-        $scope.tasks.unshift(dto);
-        $scope.tasks.splice($scope.tasks.indexOf(task), 1);
+        tasks.unshift(dto);
+        tasks.splice(tasks.indexOf(task), 1);
       });
 
     };
