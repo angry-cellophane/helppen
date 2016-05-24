@@ -69,7 +69,7 @@
                             Content="Добавить задачу"
                             HorizontalAlignment="Stretch"
                             Margin="5"
-                            Command="{Binding Path=AddNewTaskCommand}" />
+                            Command="{Binding Path=AddNewTaskCommand, Mode=OneTime}" />
                     <!-- IsEnabled="{Binding Path=NewTaskText, Converter={StaticResource IsExistsTextConverter}, Mode=OneWay}" -->
                 </Grid>
 

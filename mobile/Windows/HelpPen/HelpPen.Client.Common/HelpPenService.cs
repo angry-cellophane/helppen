@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -183,24 +182,16 @@ namespace HelpPen.Client.Common
 
 			using (HttpContent httpContent = new ByteArrayContent(data))
 			{
-				HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(new Uri(_serviceUri, "/api/tasks/" + task.Id.ToString(@"n")), httpContent, cancellationToken);
-
-				string message = await httpResponseMessage.Content.ReadAsStringAsync();
+				HttpResponseMessage httpResponseMessage =
+					await httpClient.PutAsync(new Uri(_serviceUri, "/api/tasks/" + IdToString(task.Id)), httpContent, cancellationToken);
 
 				if (httpResponseMessage.IsSuccessStatusCode)
 				{
-					using (TextReader textReader = new StringReader(message))
-					{
-						using (JsonReader jsonReader = new JsonTextReader(textReader))
-						{
-							JsonSerializer serializer = new JsonSerializer();
-
-							serializer.Populate(jsonReader, task);
-						}
-					}
 				}
 				else
 				{
+					string message = await httpResponseMessage.Content.ReadAsStringAsync();
+
 					throw new WebServiceException(message);
 				}
 			}
@@ -254,6 +245,11 @@ namespace HelpPen.Client.Common
 			}
 		}
 
+		private string IdToString(Guid id)
+		{
+			return id.ToString(@"d");
+		}
+
 		private async Task OnClient(Func<HttpClientHandler, HttpClient, Task> action, CancellationToken cancellationToken)
 		{
 			await EnsureAuthentificated(cancellationToken);
@@ -283,7 +279,8 @@ namespace HelpPen.Client.Common
 			HttpClient httpClient,
 			CancellationToken cancellationToken)
 		{
-			HttpResponseMessage httpResponseMessage = await httpClient.DeleteAsync(new Uri(_serviceUri, "Tasks/" + taskId.ToString(@"n")), cancellationToken);
+			HttpResponseMessage httpResponseMessage =
+				await httpClient.DeleteAsync(new Uri(_serviceUri, "/api/tasks" + IdToString(taskId)), cancellationToken);
 
 			string message = await httpResponseMessage.Content.ReadAsStringAsync();
 

@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="88.466"
-    d:DesignWidth="227.262">
+    d:DesignWidth="227.262" d:DataContext="{d:DesignInstance local:TaskViewModel}">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,8 +25,9 @@
                 </LinearGradientBrush>
             </Rectangle.Stroke>
         </Rectangle>-->
-        <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords" Text="{Binding Path=text, Mode=OneWay}" VerticalAlignment="Center" />
-        <Button Grid.Column="1" Content="↑" Click="ButtonBase_OnClick" />
-        <Button  Grid.Column="2" Content="×" Click="ButtonBase_OnClick1" />
+        <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords" Text="{Binding Path=Text, Mode=OneWay}"
+                   VerticalAlignment="Center" />
+        <Button Grid.Column="1" Content="↑" Command="{Binding Path=UpTaskCommand, Mode=OneTime}" />
+        <Button Grid.Column="2" Content="×" Command="{Binding Path=RemoveTaskCommand, Mode=OneTime}" />
     </Grid>
 </UserControl>

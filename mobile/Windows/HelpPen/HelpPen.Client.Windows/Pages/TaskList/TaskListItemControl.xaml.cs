@@ -46,28 +46,5 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 				}
 			}
 		}
-
-		private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-		{
-			Task task = (Task)DataContext;
-
-			if (task.orderNumber > 0)
-			{
-				task.orderNumber--;
-
-				IHelpPenService helpPenService = ServiceLocator.Current.GetInstance<IHelpPenService>();
-
-				await helpPenService.ChangeTask(task, CancellationToken.None);
-			}
-		}
-
-		private async void ButtonBase_OnClick1(object sender, RoutedEventArgs e)
-		{
-			Task task = (Task)DataContext;
-
-			IHelpPenService helpPenService = ServiceLocator.Current.GetInstance<IHelpPenService>();
-
-			await helpPenService.RemoveTask(task.Id, CancellationToken.None);
-		}
 	}
 }
