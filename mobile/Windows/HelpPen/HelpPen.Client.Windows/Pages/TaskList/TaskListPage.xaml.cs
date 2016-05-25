@@ -1,8 +1,6 @@
 ﻿using System.Windows.Input;
 
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 using HelpPen.Client.Common.MVVM;
@@ -43,7 +41,7 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		{
 			if (e.Key == VirtualKey.Enter)
 			{
-				ICommand command = ((TaskListViewModel)DataContext).AddNewTaskCommand;
+				ICommand command = ((TaskListViewModel)DataContext).CommitAddNewTaskCommand;
 
 				if (command.CanExecute(null))
 				{

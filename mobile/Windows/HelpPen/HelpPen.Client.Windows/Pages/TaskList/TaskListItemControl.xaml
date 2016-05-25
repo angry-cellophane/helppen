@@ -27,7 +27,5 @@
         </Rectangle>-->
         <TextBlock Grid.Column="0" TextWrapping="WrapWholeWords" Text="{Binding Path=Text, Mode=OneWay}"
                    VerticalAlignment="Center" />
-        <Button Grid.Column="1" Content="↑" Command="{Binding Path=UpTaskCommand, Mode=OneTime}" />
-        <Button Grid.Column="2" Content="×" Command="{Binding Path=RemoveTaskCommand, Mode=OneTime}" />
     </Grid>
 </UserControl>

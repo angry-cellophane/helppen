@@ -4,13 +4,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Windows.Input;
+using System.Threading.Tasks;
 
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
 
 using HelpPen.Client.Common;
-using HelpPen.Client.Common.Model.API;
 using HelpPen.Client.Common.MVVM;
 
 using Microsoft.Practices.ServiceLocation;
@@ -32,6 +30,8 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 		private string _newTaskText;
 
+		private TaskViewModel _selectedTask;
+
 		#endregion
 
 		#region Constructors and Destructors
@@ -43,7 +43,10 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		{
 			_helpPenService = helpPenService;
 
-			AddNewTaskCommand = new DelegateCommand(OnAddNewTaskCommandExecute, () => !string.IsNullOrWhiteSpace(NewTaskText));
+			BeginAddNewTaskCommand = new DelegateCommand(OnBeginAddNewTaskCommand);
+			CommitAddNewTaskCommand = new DelegateCommand(OnCommitAddNewTaskCommandExecute, () => !string.IsNullOrWhiteSpace(NewTaskText));
+			UpTaskCommand = new DelegateCommand(OnUpTaskCommandExecute, () => SelectedTask != null);
+			RemoveTaskCommand = new DelegateCommand(OnRemoveTaskCommandExecute, () => SelectedTask != null);
 
 			Tasks = new ObservableCollection<TaskViewModel>();
 		}
@@ -53,9 +56,14 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		#region Properties
 
 		/// <summary>
-		///     Команда добавления новой задачи.
+		///     Команда начала добавления новой задачи.
 		/// </summary>
-		public DelegateCommand AddNewTaskCommand { get; }
+		public DelegateCommand BeginAddNewTaskCommand { get; }
+
+		/// <summary>
+		///     Команда подтверждения добавления новой задачи.
+		/// </summary>
+		public DelegateCommand CommitAddNewTaskCommand { get; }
 
 		/// <summary>
 		///     Содержит признак занятости выполнением той или иной операции.
@@ -84,7 +92,29 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			set
 			{
 				SetPropertyValue(_newTaskText, value, newValue => _newTaskText = newValue);
-				AddNewTaskCommand.RaiseCanExecuteChanged();
+				CommitAddNewTaskCommand.RaiseCanExecuteChanged();
+			}
+		}
+
+		/// <summary>
+		///     Команда удаления задачи.
+		/// </summary>
+		public DelegateCommand RemoveTaskCommand { get; }
+
+		/// <summary>
+		///     Выбранная задача.
+		/// </summary>
+		public TaskViewModel SelectedTask
+		{
+			get
+			{
+				return _selectedTask;
+			}
+			set
+			{
+				SetPropertyValue(_selectedTask, value, newValue => _selectedTask = newValue);
+				UpTaskCommand.RaiseCanExecuteChanged();
+				RemoveTaskCommand.RaiseCanExecuteChanged();
 			}
 		}
 
@@ -92,6 +122,11 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		///     Перечень задач текущего пользователя.
 		/// </summary>
 		public ObservableCollection<TaskViewModel> Tasks { get; }
+
+		/// <summary>
+		///     Команда поднятия уровня задачи.
+		/// </summary>
+		public DelegateCommand UpTaskCommand { get; }
 
 		#endregion
 
@@ -105,12 +140,12 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 			try
 			{
-				ImmutableArray<Task> tasks = await _helpPenService.GetTasks(CancellationToken.None);
+				ImmutableArray<Common.Model.API.Task> tasks = await _helpPenService.GetTasks(CancellationToken.None);
 
 				Tasks.Clear();
-				foreach (Task task in tasks.OrderBy(x => x.orderNumber))
+				foreach (Common.Model.API.Task task in tasks.OrderBy(x => x, TaskOrderComparer.Instance))
 				{
-					Tasks.Add(new TaskViewModel(this, task));
+					Tasks.Add(new TaskViewModel(task));
 				}
 
 				OrderTasksIfNeeded(Tasks);
@@ -121,66 +156,16 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			}
 		}
 
-		private static bool OrderTasksIfNeeded(ObservableCollection<TaskViewModel> tasks)
+		public async Task RemoveTask(TaskViewModel taskViewModel)
 		{
-			bool isGoodOrdering = true;
+			IHelpPenService helpPenService = ServiceLocator.Current.GetInstance<IHelpPenService>();
 
-			for (int i = 0; i < tasks.Count - 1; i++)
-			{
-				if (tasks[i].Task.orderNumber >= tasks[i + 1].Task.orderNumber)
-				{
-					isGoodOrdering = false;
-					break;
-				}
-			}
+			await helpPenService.RemoveTask(taskViewModel.Task.Id, CancellationToken.None);
 
-			if (!isGoodOrdering)
-			{
-				TaskViewModel[] copy = tasks.ToArray();
-				tasks.Clear();
-				int index = 0;
-				foreach (TaskViewModel taskViewModel in copy.OrderBy(x => x.Task.orderNumber))
-				{
-					taskViewModel.Task.orderNumber = index;
-					tasks.Add(taskViewModel);
-
-					index++;
-				}
-			}
-
-			return !isGoodOrdering;
+			Tasks.Remove(taskViewModel);
 		}
 
-		#endregion
-
-		#region Methods
-
-		/// <summary>
-		///     Обработчик выполнения команды <see cref="AddNewTaskCommand" />.
-		/// </summary>
-		private async void OnAddNewTaskCommandExecute()
-		{
-			IsWorking = true;
-
-			try
-			{
-				Task task = new Task { text = NewTaskText };
-
-				await _helpPenService.AddTask(task, CancellationToken.None);
-
-				Tasks.Add(new TaskViewModel(this, task));
-
-				NewTaskText = null;
-			}
-			finally
-			{
-				IsWorking = false;
-			}
-		}
-
-		#endregion
-
-		public async System.Threading.Tasks.Task UpTask(TaskViewModel taskViewModel)
+		public async Task UpTask(TaskViewModel taskViewModel)
 		{
 			int index = Tasks.IndexOf(taskViewModel);
 
@@ -203,7 +188,6 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 				bool isNeedToUpdate = OrderTasksIfNeeded(Tasks);
 
-
 				if (isNeedToUpdate)
 				{
 					foreach (TaskViewModel item in Tasks)
@@ -223,13 +207,78 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			}
 		}
 
-		public async System.Threading.Tasks.Task RemoveTask(TaskViewModel taskViewModel)
+		#endregion
+
+		#region Methods
+
+		private static bool OrderTasksIfNeeded(ObservableCollection<TaskViewModel> tasks)
 		{
-			IHelpPenService helpPenService = ServiceLocator.Current.GetInstance<IHelpPenService>();
+			bool isGoodOrdering = true;
 
-			await helpPenService.RemoveTask(taskViewModel.Task.Id, CancellationToken.None);
+			for (int i = 0; i < tasks.Count - 1; i++)
+			{
+				if (TaskOrderComparer.Instance.Compare(tasks[i].Task, tasks[i + 1].Task) >= 0)
+				{
+					isGoodOrdering = false;
+					break;
+				}
+			}
 
-			Tasks.Remove(taskViewModel);
+			if (!isGoodOrdering)
+			{
+				TaskViewModel[] copy = tasks.ToArray();
+				tasks.Clear();
+				int index = 0;
+				foreach (TaskViewModel taskViewModel in copy.OrderBy(x => x.Task, TaskOrderComparer.Instance))
+				{
+					taskViewModel.Task.orderNumber = index;
+					tasks.Add(taskViewModel);
+
+					index++;
+				}
+			}
+
+			return !isGoodOrdering;
 		}
+
+		private void OnBeginAddNewTaskCommand()
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		///     Обработчик выполнения команды <see cref="CommitAddNewTaskCommand" />.
+		/// </summary>
+		private async void OnCommitAddNewTaskCommandExecute()
+		{
+			IsWorking = true;
+
+			try
+			{
+				Common.Model.API.Task task = new Common.Model.API.Task { text = NewTaskText };
+
+				await _helpPenService.AddTask(task, CancellationToken.None);
+
+				Tasks.Add(new TaskViewModel(task));
+
+				NewTaskText = null;
+			}
+			finally
+			{
+				IsWorking = false;
+			}
+		}
+
+		private async void OnRemoveTaskCommandExecute()
+		{
+			await RemoveTask(_selectedTask);
+		}
+
+		private async void OnUpTaskCommandExecute()
+		{
+			await UpTask(_selectedTask);
+		}
+
+		#endregion
 	}
 }
