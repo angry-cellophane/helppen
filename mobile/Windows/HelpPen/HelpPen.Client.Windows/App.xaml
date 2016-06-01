@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:HelpPen.Client.Common.Converters"
+    xmlns:common="using:HelpPen.Client.Common"
     RequestedTheme="Light">
     <Application.Resources>
         <ResourceDictionary>
@@ -12,6 +13,9 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:IsExistsTextConverter x:Key="IsExistsTextConverter" />
+            <converters:NotConverter x:Key="NotConverter" />
+
+            <common:Commands x:Key="Commands" />
 
         </ResourceDictionary>
     </Application.Resources>

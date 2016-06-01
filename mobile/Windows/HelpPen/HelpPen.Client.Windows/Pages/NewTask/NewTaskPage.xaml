@@ -1,0 +1,40 @@
+﻿<mvvm:Page
+    x:Class="HelpPen.Client.Windows.Pages.NewTask.NewTaskPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HelpPen.Client.Windows.Pages.NewTask"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mvvm="using:HelpPen.Client.Common.MVVM"
+    mc:Ignorable="d"
+    Style="{StaticResource DefaultPageStyle}" d:DataContext="{d:DesignInstance local:NewTaskViewModel}">
+    <Page.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}" />
+        <Style TargetType="TextBlock" BasedOn="{StaticResource DefaultTextBlockStyle}" />
+    </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar Grid.Row="1" IsEnabled="{Binding Path=IsWorking, Mode=OneWay, Converter={StaticResource NotConverter}}">
+            <AppBarButton Icon="Accept" Label="Подтвердить"
+                          Command="{Binding Path=AcceptCommand, Mode=OneTime}" />
+            <AppBarButton Icon="Cancel" Label="Отменить" Command="{Binding Path=CancelCommand, Mode=OneTime}" />
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid>
+        <TextBox Header="Новая задача:"
+                 Margin="10"
+                 AcceptsReturn="True"
+                 PlaceholderText="Введите описание задачи"
+                 x:Name="NewTaskTextBox"
+                 Text="{Binding Path=NewTaskText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 KeyUp="OnNewTaskTextBoxKeyUp"
+                 IsEnabled="{Binding Path=IsWorking, Mode=OneWay, Converter={StaticResource NotConverter}}"/>
+
+        <ProgressRing IsActive="{Binding Path=IsWorking, Mode=OneWay}"
+                                  Width="50"
+                                  Height="50"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+    </Grid>
+
+</mvvm:Page>

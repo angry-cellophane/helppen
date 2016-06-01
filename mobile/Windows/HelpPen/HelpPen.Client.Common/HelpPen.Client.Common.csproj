@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="AuthenticationException.cs" />
     <Compile Include="AuthService.cs" />
+    <Compile Include="Commands.cs" />
+    <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Converters\IsExistsTextConverter.cs" />
     <Compile Include="HelpPenService.cs" />
     <Compile Include="IAuthService.cs" />
@@ -132,6 +134,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\Entity\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Prism">
+      <HintPath>..\..\..\..\..\..\..\..\..\Users\evgeny\.nuget\packages\Prism.Core\6.1.0\lib\wpa81\Prism.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

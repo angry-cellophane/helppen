@@ -34,20 +34,7 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		/// <returns></returns>
 		protected override PageViewModel CreateViewModel()
 		{
-			return ServiceLocator.Current.GetInstance<TaskListViewModel>();
-		}
-
-		private void OnNewTaskTextBoxKeyUp(object sender, KeyRoutedEventArgs e)
-		{
-			if (e.Key == VirtualKey.Enter)
-			{
-				ICommand command = ((TaskListViewModel)DataContext).CommitAddNewTaskCommand;
-
-				if (command.CanExecute(null))
-				{
-					command.Execute(null);
-				}
-			}
+			return CreateInstance<TaskListViewModel>();
 		}
 
 		#endregion
