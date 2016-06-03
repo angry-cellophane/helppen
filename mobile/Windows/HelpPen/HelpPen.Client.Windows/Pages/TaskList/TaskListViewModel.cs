@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -32,7 +33,6 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 		private bool _isWorking;
 
-
 		private TaskViewModel _selectedTask;
 
 		#endregion
@@ -50,6 +50,7 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			TryAddNewTaskCommand = new DelegateCommand(OnTryAddNewTaskCommand);
 			UpTaskCommand = new DelegateCommand(OnUpTaskCommandExecute, OnCanUpTaskCommandExecute);
 			RemoveTaskCommand = new DelegateCommand(OnRemoveTaskCommandExecute, () => SelectedTask != null);
+			ReloadTasksCommand = new DelegateCommand(OnReloadTasksCommandExecuted);
 
 			NotCompletedTasks = new ObservableCollection<TaskViewModel>();
 			StashedTasks = new ObservableCollection<TaskViewModel>();
@@ -58,11 +59,6 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		#endregion
 
 		#region Properties
-
-		/// <summary>
-		///     Команда начала добавления новой задачи.
-		/// </summary>
-		public DelegateCommand TryAddNewTaskCommand { get; }
 
 		/// <summary>
 		///     Содержит признак занятости выполнением той или иной операции.
@@ -78,6 +74,16 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 				SetPropertyValue(_isWorking, value, newValue => _isWorking = newValue);
 			}
 		}
+
+		/// <summary>
+		///     Перечень невыполненных задач текущего пользователя.
+		/// </summary>
+		public ObservableCollection<TaskViewModel> NotCompletedTasks { get; }
+
+		/// <summary>
+		///     Команда обновления списка задач.
+		/// </summary>
+		public DelegateCommand ReloadTasksCommand { get; }
 
 		/// <summary>
 		///     Команда удаления задачи.
@@ -102,14 +108,14 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		}
 
 		/// <summary>
-		///     Перечень невыполненных задач текущего пользователя.
-		/// </summary>
-		public ObservableCollection<TaskViewModel> NotCompletedTasks { get; }
-
-		/// <summary>
 		///     Перечень чердачных задач текущего пользователя.
 		/// </summary>
 		public ObservableCollection<TaskViewModel> StashedTasks { get; }
+
+		/// <summary>
+		///     Команда начала добавления новой задачи.
+		/// </summary>
+		public DelegateCommand TryAddNewTaskCommand { get; }
 
 		/// <summary>
 		///     Команда поднятия уровня задачи.
@@ -128,22 +134,7 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 			try
 			{
-				ImmutableArray<Common.Model.API.Task> tasks = await _helpPenService.GetTasks(CancellationToken.None);
-
-				NotCompletedTasks.Clear();
-				foreach (Common.Model.API.Task task in tasks.Where(x => x.state == TaskState.NOT_COMPLITED).OrderBy(x => x, TaskOrderComparer.Instance))
-				{
-					NotCompletedTasks.Add(new TaskViewModel(task));
-				}
-
-				StashedTasks.Clear();
-				foreach (Common.Model.API.Task task in tasks.Where(x => x.state == TaskState.STASH).OrderBy(x => x, TaskOrderComparer.Instance))
-				{
-					StashedTasks.Add(new TaskViewModel(task));
-				}
-
-				OrderTasksIfNeeded(NotCompletedTasks);
-				OrderTasksIfNeeded(StashedTasks);
+				await LoadTasks();
 			}
 			finally
 			{
@@ -153,11 +144,25 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 		public async Task RemoveTask(TaskViewModel taskViewModel)
 		{
-			IHelpPenService helpPenService = ServiceLocator.Current.GetInstance<IHelpPenService>();
+			var dialog = new MessageDialog("Действительно удалить?");
 
-			await helpPenService.RemoveTask(taskViewModel.Task.Id, CancellationToken.None);
+			UICommand okCommand = new UICommand("Ок") { Id = 0 };
+			UICommand cancelCommand = new UICommand("Отмена") { Id = 1 };
+			
+			dialog.Commands.Add(okCommand);
+			dialog.Commands.Add(cancelCommand);
 
-			NotCompletedTasks.Remove(taskViewModel);
+			IUICommand selectedCommand = await dialog.ShowAsync();
+
+
+			if (selectedCommand == okCommand)
+			{
+				IHelpPenService helpPenService = ServiceLocator.Current.GetInstance<IHelpPenService>();
+
+				await helpPenService.RemoveTask(taskViewModel.Task.Id, CancellationToken.None);
+
+				NotCompletedTasks.Remove(taskViewModel);
+			}
 		}
 
 		public async Task UpTask(TaskViewModel taskViewModel)
@@ -195,6 +200,8 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 					await helpPenService.ChangeTask(prevTaskViewModel.Task, CancellationToken.None);
 					await helpPenService.ChangeTask(taskViewModel.Task, CancellationToken.None);
 				}
+
+				SelectedTask = taskViewModel;
 			}
 			else
 			{
@@ -236,9 +243,28 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			return !isGoodOrdering;
 		}
 
-		private void OnTryAddNewTaskCommand()
+		private async Task LoadTasks()
 		{
-			Frame.Navigate(typeof(NewTaskPage));
+			ImmutableArray<Common.Model.API.Task> tasks = await _helpPenService.GetTasks(CancellationToken.None);
+
+			NotCompletedTasks.Clear();
+
+			foreach (
+				Common.Model.API.Task task in
+					tasks.Where(x => x.state == TaskState.NOT_COMPLITED).OrderBy(x => x, TaskOrderComparer.Instance))
+			{
+				NotCompletedTasks.Add(new TaskViewModel(task));
+			}
+
+			StashedTasks.Clear();
+			foreach (
+				Common.Model.API.Task task in tasks.Where(x => x.state == TaskState.STASH).OrderBy(x => x, TaskOrderComparer.Instance))
+			{
+				StashedTasks.Add(new TaskViewModel(task));
+			}
+
+			OrderTasksIfNeeded(NotCompletedTasks);
+			OrderTasksIfNeeded(StashedTasks);
 		}
 
 		private bool OnCanUpTaskCommandExecute()
@@ -246,9 +272,28 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			return SelectedTask != null && NotCompletedTasks.IndexOf(SelectedTask) > 0;
 		}
 
+		private async void OnReloadTasksCommandExecuted()
+		{
+			IsWorking = true;
+
+			try
+			{
+				await LoadTasks();
+			}
+			finally
+			{
+				IsWorking = false;
+			}
+		}
+
 		private async void OnRemoveTaskCommandExecute()
 		{
 			await RemoveTask(_selectedTask);
+		}
+
+		private void OnTryAddNewTaskCommand()
+		{
+			Frame.Navigate(typeof(NewTaskPage));
 		}
 
 		private async void OnUpTaskCommandExecute()

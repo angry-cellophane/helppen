@@ -85,7 +85,7 @@
                           Command="{Binding Source={StaticResource Commands}, Path=NotImplemented, Mode=OneTime}" />
 
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Refresh" Label="Обновить" />
+                <AppBarButton Icon="Refresh" Label="Обновить" Command="{Binding Path=ReloadTasksCommand, Mode=OneTime}" />
                 <AppBarButton Icon="Delete" Label="Удалить..." Command="{Binding Path=RemoveTaskCommand, Mode=OneTime}" />
                 <AppBarButton Icon="Priority" Label="В кладовку"
                               Command="{Binding Source={StaticResource Commands}, Path=NotImplemented, Mode=OneTime}" />

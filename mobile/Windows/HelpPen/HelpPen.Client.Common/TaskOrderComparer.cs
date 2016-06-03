@@ -46,7 +46,7 @@ namespace HelpPen.Client.Common
 		/// <param name="y">Второй сравниваемый объект.</param>
 		public int Compare(Task x, Task y)
 		{
-			return y.orderNumber.CompareTo(y.orderNumber);
+			return y.orderNumber.CompareTo(x.orderNumber);
 		}
 
 		#endregion

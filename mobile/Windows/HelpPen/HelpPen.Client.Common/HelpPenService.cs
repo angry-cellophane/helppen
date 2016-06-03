@@ -280,7 +280,7 @@ namespace HelpPen.Client.Common
 			CancellationToken cancellationToken)
 		{
 			HttpResponseMessage httpResponseMessage =
-				await httpClient.DeleteAsync(new Uri(_serviceUri, "/api/tasks" + IdToString(taskId)), cancellationToken);
+				await httpClient.DeleteAsync(new Uri(_serviceUri, "/api/tasks/" + IdToString(taskId)), cancellationToken);
 
 			string message = await httpResponseMessage.Content.ReadAsStringAsync();
 
