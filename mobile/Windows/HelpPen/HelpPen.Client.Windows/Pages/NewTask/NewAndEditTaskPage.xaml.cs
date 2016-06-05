@@ -15,11 +15,11 @@ namespace HelpPen.Client.Windows.Pages.NewTask
 	/// <summary>
 	///     An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class NewTaskPage
+	public sealed partial class NewAndEditTaskPage
 	{
 		#region Constructors and Destructors
 
-		public NewTaskPage()
+		public NewAndEditTaskPage()
 		{
 			this.InitializeComponent();
 		}
@@ -34,14 +34,14 @@ namespace HelpPen.Client.Windows.Pages.NewTask
 		/// <returns></returns>
 		protected override PageViewModel CreateViewModel()
 		{
-			return CreateInstance<NewTaskViewModel>();
+			return CreateInstance<NewAndEditTaskViewModel>();
 		}
 
 		private void OnNewTaskTextBoxKeyUp(object sender, KeyRoutedEventArgs e)
 		{
 			//if (e.Key == VirtualKey.Enter && )
 			//{
-			//	ICommand command = ((NewTaskViewModel)DataContext).AcceptCommand;
+			//	ICommand command = ((NewAndEditTaskViewModel)DataContext).AcceptCommand;
 
 			//	if (command.CanExecute(null))
 			//	{

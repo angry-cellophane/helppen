@@ -1,6 +1,8 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Input;
 
 using HelpPen.Client.Common.MVVM;
@@ -38,5 +40,12 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		}
 
 		#endregion
+
+		private async void UIElement_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			var dialog = new MessageDialog("UIElement_OnRightTapped");
+
+			await dialog.ShowAsync();
+		}
 	}
 }

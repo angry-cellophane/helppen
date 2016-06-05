@@ -1,40 +1,42 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 using HelpPen.Client.Common;
 using HelpPen.Client.Common.Model.API;
 using HelpPen.Client.Common.MVVM;
+using HelpPen.Client.Windows.Pages.TaskList;
 
 using Prism.Commands;
 
 namespace HelpPen.Client.Windows.Pages.NewTask
 {
 	/// <summary>
-	///     Модель представления для <see cref="NewTaskPage" />.
+	///     Модель представления для <see cref="NewAndEditTaskPage" />.
 	/// </summary>
-	internal sealed class NewTaskViewModel : PageViewModel
+	internal sealed class NewAndEditTaskViewModel : PageViewModel
 	{
 		#region Fields
 
 		private readonly IHelpPenService _helpPenService;
 
+		private TaskViewModel _existsTask;
+
 		private bool _isWorking;
 
-		private string _newTaskText;
+		private string _taskText;
 
 		#endregion
 
 		#region Constructors and Destructors
 
-		public NewTaskViewModel(Frame frame, IHelpPenService helpPenService)
+		public NewAndEditTaskViewModel(Frame frame, IHelpPenService helpPenService)
 			: base(frame)
 		{
 			_helpPenService = helpPenService;
 
-			AcceptCommand = new DelegateCommand(OnAcceptCommandExecute, () => !string.IsNullOrWhiteSpace(NewTaskText));
+			AcceptCommand = new DelegateCommand(OnAcceptCommandExecute, () => !string.IsNullOrWhiteSpace(TaskText));
 			CancelCommand = new DelegateCommand(OnCancelCommandExecuted);
 		}
 
@@ -70,16 +72,32 @@ namespace HelpPen.Client.Windows.Pages.NewTask
 		/// <summary>
 		///     Текст новой, создаваемой, задачи.
 		/// </summary>
-		public string NewTaskText
+		public string TaskText
 		{
 			get
 			{
-				return _newTaskText;
+				return _taskText;
 			}
 			set
 			{
-				SetPropertyValue(_newTaskText, value, newValue => _newTaskText = newValue);
+				SetPropertyValue(_taskText, value, newValue => _taskText = newValue);
 				AcceptCommand.RaiseCanExecuteChanged();
+			}
+		}
+
+		#endregion
+
+		#region Public Methods and Operators
+
+		public override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
+
+			_existsTask = e.Parameter as TaskViewModel;
+
+			if (_existsTask != null)
+			{
+				TaskText = _existsTask.Text;
 			}
 		}
 
@@ -96,11 +114,22 @@ namespace HelpPen.Client.Windows.Pages.NewTask
 
 			try
 			{
-				Task task = new Task { text = NewTaskText };
+				if (_existsTask != null)
+				{
+					_existsTask.Task.text = TaskText;
 
-				await _helpPenService.AddTask(task, CancellationToken.None);
+					await _helpPenService.ChangeTask(_existsTask.Task, CancellationToken.None);
 
-				NewTaskText = null;
+					_existsTask.Text = TaskText;
+				}
+				else
+				{
+					Task task = new Task { text = TaskText };
+
+					await _helpPenService.AddTask(task, CancellationToken.None);
+
+					TaskText = null;
+				}
 			}
 			finally
 			{

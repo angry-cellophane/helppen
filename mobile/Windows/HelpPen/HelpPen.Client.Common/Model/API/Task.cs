@@ -10,7 +10,7 @@ namespace HelpPen.Client.Common.Model.API
 		/// <summary>
 		/// Идентификатор задачи.
 		/// </summary>
-		public Guid Id { get; set; }
+		public Guid id { get; set; }
 
 		/// <summary>
 		/// Текстовое содержание задачи.
@@ -29,5 +29,7 @@ namespace HelpPen.Client.Common.Model.API
 		public DateTimeOffset creationDateTime { get; set; }
 
 		public DateTimeOffset lastChangeDateTime { get; set; }
+
+		public bool isDone { get; set; }
 	}
 }

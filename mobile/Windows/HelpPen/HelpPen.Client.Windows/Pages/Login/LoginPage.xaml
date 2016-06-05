@@ -35,7 +35,7 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Имя пользователя или e-mail:" />
             <TextBox Grid.Row="1" x:Name="UserNameTextBox" KeyUp="OnTextBoxKeyUp"
-                     IsEnabled="{Binding IsInputEnabled, ElementName=page, Mode=OneWay}" >
+                     IsEnabled="{Binding IsInputEnabled, ElementName=page, Mode=OneWay}" Margin="-3,0,3,0" >
                 <ToolTipService.ToolTip>Имя пользователя. Введите ваше имя пользователя, под которым вы зарегистрированы в системе</ToolTipService.ToolTip>
             </TextBox>
             <TextBlock Grid.Row="2" Text="Пароль:" />
@@ -46,32 +46,6 @@
                     ToolTipService.ToolTip="Для входа нажмите кнопку или клавишу Enter на клавиатуре вашего компьютера."
                     IsEnabled="{Binding IsInputEnabled, Mode=OneWay}" Foreground="White" />
             <ProgressRing Grid.Row="5" x:Name="ProgressRing" IsActive="False" Width="50" Height="50" />
-        </Grid>
-
-        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5" Tapped="OnDebugInfoTapped">
-            <Rectangle Fill="Bisque" StrokeThickness="2" RadiusY="2" RadiusX="2" StrokeDashArray="5 1" Opacity="0.5">
-                <Rectangle.Stroke>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="DarkGray" />
-                        <GradientStop Color="DarkGoldenrod" Offset="1" />
-                    </LinearGradientBrush>
-                </Rectangle.Stroke>
-            </Rectangle>
-            <TextBlock Margin="7,5">
-                <Span>
-                    <Bold>
-                        <Run Text="Имя пользователя: " />
-                    </Bold>
-                    <Run Text="&quot;Eugeny&quot;" />
-                </Span>
-                <LineBreak />
-                <Span>
-                    <Bold>
-                        <Run Text="Пароль: " />
-                    </Bold>
-                    <Run Text="password" />
-                </Span>
-            </TextBlock>
         </Grid>
         <TextBlock TextWrapping="Wrap" Text="Забыли пароль?" VerticalAlignment="Bottom" d:LayoutOverrides="Width"
                    HorizontalAlignment="Center" Margin="0,0,0,20" FontWeight="Bold" FontSize="18.667"

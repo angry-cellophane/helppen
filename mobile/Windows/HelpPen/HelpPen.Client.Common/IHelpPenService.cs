@@ -23,7 +23,7 @@ namespace HelpPen.Client.Common
 		/// <param name="task">Добавляемая задача.</param>
 		/// <param name="cancellationToken">Токен отмены.</param>
 		/// <returns>Задача <see cref="Task{TResult}"/>, в рамках которой происходит добавление новой задачи.</returns>
-		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.Id"/> должен быть сгенерирован на стороне клиента.</remarks>
+		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.id"/> должен быть сгенерирован на стороне клиента.</remarks>
 		Task AddTask(Model.API.Task task, CancellationToken cancellationToken);
 
 		/// <summary>
@@ -32,7 +32,7 @@ namespace HelpPen.Client.Common
 		/// <param name="task">Изменяемая задача.</param>
 		/// <param name="cancellationToken">Токен отмены.</param>
 		/// <returns>Задача <see cref="Task{TResult}"/>, в рамках которой происходит изменение существующей задачи.</returns>
-		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.Id"/> должен принадлежать ранее созданной задаче.</remarks>
+		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.id"/> должен принадлежать ранее созданной задаче.</remarks>
 		Task ChangeTask(Model.API.Task task, CancellationToken cancellationToken);
 
 		/// <summary>

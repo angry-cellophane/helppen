@@ -109,10 +109,10 @@
     <Compile Include="Pages\Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\NewTask\NewTaskPage.xaml.cs">
-      <DependentUpon>NewTaskPage.xaml</DependentUpon>
+    <Compile Include="Pages\NewTask\NewAndEditTaskPage.xaml.cs">
+      <DependentUpon>NewAndEditTaskPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\NewTask\NewTaskViewModel.cs" />
+    <Compile Include="Pages\NewTask\NewAndEditTaskViewModel.cs" />
     <Compile Include="Pages\TaskList\TaskListItemControl.xaml.cs">
       <DependentUpon>TaskListItemControl.xaml</DependentUpon>
     </Compile>
@@ -135,7 +135,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Package.StoreAssociation.xml" />
+    <None Include="Package.StoreAssociation.xml">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\Square150x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
@@ -166,7 +168,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\NewTask\NewTaskPage.xaml">
+    <Page Include="Pages\NewTask\NewAndEditTaskPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

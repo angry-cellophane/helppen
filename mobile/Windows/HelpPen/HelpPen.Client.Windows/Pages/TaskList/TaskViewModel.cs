@@ -37,6 +37,10 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			{
 				return Task.text;
 			}
+			set
+			{
+				SetPropertyValue(Task.text, value, newValue => Task.text = newValue);
+			}
 		}
 
 		#endregion

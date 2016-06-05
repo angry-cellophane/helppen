@@ -23,6 +23,8 @@ namespace HelpPen.Client.Common
 
 		private readonly Uri _serviceUri;
 
+		private MediaTypeHeaderValue _contentTypeHeader;
+
 		#endregion
 
 		#region Constructors and Destructors
@@ -35,6 +37,8 @@ namespace HelpPen.Client.Common
 		{
 			_authService = authService;
 			_serviceUri = Settings.ServerUri;
+
+			_contentTypeHeader = MediaTypeHeaderValue.Parse(@"application/json");
 		}
 
 		#endregion
@@ -47,7 +51,7 @@ namespace HelpPen.Client.Common
 		/// <param name="task">Добавляемая задача.</param>
 		/// <param name="cancellationToken">Токен отмены.</param>
 		/// <returns>Задача <see cref="Task{TResult}" />, в рамках которой происходит добавление новой задачи.</returns>
-		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.Id" /> должен быть сгенерирован на стороне клиента.</remarks>
+		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.id" /> должен быть сгенерирован на стороне клиента.</remarks>
 		public async Task AddTask(Model.API.Task task, CancellationToken cancellationToken)
 		{
 			await OnClient(
@@ -64,7 +68,7 @@ namespace HelpPen.Client.Common
 		/// <param name="task">Изменяемая задача.</param>
 		/// <param name="cancellationToken">Токен отмены.</param>
 		/// <returns>Задача <see cref="Task{TResult}" />, в рамках которой происходит изменение существующей задачи.</returns>
-		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.Id" /> должен принадлежать ранее созданной задаче.</remarks>
+		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.id" /> должен принадлежать ранее созданной задаче.</remarks>
 		public async Task ChangeTask(Model.API.Task task, CancellationToken cancellationToken)
 		{
 			await OnClient(
@@ -137,7 +141,7 @@ namespace HelpPen.Client.Common
 
 			using (HttpContent httpContent = new ByteArrayContent(data))
 			{
-				httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse(@"application/json");
+				httpContent.Headers.ContentType = _contentTypeHeader;
 
 				HttpResponseMessage httpResponseMessage =
 					await httpClient.PostAsync(new Uri(_serviceUri, "/api/tasks"), httpContent, cancellationToken);
@@ -169,7 +173,7 @@ namespace HelpPen.Client.Common
 		/// <param name="task">Изменяемая задача.</param>
 		/// <param name="cancellationToken">Токен отмены.</param>
 		/// <returns>Задача <see cref="Task{TResult}" />, в рамках которой происходит изменение существующей задачи.</returns>
-		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.Id" /> должен принадлежать ранее созданной задаче.</remarks>
+		/// <remarks>Идентификатор задачи <see cref="Model.API.Task.id" /> должен принадлежать ранее созданной задаче.</remarks>
 		private async Task ChangeTaskInternal(
 			Model.API.Task task,
 			HttpClientHandler httpClientHandler,
@@ -182,8 +186,10 @@ namespace HelpPen.Client.Common
 
 			using (HttpContent httpContent = new ByteArrayContent(data))
 			{
+				httpContent.Headers.ContentType = _contentTypeHeader;
+
 				HttpResponseMessage httpResponseMessage =
-					await httpClient.PutAsync(new Uri(_serviceUri, "/api/tasks/" + IdToString(task.Id)), httpContent, cancellationToken);
+					await httpClient.PutAsync(new Uri(_serviceUri, "/api/tasks/" + IdToString(task.id)), httpContent, cancellationToken);
 
 				if (httpResponseMessage.IsSuccessStatusCode)
 				{

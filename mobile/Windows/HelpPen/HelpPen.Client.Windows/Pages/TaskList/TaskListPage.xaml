@@ -40,7 +40,8 @@
                 <ListView ItemsSource="{Binding Path=NotCompletedTasks, Mode=OneWay}"
                           IsItemClickEnabled="True"
                           SelectionMode="Single"
-                          SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}">
+                          SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
+                          RightTapped="UIElement_OnRightTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <taskList:TaskListItemControl />
@@ -80,15 +81,13 @@
 
         <CommandBar Grid.Row="1">
             <AppBarButton Icon="Add" Label="Добавить" Command="{Binding Path=TryAddNewTaskCommand, Mode=OneTime}" />
+            <AppBarButton Icon="Edit" Label="Фильтр"  Command="{Binding Path=EditTaskCommand, Mode=OneTime}"/>
             <AppBarButton Icon="Up" Label="Поднять" Command="{Binding Path=UpTaskCommand, Mode=OneTime}" />
-            <AppBarButton Icon="Filter" Label="Фильтр"
-                          Command="{Binding Source={StaticResource Commands}, Path=NotImplemented, Mode=OneTime}" />
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Refresh" Label="Обновить" Command="{Binding Path=ReloadTasksCommand, Mode=OneTime}" />
                 <AppBarButton Icon="Delete" Label="Удалить..." Command="{Binding Path=RemoveTaskCommand, Mode=OneTime}" />
-                <AppBarButton Icon="Priority" Label="В кладовку"
-                              Command="{Binding Source={StaticResource Commands}, Path=NotImplemented, Mode=OneTime}" />
+                <AppBarButton Icon="Priority" Label="В кладовку" Command="{Binding Path=MoveToStashTaskCommand, Mode=OneTime}" />
             </CommandBar.SecondaryCommands>
 
         </CommandBar>
