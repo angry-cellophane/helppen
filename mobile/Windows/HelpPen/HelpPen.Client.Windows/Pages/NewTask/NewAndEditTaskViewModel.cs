@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -99,6 +100,15 @@ namespace HelpPen.Client.Windows.Pages.NewTask
 			{
 				TaskText = _existsTask.Text;
 			}
+
+			SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+		}
+
+		public override void OnNavigatedFrom(NavigationEventArgs e)
+		{
+			SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+
+			base.OnNavigatedFrom(e);
 		}
 
 		#endregion
@@ -136,6 +146,12 @@ namespace HelpPen.Client.Windows.Pages.NewTask
 				IsWorking = false;
 			}
 
+			Frame.GoBack();
+		}
+
+		private void OnBackRequested(object sender, BackRequestedEventArgs e)
+		{
+			e.Handled = true;
 			Frame.GoBack();
 		}
 
