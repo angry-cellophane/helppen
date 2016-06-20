@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="helppen.loginForm" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="helppen.loginForm" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="helppen.loginForm" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="helppen.loginForm" class="no-js">
+<!--<![endif]-->
+<html>
+
+<head>
+  <title>HELP PEN</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Material design angular demo">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="components/html5-boilerplate/css/normalize.css">
+  <link rel="stylesheet" href="components/html5-boilerplate/css/main.css">
+  <link rel="stylesheet" href="components/angular-material/angular-material.css">
+
+  <script src="components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+  <script src="components/angular/angular.min.js"></script>
+  <script src="components/angular-messages/angular-messages.min.js"></script>
+  <script src="components/angular-cookies/angular-cookies.min.js"></script>
+
+  <script src="components/angular-animate/angular-animate.min.js"></script>
+  <script src="components/angular-aria/angular-aria.min.js"></script>
+  <script src="components/hammerjs/hammer.min.js"></script>
+  <script src="components/angular-material/angular-material.min.js"></script>
+
+  <link rel="stylesheet" href="assets/app.css" />
+  <script src="js/login.js"></script>
+</head>
+
+<body ng-controller="LoginFormCtrl">
+  <md-content>
+    <md-toolbar md-theme="indigo" class="app-toolbar md-indigo-theme md-whiteframe-z2 fix-top">
+      <div class="md-toolbar-tools" tabindex="0">
+        <h1>HELP PEN</h1>
+      </div>
+    </md-toolbar>
+  </md-content>
+
+  <div layout="row" layout-align="center center" layout-fill >
+    <md-whiteframe class="md-whiteframe-z1" layout="column" flex="50" flex-sm="100" layout-padding>
+      <md-content layout-padding>
+        <form name="credentials" ng-submit="submitCredentials()">
+          <div layout="row">
+            <h3 class="md-headline">Enter you login and password</h3>
+          </div>
+          <div layout="row" class="alert-message" ng-if="isCredentialsWrong">
+            <h4 class=".md-title">Incorrect credentials. Please try again.</h4>
+          </div>
+          <div layout="row">
+            <md-input-container flex="80">
+              <label>Email</label>
+              <input name="login" ng-model="formData.login" required>
+            </md-input-container>
+          </div>
+          <div layout="row">
+            <md-input-container flex="80">
+              <label>Password</label>
+              <input name="password" type="password" ng-model="formData.password" required>
+            </md-input-container>
+          </div>
+          <div layout="row">
+            <md-input-container>
+              <div layout="row" layout-sm="column" layout-margin>
+                <md-button class="md-raised" flex="50" flex-sm="100" type="submit">Login</md-button>
+              </div>
+            </md-input-container>
+          </div>
+        </form>
+      </md-content>
+    </md-whiteframe>
+  </div>
+
+</body>
+
+</html>

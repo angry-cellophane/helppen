@@ -1,0 +1,86 @@
+<md-content>
+  <md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="Tasks">
+      <md-content class="md-padding">
+        <div layout="column">
+          <md-whiteframe class="md-whiteframe-z1" style="margin: 10px; padding: 0px;" flex="70">
+            <form name="newTaskForm" ng-submit="addNewTask()">
+              <div layout="row">
+                <md-input-container>
+                  <md-button class="md-icon-button" area-label="AddNewTask" ng-click="addNewTask()">
+                    <md-icon md-svg-icon="assets/svg/plus.svg"></md-icon>
+                  </md-button>
+                </md-input-container>
+                <md-input-container>
+                  <label>New task</label>
+                  <input name='newTaskText' type="text" ng-model="newTaskText" on-enter="addNewTask()" />
+                </md-input-container>
+              </div>
+            </form>
+          </md-whiteframe>
+          <!-- <md-divider inset></md-divider> -->
+          <md-list>
+            <md-item ng-repeat="task in tasks">
+              <md-item-content>
+                <md-whiteframe ng-class="{'md-whiteframe-z2': task.isDone, check:task.isDone }" class="md-whiteframe-z1" style="margin: 10px; padding: 0px;" layout="row">
+                  <div flex-offset="3" flex="10">
+                    <md-checkbox class="list-cb" ng-model="task.isDone" ng-change="update(task, tasks)" aria-label="hello"></md-checkbox>
+                  </div>
+                  <div flex>
+                    <md-input-container class="md-block">
+                      <input ng-model="task.text" ng-change="update(task, tasks)" ng-class="task.isDone ? 'strike' : ''"></input>
+                    </md-input-container>
+                  </div>
+                  <div flex="20">
+                    <md-button class="md-icon-button" area-label="MoveUp" ng-click="moveUp(task, tasks)">
+                      <md-icon md-svg-icon="assets/svg/arrow-up-bold.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" area-label="Remove" ng-click="remove(task, tasks)">
+                      <md-icon md-svg-icon="assets/svg/delete.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" area-label="ToStash" ng-click="moveToStash(task)">
+                      <md-icon md-svg-icon="assets/svg/archive.svg"></md-icon>
+                    </md-button>
+                  </div>
+                </md-whiteframe>
+              </md-item-content>
+            </md-item>
+          </md-list>
+        </div>
+      </md-content>
+    </md-tab>
+    <md-tab label="Stash">
+      <md-content class="md-padding">
+        <div layout="column">
+          <md-list>
+            <md-item ng-repeat="task in stash">
+              <md-item-content>
+                <md-whiteframe ng-class="{'md-whiteframe-z2': true }" class="md-whiteframe-z1" style="margin: 10px; padding: 0px;" layout="row">
+                  <!-- <div flex-offset="3" flex="10">
+                    <md-checkbox class="list-cb" ng-model="task.isDone" ng-change="update(task)" aria-label="hello"></md-checkbox>
+                  </div> -->
+                  <div flex flex-offset="5">
+                    <md-input-container class="md-block">
+                      <input ng-model="task.text" ng-change="update(task, stash)"></input>
+                    </md-input-container>
+                  </div>
+                  <div flex="20">
+                    <md-button class="md-icon-button" area-label="FromStash" ng-click="moveFromStash(task)">
+                      <md-icon md-svg-icon="assets/svg/backup-restore.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" area-label="MoveUp" ng-click="moveUp(task, stash)">
+                      <md-icon md-svg-icon="assets/svg/arrow-up-bold.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" area-label="Remove" ng-click="remove(task, stash)">
+                      <md-icon md-svg-icon="assets/svg/delete.svg"></md-icon>
+                    </md-button>
+                  </div>
+                </md-whiteframe>
+              </md-item-content>
+            </md-item>
+          </md-list>
+        </div>
+      </md-content>
+    </md-tab>
+  </md-tabs>
+</md-content>

@@ -1,0 +1,30 @@
+{
+  "name":"rest-test",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.10.6",
+    "body-parser":"1.15.0",
+    "mysql":  "^2.5.4",
+    "requirejs": "latest",
+    "connect": "2.7.0",
+    "cookie-parser":"1.4.1",
+    "nconf": "~0.6.9",
+    "winston": "~0.7.2",
+    "async": "~0.2.9",
+    "validator": "~2.0.0",
+    "string": "~1.7.0",
+    "ejs-locals": "~1.0.2",
+    "node-uuid": "~1.4.1",
+    "ejs": "^1.0.0",
+    "compression": "^1.6.1"
+  },
+  "devDependencies": {
+    "grunt": "^0.3.9",
+    "grunt-exec": "^0.3.0",
+    "read": "1.0.7"
+  }
+}

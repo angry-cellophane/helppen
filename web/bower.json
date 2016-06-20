@@ -1,0 +1,22 @@
+{
+  "name": "helppen-front",
+  "description": "Helppen!",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-animate": "^1.5.5",
+    "angular-messages": "^1.5.5",
+    "angular-cookies": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "angular-loader": "^1.5.5",
+    "angular-aria": "^1.5.5",
+    "angular-material": "^1.0.0",
+    "angular-resource": "1.5.5",
+    "html5-boilerplate": "^4.3.0",
+    "hammerjs": "^2.0.5"
+  },
+  "devDependencies": {
+    "angular-material": "https://github.com/angular/bower-material.git#master"
+  }
+}
