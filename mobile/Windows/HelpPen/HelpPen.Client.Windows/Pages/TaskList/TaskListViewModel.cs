@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -31,6 +33,8 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 		private readonly IHelpPenService _helpPenService;
 
+		private readonly Dictionary<ObservableCollection<TaskViewModel>, DragInfo> _dragInfos;
+
 		private bool _isWorking;
 
 		private TaskViewModel _selectedTask;
@@ -47,6 +51,8 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		{
 			_helpPenService = helpPenService;
 
+			_dragInfos = new Dictionary<ObservableCollection<TaskViewModel>, DragInfo>();
+
 			TryAddNewTaskCommand = new DelegateCommand(OnTryAddNewTaskCommand);
 			UpTaskCommand = new DelegateCommand(OnUpTaskCommandExecute, OnCanUpTaskCommandExecute);
 			EditTaskCommand = new DelegateCommand(OnEditTaskCommandExecuted, () => SelectedTask != null);
@@ -56,6 +62,9 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 			NotCompletedTasks = new ObservableCollection<TaskViewModel>();
 			StashedTasks = new ObservableCollection<TaskViewModel>();
+
+			NotCompletedTasks.CollectionChanged += OnTasksCollectionChanged;
+			StashedTasks.CollectionChanged += OnTasksCollectionChanged;
 		}
 
 		#endregion
@@ -139,6 +148,58 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 		#endregion
 
 		#region Public Methods and Operators
+
+		public void BeginDragItems(ObservableCollection<TaskViewModel> tasks)
+		{
+			_dragInfos.Add(tasks, new DragInfo());
+		}
+
+		public async Task EndDragItems(ObservableCollection<TaskViewModel> tasks)
+		{
+			DragInfo dragInfo;
+			if (_dragInfos.TryGetValue(tasks, out dragInfo))
+			{
+				HashSet<TaskViewModel> changedTasks = new HashSet<TaskViewModel>();
+
+				_dragInfos.Remove(tasks);
+
+				int order = tasks[dragInfo.NewIndex].Task.orderNumber;
+
+				if (dragInfo.OldIndex < dragInfo.NewIndex)
+				{
+					for (int i = dragInfo.OldIndex + 1; i <= dragInfo.NewIndex; i++)
+					{
+						tasks[i].Task.orderNumber = tasks[i - 1].Task.orderNumber;
+
+						changedTasks.Add(tasks[i]);
+					}
+				}
+				else if (dragInfo.OldIndex > dragInfo.NewIndex)
+				{
+					for (int i = dragInfo.NewIndex; i <= dragInfo.OldIndex - 1; i++)
+					{
+						tasks[i].Task.orderNumber = tasks[i + 1].Task.orderNumber;
+
+						changedTasks.Add(tasks[i]);
+					}
+				}
+				else
+				{
+					throw new InvalidOperationException();
+				}
+
+				tasks[dragInfo.OldIndex].Task.orderNumber = order;
+
+				changedTasks.Add(tasks[dragInfo.OldIndex]);
+
+				IHelpPenService helpPenService = ServiceLocator.Current.GetInstance<IHelpPenService>();
+
+				foreach (TaskViewModel item in NotCompletedTasks)
+				{
+					await helpPenService.ChangeTask(item.Task, CancellationToken.None);
+				}
+			}
+		}
 
 		public override async void OnNavigatedTo(NavigationEventArgs e)
 		{
@@ -324,6 +385,26 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			await RemoveTask(_selectedTask);
 		}
 
+		private void OnTasksCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			ObservableCollection<TaskViewModel> tasks = (ObservableCollection<TaskViewModel>)sender;
+
+			DragInfo dragInfo;
+			if (_dragInfos.TryGetValue(tasks, out dragInfo))
+			{
+				if (e.Action == NotifyCollectionChangedAction.Add)
+				{
+					Debug.Assert(ReferenceEquals((TaskViewModel)e.NewItems[0], dragInfo.Task));
+					dragInfo.NewIndex = e.NewStartingIndex;
+				}
+				else if (e.Action == NotifyCollectionChangedAction.Remove)
+				{
+					dragInfo.Task = (TaskViewModel)e.OldItems[0];
+					dragInfo.OldIndex = e.OldStartingIndex;
+				}
+			}
+		}
+
 		private void OnTryAddNewTaskCommand()
 		{
 			Frame.Navigate(typeof(NewAndEditTaskPage));
@@ -365,6 +446,29 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 					await helpPenService.ChangeTask(item.Task, CancellationToken.None);
 				}
 			}
+		}
+
+		#endregion
+
+		#region Nested Types
+
+		private class DragInfo
+		{
+			#region Fields
+
+			/// <summary>
+			///     Старый Номер элемента.
+			/// </summary>
+			public int OldIndex;
+
+			public TaskViewModel Task;
+
+			/// <summary>
+			///     Новый номер элемента.
+			/// </summary>
+			public int NewIndex;
+
+			#endregion
 		}
 
 		#endregion

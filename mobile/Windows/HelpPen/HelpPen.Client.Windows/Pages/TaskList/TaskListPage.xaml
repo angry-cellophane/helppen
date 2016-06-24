@@ -41,7 +41,12 @@
                           IsItemClickEnabled="True"
                           SelectionMode="Single"
                           SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
-                          RightTapped="UIElement_OnRightTapped">
+                          RightTapped="UIElement_OnRightTapped"
+                          CanDragItems="True"
+                          AllowDrop="True"
+                          CanReorderItems="True"
+                          DragItemsStarting="OnListViewDragItemsStarting"
+                          DragItemsCompleted="OnListViewDragItemsCompleted">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <taskList:TaskListItemControl />
@@ -64,7 +69,12 @@
                 <ListView ItemsSource="{Binding Path=StashedTasks, Mode=OneWay}"
                           IsItemClickEnabled="True"
                           SelectionMode="Single"
-                          SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}">
+                          SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
+                          CanDragItems="True"
+                          AllowDrop="True"
+                          CanReorderItems="True"
+                          DragItemsStarting="OnListViewDragItemsStarting"
+                          DragItemsCompleted="OnListViewDragItemsCompleted">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <taskList:TaskListItemControl />

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Windows.Input;
+using System.Collections.ObjectModel;
 
-using Windows.System;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 using HelpPen.Client.Common.MVVM;
-
-using Microsoft.Practices.ServiceLocation;
 
 namespace HelpPen.Client.Windows.Pages.TaskList
 {
@@ -16,6 +14,12 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 	/// </summary>
 	public sealed partial class TaskListPage
 	{
+		#region Fields
+
+		private int _index;
+
+		#endregion
+
 		#region Constructors and Destructors
 
 		/// <summary>
@@ -39,7 +43,28 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 			return CreateInstance<TaskListViewModel>();
 		}
 
-		#endregion
+		private async void OnListViewDragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs e)
+		{
+			ListView listView = (ListView)sender;
+			if (e.Items.Count > 0)
+			{
+				TaskListViewModel taskListViewModel = (TaskListViewModel)listView.DataContext;
+
+				await taskListViewModel.EndDragItems((ObservableCollection<TaskViewModel>)listView.ItemsSource);
+			}
+		}
+
+		private void OnListViewDragItemsStarting(object sender, DragItemsStartingEventArgs e)
+		{
+			ListView listView = (ListView)sender;
+
+			if (e.Items.Count > 0)
+			{
+				TaskListViewModel taskListViewModel = (TaskListViewModel)listView.DataContext;
+
+				taskListViewModel.BeginDragItems((ObservableCollection<TaskViewModel>)listView.ItemsSource);
+			}
+		}
 
 		private async void UIElement_OnRightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
@@ -47,5 +72,7 @@ namespace HelpPen.Client.Windows.Pages.TaskList
 
 			await dialog.ShowAsync();
 		}
+
+		#endregion
 	}
 }
