@@ -20,3 +20,15 @@ hs_err_pid*
 /mobile/Windows/HelpPen/HelpPen.Client.Common/bin
 /mobile/Windows/HelpPen/HelpPen.Server/bin/Debug
 /mobile/Windows/HelpPen/HelpPen.Server/obj/Debug
+/mobile/Windows/HelpPen/HelpPen.Server/obj/Release
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/AppPackages
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/_scale-400.appx
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/_scale-100.appx
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/_pkginfo.txt
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/_language-en.appx
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/BundleArtifacts/Upload
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/BundleArtifacts/x86.txt
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/BundleArtifacts/x64.txt
+/mobile/Windows/HelpPen/HelpPen.Client.Windows/BundleArtifacts/arm.txt
+/mobile/Windows/HelpPen/certs/1/std.cer
+/mobile/Windows/HelpPen/certs/1/my.cer
