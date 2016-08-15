@@ -14,18 +14,18 @@ module.exports = function() {
       return;
     }
 
-    tokenService.provideToken({
+    tokenService.provideTokenInfo({
       login: login.toLowerCase(),
       password: password
-    }, function(err, token) {
-      console.log(err);
-      if (err || !token) {
+    }, function(err, tokenInfo) {
+      if (err || !tokenInfo) {
         res.status(400).send(err);
         return;
       }
 
       res.json({
-        token: token
+        token: tokenInfo.token,
+	username: tokenInfo.username 
       })
     });
   }

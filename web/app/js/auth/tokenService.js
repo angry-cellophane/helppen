@@ -3,7 +3,7 @@ module.exports = function() {
   var users = require('app/js/auth/userDao');
   var enc = require('app/js/auth/encrypt');
 
-  var provideToken = function(userForm, cb) {
+  var provideTokenInfo = function(userForm, cb) {
     users.findUserByLogin(userForm.login, function(err, user) {
       if (err || !user) {
         cb('Login or password are incorrect');
@@ -20,11 +20,20 @@ module.exports = function() {
       var now = (new Date).getTime();
       var expirationDate = now + 120 * 60 * 1000;
       var token = user.id + ":" + expirationDate;
-      cb('', enc.encrypt(token));
+
+      console.log('user.id = ' + user.id);
+      console.log('user.username = ' + user.username);
+      console.log('user.login = ' + user.login);
+
+      cb('', { 
+          token: enc.encrypt(token),
+          username: user.username
+        }
+      );
     });
   }
 
   return {
-    provideToken: provideToken
+    provideTokenInfo: provideTokenInfo
   }
 }();
