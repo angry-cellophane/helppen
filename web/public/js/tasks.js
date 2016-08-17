@@ -25,7 +25,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       this.state = rowData.state;
       this.orderNumber = rowData.orderNumber;
       this.ownerId = rowData.ownerId;
-      this.isDone = this.state === 'COMPLITED';
+      this.isDone = this.state === 'COMPLETED';
     }
 
     var findMaxNumber = function(tasks) {
@@ -70,7 +70,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
       if (i === -1) {
         console.log('Task ' + task.id + ' not found');
       } else {
-        var newState = task.isDone ? 'COMPLITED' : 'NOT_COMPLITED';
+        var newState = task.isDone ? 'COMPLETED' : 'NOT_COMPLETED';
         var dto = new Task(task);
         dto.state = newState;
         Tasks.update(dto, function(rowData) {
@@ -104,7 +104,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
 
     $scope.moveFromStash = function(task) {
       var dto = new Task(task);
-      dto.state = 'NOT_COMPLITED';
+      dto.state = 'NOT_COMPLETED';
       dto.orderNumber = findMaxNumber($scope.tasks) + 1;
 
       Tasks.update(dto, function(res) {
@@ -121,7 +121,7 @@ angular.module('helppen.tasks', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngResour
         if (task.state === 'STASH') {
           stashTasks.push(task);
         } else {
-          task.isDone = task.state === 'COMPLITED';
+          task.isDone = task.state === 'COMPLETED';
           actualTasks.push(task);
         }
       });

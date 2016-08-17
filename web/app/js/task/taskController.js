@@ -56,6 +56,7 @@ module.exports = function () {
     var task = req.body;
 
     task.ownerId = user.id;
+    task.id = taskId;
 
     tasks.update(user.id, task, function (err) {
       if (err) {
