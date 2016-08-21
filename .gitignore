@@ -5,6 +5,7 @@
 *.jar
 *.war
 *.ear
+*.log
 **/.idea/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
@@ -32,3 +33,6 @@ hs_err_pid*
 /mobile/Windows/HelpPen/HelpPen.Client.Windows/BundleArtifacts/arm.txt
 /mobile/Windows/HelpPen/certs/1/std.cer
 /mobile/Windows/HelpPen/certs/1/my.cer
+
+/web/node_modules
+/web/logs
