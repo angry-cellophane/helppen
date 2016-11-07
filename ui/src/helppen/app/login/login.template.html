@@ -1,0 +1,21 @@
+<h3>HELP PEN</h3>
+
+<form role="form" [formGroup]="form" (ngSubmit)="login(form)">
+  <div class="form-element">
+    <label for="username">Электронная почта</label>
+    <input type="text" id="username" name="username" formControlName="username" placeholder="Ваша электронная почта">
+  </div>
+
+  <div class="form-element">
+    <label for="password">Пароль</label>
+    <input type="password" id="password" name="password" formControlName="password" placeholder="Ваш пароль">
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-submit" [class.blocked]="!form.valid" [disabled]="!form.valid">Войти</button>
+
+    <a href="/signup" class="btn-link">Восстановление пароля</a>
+  </div>
+
+    <p class="text-center text-warning" *ngIf="error">Электронная почта или пароль неверны.</p>
+</form>

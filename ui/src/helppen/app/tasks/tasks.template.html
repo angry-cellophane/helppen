@@ -1,0 +1,59 @@
+<div id="add-task">
+    <button type="button" class="btn btn-link btn-add-task">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+
+    <div class="form-element">
+        <input type="text" placeholder="{{'TASKS.CREATE_TASK' | translate}}" [(ngModel)]="taskText" (keyup.enter)="addStoreTask(taskText)" (keyup.escape)="taskText = ''">
+    </div>
+
+    <div class="create-task-actions-wrapper">
+        <div class="create-task-actions">
+            <button class="add" (click)="addStoreTask(taskText)">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </button>
+            <button class="clean" (click)="cleanStoreTask(taskText)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="tasks-empty" *ngIf="!tasks.length">
+    <div class="tasks-empty">
+        <div class="empty-list"></div>
+        <p>{{'TASKS.EMPTY_TASKS' | translate}}</p>
+        <!--<p>Нажмите кнопку &laquo;Создать задачу&raquo;...</p>-->
+        <p>{{'TASKS.CLICK_ON_CREATE_TASK' | translate}}</p>
+    </div>
+</div>
+
+<div id="tasks-list">
+    <ul class="tasks-list">
+        <li class="task-item" *ngFor="let task of tasks">
+
+            <div class="form-element">
+                <input type="checkbox" id="{{task.text}}" #checkbox checked [(ngModel)]="task.isChecked" (change)="updateStoreTask(checkbox.checked, task)">
+                <label [attr.for]="task.text"></label>
+
+                <input type="text" [(ngModel)]="task.text" (keyup)="updateStoreTask(checkbox.checked, task)">
+            </div>
+
+            <div class="task-actions">
+                <button class="up" (click)="moveStoreTaskUp(task)">
+                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                </button>
+                <!--<button class="down" (click)="moveTaskDown(task, tasks)">
+                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                </button>-->
+                <button class="trash" (click)="removeStoreTask(task)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+                <button class="stash" (click)="stashStoreTask(task)">
+                    <i class="fa fa-stack-overflow" aria-hidden="true"></i>
+                </button>
+            </div>
+        </li>
+    </ul>
+</div>
+

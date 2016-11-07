@@ -1,0 +1,38 @@
+@import '~src/assets/styles/variables';
+
+:host {
+  #contents-area {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+
+    #contents-outlet {
+      background: #fff;
+      margin: 0 auto 0 auto;
+      width: $default-width;
+      display: flex;
+      border-radius: 0 0 $default-radius $default-radius;
+    }
+  }
+
+  .contents-area {
+    height: 100%;
+  }
+
+  .contents-outlet {
+    height: calc(100% - 178px);
+  }
+
+  .copyright {
+    font-family: $secondary-font;
+    color: $black-color;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+

@@ -1,0 +1,23 @@
+{
+  "APPLICATION": "help pen",
+  "NAVIGATION": {
+    "TASKS": {
+      "_": "Задачи"
+    },
+    "STASH": {
+      "_": "Кладовка"
+    }
+  },
+  "PROFILE": {
+    "SETTINGS": "Настройки",
+    "LOGOUT": "Выход"
+  },
+  "TASKS": {
+    "CREATE_TASK": "Создать задачу",
+    "EMPTY_TASKS": "Здесь будет список ваших задач.",
+    "CLICK_ON_CREATE_TASK": "Нажмите кнопку 'Создать задачу'..."
+  },
+  "STASH": {
+
+  }
+}

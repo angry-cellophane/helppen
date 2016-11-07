@@ -1,0 +1,60 @@
+.btn {
+  font-size: $default-font-size;
+  background-color: $default-button-background;
+  color: $default-button-color;
+  border-width: 1px;
+  border-style: solid;
+  //border-color: $default-button-border-color;
+  border-color: transparent;
+  border-radius: $default-button-radius;
+  padding: $default-button-padding;
+  outline: 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($primary-color, 30%);
+  }
+}
+
+.btn-link {
+  color: $primary-color;
+  float: right;
+  padding: $btn-link-padding;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.btn-submit {
+  color: #fff;
+  background-color: $primary-color;
+  border-color: $primary-color;
+  box-shadow: 0 3px 0 darken($primary-color, 15%);
+
+  &:hover {
+    background-color: lighten($primary-color, 5%);
+  }
+}
+
+.disabled {
+  background-color: #fff;
+  border-color: $disabled-color;
+  color: $disabled-color;
+  box-shadow: 0 3px 0 lighten($primary-color, 30%);
+
+  &:hover {
+    background-color: #fff;
+  }
+}
+
+.blocked {
+  background-color: lighten($primary-color, 15%);
+  border-color: lighten($primary-color, 10%);
+  color: $disabled-color;
+  box-shadow: 0 3px 0 lighten($primary-color, 30%);
+
+  &:hover {
+    background-color: lighten($primary-color, 20%);
+  }
+}

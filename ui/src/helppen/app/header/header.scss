@@ -1,0 +1,117 @@
+@import '~src/assets/styles/variables';
+
+#header-area {
+    top: 0;
+    width: 100%;
+    height: $default-header-height;
+    background: $default-header-background;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    #brand-area {
+        color: #fff;
+        font-size: $default-header-font-size;
+        font-weight: 500;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        width: 10%;
+        margin-left: 10px;
+    }
+
+    #profile-area {
+        color: #fff;
+        font-size: $default-font-size;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 35%;
+        margin-left: auto;
+
+        .profile-username {
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #fff;
+            border-radius: 40px;
+            margin: 14px;
+            cursor: pointer;
+
+            &:hover {
+                border-color: red;
+                transition: border 0.24s;
+            }
+
+            i {
+                color: $primary-color;
+                padding: 10px 12px;
+
+                &:hover {
+                    color: red;
+                }
+            }
+        }
+
+        ul.profile-menu {
+            background-color: #fff;
+            display: none;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            text-align: left;
+            right: 10px;
+            top: 56px;
+            width: 220px;
+
+            &::before {
+                content: '';
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 0 8px 8px 8px;
+                border-color: transparent transparent #fff transparent;
+                position: absolute;
+                top: -8px;
+                right: 18px;
+            }
+
+            &.profile-opened {
+                display: block;
+            }
+
+            li {
+
+                &:hover {
+                    background-color: $secondary-color;
+                }
+
+                &.detach {
+                    border-top: 1px solid $secondary-color;
+                }
+
+                a {
+                    color: #6789A8;
+                    display: block;
+                    padding: 8px 15px;
+                    text-decoration: none;
+
+                    i {
+                        margin-right: 0.5em;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,57 @@
+@import '~src/assets/styles/variables';
+
+.tabs {
+  //font-family: 'Lato', sans-serif;
+  margin: 0 auto;
+  width: 50%;
+  height: 46px;
+  display: flex;
+
+  ul.tabs-list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    background-color: $secondary-color;
+    border-radius: 0.5em 0.5em 0 0;
+
+    li.tab-item, li.tab-options-item {
+      list-style: none;
+      display: flex;
+
+      a[role=tab] {
+        background-color: $secondary-color;
+        color: #6789A8;
+        padding: 14px 30px 0px 30px;
+        border-radius: 8px 8px 0 0;
+        text-decoration: none;
+        
+        &.active {
+          background-color: #fff;
+
+          &:hover {
+            background-color: #fff;
+          }
+        }
+
+        &:hover {
+          background-color: lighten($secondary-color, 2%);
+        }
+        
+        i {
+          margin-right: 0.5em;
+        }
+      }
+    }
+
+    li.tab-options-item {
+      position: absolute;
+      right: 25%;
+      height:46px;
+
+      a[role=tab] {
+        padding: 14px 10px 0 20px;
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<div id="tasks-empty" *ngIf="!stashTasks.length">
+    <div class="tasks-empty">
+        <div class="empty-list"></div>
+        <p>Cписок задач, помещенных в кладовку, пуст.</p>
+    </div>
+</div>
+
+<div id="stash-tasks-list">
+    <ul class="tasks-list">
+        <li class="task-item" *ngFor="let stashTask of stashTasks">
+
+            <div class="form-element">
+                <input type="text" [(ngModel)]="stashTask.text" (keyup)="updateStashStoreTask(stashTask)">
+            </div>
+
+            <div class="task-actions">
+                <button class="stash" (click)="unStashStoreTask(stashTask)">
+                    <i class="fa fa-undo" aria-hidden="true"></i>
+                </button>
+                <button class="trash" (click)="removeStashStoreTask(stashTask)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+            </div>
+        </li>
+    </ul>
+</div>

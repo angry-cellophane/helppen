@@ -1,0 +1,231 @@
+@import '~src/assets/styles/variables';
+
+:host {
+    width: 100%;
+    padding: 25px;
+
+    #tasks-list, #stash-tasks-list {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        overflow-y: auto;
+
+        .tasks-list {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+
+            .task-item {
+                list-style-type: none;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+                min-height: 52px;
+
+                &:hover {
+                    background-color: lighten($primary-color, 43%);
+
+                    .task-actions {
+                        opacity: 1;
+                    }
+                }
+
+                /*p {
+                  width: 100%;
+                  padding: 0 10px;
+                }*/
+
+
+                .form-element {
+                    margin: 0;
+                    display: flex;
+
+                    input {
+                        background-color: transparent;
+                    }
+
+                    input[type=checkbox] {
+                        //margin: 0 2em;
+                        display: none;
+                    }
+
+                    /*label {
+                      width: 1em;
+                      height: 1em;
+                      padding: 1em 0.9em;
+
+                      &::before {
+                        content: '\f096';
+                        font-family: 'FontAwesome';
+                        display: inline-block;
+                      }
+                    }*/
+
+                    input[type=checkbox] + label {
+                        font-size: 1em;
+                        width: 1em;
+                        height: 1em;
+                        padding: 1em 0.9em;
+                    }
+
+                    input[type=checkbox] + label::before {
+                        font-size: 1.25em;
+                        content: '\f096';
+                        font-family: 'FontAwesome';
+                        display: inline-block;
+                        margin-top: 3px;
+                    }
+
+                    input[type=checkbox]:checked + label::before {
+                        font-size: 1.25em;
+                        content: '\f14a';
+                        font-family: 'FontAwesome';
+                        display: inline-block;
+                        margin-top: 3px;
+                    }
+
+                    input[type=text] {
+                        font-family: $secondary-font;
+                    }
+                }
+
+                .task-actions {
+                    display: flex;
+                    flex-direction: row;
+                    padding: 0.375em;
+                    opacity: 0;
+
+                    .up, .down, .trash, .stash {
+                        font-size: 1em;
+                        background-color: transparent;
+                        border-width: 0;
+                        border-color: transparent;
+                        color: saturate(lighten($primary-color, 17%), 30%);
+                        cursor: pointer;
+                        outline: none;
+
+                        &:hover {
+                            color: saturate(lighten($primary-color, 7%), 30%);
+                        }
+                    }
+
+                    &:hover {
+                        opacity: 1;
+
+                    }
+
+                }
+            }
+        }
+    }
+
+    #tasks-list {
+        height: calc(100% - 46px);
+    }
+
+    #add-task {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+
+        button {
+            padding: 1px 6px;
+        }
+
+        .form-element {
+            margin: 0;
+            width: 100%;
+            display: flex;
+
+            input {
+                margin: 0;
+            }
+        }
+
+        .btn-add-task {
+            background-color: lighten($primary-color, 40%);
+            color: saturate(lighten($primary-color, 17%), 30%);
+
+            border-radius: 0;
+            padding: 0 1em;
+        }
+
+        &:hover {
+            .create-task-actions-wrapper {
+                background-color: lighten($primary-color, 40%);
+
+                .create-task-actions {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .create-task-actions-wrapper {
+            background-color: lighten($primary-color, 40%);
+
+            .create-task-actions {
+                display: flex;
+                flex-direction: row;
+                padding: 0.75em 0.375em;
+                opacity: 0;
+
+                .up, .down, .trash, .stash, .add, .clean {
+                    font-size: 1em;
+                    background-color: transparent;
+                    border-width: 0;
+                    border-color: transparent;
+                    color: saturate(lighten($primary-color, 17%), 30%);
+                    cursor: pointer;
+                    outline: none;
+
+                    &:hover {
+                        color: saturate(lighten($primary-color, 7%), 30%);
+                    }
+                }
+
+                &:hover {
+                    opacity: 1;
+
+                }
+
+            }
+        }
+
+
+    }
+
+    #tasks-empty {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 90%;
+
+        .tasks-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+
+            p {
+                margin: 0;
+                padding: 0.3em 0;
+                //font-family: 'Lato', sans-serif;
+                font-size: 1em;
+                color: $primary-color;
+            }
+
+            .empty-list {
+                background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0i0KHQu9C+0LlfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI5MnB4IiBoZWlnaHQ9IjEyOHB4IiB2aWV3Qm94PSIwIDAgOTIgMTI4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA5MiAxMjgiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxwYXRoIGZpbGw9IiM2NTZFN0MiIGQ9Ik04OCwxMjguMDAxSDRjLTIuMjA5LDAtNC0xLjc5MS00LTR2LTEwOGMwLTIuMjA5LDEuNzkxLTQsNC00aDg0YzIuMjA5LDAsNCwxLjc5MSw0LDR2MTA4QzkyLDEyNi4yMSw5MC4yMDksMTI4LjAwMSw4OCwxMjguMDAxeiIvPjxyZWN0IHg9IjQiIHk9IjE2LjAwMSIgZmlsbD0iIzg3QTJCQSIgd2lkdGg9Ijg0IiBoZWlnaHQ9IjEwOCIvPjxwYXRoIGZpbGw9IiM2NTZFN0MiIGQ9Ik02MiwxMTYuMDAxSDE0Yy0yLjIwOSwwLTQtMS43OTEtNC00di04MGMwLTIuMjA5LDEuNzkxLTQsNC00aDY0YzIuMjA5LDAsNCwxLjc5MSw0LDR2NjRDNzQuMTksMTAzLjgxMSw2OS44MSwxMDguMTksNjIsMTE2LjAwMXoiLz48cG9seWdvbiBmaWxsPSIjREZFRUZEIiBwb2ludHM9IjE0LDMyLjAwMSA3OCwzMi4wMDEgNzgsOTIuMDAxIDU4LDkyLjAwMSA1OCwxMTIuMDAxIDE0LDExMi4wMDEgIi8+PHBhdGggZmlsbD0iIzY1NkU3QyIgZD0iTTE4LDM4LjAwMXYtMTBjMC00LjQxOCwzLjU4Mi04LDgtOGg4di04YzAtNi42MjcsNS4zNzMtMTIsMTItMTJoMGM2LjYyNywwLDEyLDUuMzczLDEyLDEydjhoOGM0LjQxOCwwLDgsMy41ODIsOCw4djEwSDE4eiIvPjxwYXRoIGZpbGw9IiNCQkQwRTciIGQ9Ik0yMiwzNC4wMDF2LTZjMC0yLjIwOSwxLjc5MS00LDQtNGgxMnYtMTJjMC00LjQxOCwzLjU4Mi04LDgtOGgwYzQuNDE4LDAsOCwzLjU4Miw4LDh2MTJoMTJjMi4yMDksMCw0LDEuNzkxLDQsNHY2QzcwLDM0LjAwMSwyMS41LDM0LjAwMSwyMiwzNC4wMDF6Ii8+PHBvbHlnb24gZmlsbD0iI0JCRDBFNyIgcG9pbnRzPSI3NSw5Ni4wMDEgNjIsMTA5LjAwMSA2Miw5Ni4wMDEgIi8+PGNpcmNsZSBmaWxsPSIjNjU2RTdDIiBjeD0iNDYiIGN5PSIxMi4wMDEiIHI9IjQiLz48cGF0aCBmaWxsPSIjNjU2RTdDIiBkPSJNNjgsNTAuMDAxSDI0Yy0xLjEwNSwwLTItMC44OTUtMi0ydjBjMC0xLjEwNSwwLjg5NS0yLDItMmg0NGMxLjEwNSwwLDIsMC44OTUsMiwydjBDNzAsNDkuMTA2LDY5LjEwNSw1MC4wMDEsNjgsNTAuMDAxeiIvPjxwYXRoIGZpbGw9IiM2NTZFN0MiIGQ9Ik02OCw2Mi4wMDFIMjRjLTEuMTA1LDAtMi0wLjg5NS0yLTJ2MGMwLTEuMTA1LDAuODk1LTIsMi0yaDQ0YzEuMTA1LDAsMiwwLjg5NSwyLDJ2MEM3MCw2MS4xMDYsNjkuMTA1LDYyLjAwMSw2OCw2Mi4wMDF6Ii8+PHBhdGggZmlsbD0iIzY1NkU3QyIgZD0iTTY4LDc0LjAwMUgyNGMtMS4xMDUsMC0yLTAuODk1LTItMmwwLDBjMC0xLjEwNSwwLjg5NS0yLDItMmg0NGMxLjEwNSwwLDIsMC44OTUsMiwybDAsMEM3MCw3My4xMDYsNjkuMTA1LDc0LjAwMSw2OCw3NC4wMDF6Ii8+PHBhdGggZmlsbD0iIzY1NkU3QyIgZD0iTTQ2LDg2LjAwMUgyNGMtMS4xMDUsMC0yLTAuODk1LTItMmwwLDBjMC0xLjEwNSwwLjg5NS0yLDItMmgyMmMxLjEwNSwwLDIsMC44OTUsMiwybDAsMEM0OCw4NS4xMDYsNDcuMTA1LDg2LjAwMSw0Niw4Ni4wMDF6Ii8+PC9nPjwvc3ZnPg==);
+                width: 92px;
+                height: 128px;
+                margin: 2em;
+            }
+        }
+
+    }
+
+}

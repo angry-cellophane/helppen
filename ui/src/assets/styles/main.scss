@@ -1,0 +1,51 @@
+// Global variables
+@import '_variables';
+
+// Google Roboto font path
+//@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700&subset=latin,cyrillic-ext);
+@import '_font-roboto';
+
+//Google Lato font path
+//@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+//@import '_font-lato';
+
+// Fontawesome
+@import '~font-awesome/scss/font-awesome.scss';
+
+// Colors
+@import '_colors.scss';
+
+// Buttons
+@import '_buttons.scss';
+
+// Forms
+@import '_forms.scss';
+
+// Typo
+@import '_typo.scss';
+
+html, body {
+    font-family: $secondary-font;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+body {
+    background-color: #fff;
+
+    &.colorful {
+        background-image: url("../images/background2.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        background-attachment: fixed;
+        background-color: $default-background-color;
+    }
+}
+
+#preloader {
+    background-image: url("../images/preloader.gif");
+}

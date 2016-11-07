@@ -6,7 +6,17 @@
 *.war
 *.ear
 *.log
+
+# ide #
 **/.idea/
+.vscode
+.project
+
+# generated files #
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -36,3 +46,8 @@ hs_err_pid*
 
 /web/node_modules
 /web/logs
+/web/public/components
+
+/ui/bundles
+ui/node_modules
+/ui/typings

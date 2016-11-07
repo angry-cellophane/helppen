@@ -1,0 +1,40 @@
+// Fontawesome path
+$fa-font-path: '~font-awesome/fonts' !default;
+
+// Content
+$default-width: 50%;
+$default-height: 75%;
+$default-background-color: #444;
+
+// Header
+$default-header-height: 50px;
+$default-header-background: rgba(lighten($default-background-color, 20%), 0.4);
+$default-header-font-size: 1.125em;
+
+// Fonts
+$primary-font: 'Roboto';
+$secondary-font: 'Roboto';
+$default-font-size: 16px;
+$medium-font-size: 1.125em;
+
+// Colors
+$primary-color: #6789A8;
+$black-color: #444;
+$disabled-color: #eee;
+$secondary-color: #EDF3F7;
+
+// Radius
+$default-radius: 0.5em;
+
+// Forms
+$default-element-height: 1.625em;
+$default-element-padding: 0.625em;
+
+// Buttons
+$default-button-background: #fff;
+$default-button-color: $primary-color;
+$default-button-border-color: lighten($primary-color, 10%);
+$default-button-radius: 0.25em;
+$default-button-padding: 0.75em 3.5em;
+
+$btn-link-padding: 0.625em;
