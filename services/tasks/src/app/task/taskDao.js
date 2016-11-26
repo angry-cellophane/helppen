@@ -1,6 +1,6 @@
 module.exports = function () {
 
-  var uuid = require('node-uuid');
+  var uuid = require('uuid');
   var db = require('src/app/db');
   var date = require('src/app/date');
 
@@ -31,7 +31,7 @@ module.exports = function () {
   };
 
   var create = function(ownerId, text, callback) {
-    var newId = uuid.v4();
+    var newId = uuid();
     getNewOrderNumber(ownerId, function (maxOrderNumber) {
       var newTask = {id: newId, text: text, state: 'NOT_COMPLETED', orderNumber: maxOrderNumber, ownerId: ownerId };
       var creationDateTime = date.now();
