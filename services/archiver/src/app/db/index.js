@@ -1,6 +1,6 @@
 module.exports = function () {
   var mysql = require('mysql');
-  var config = require('config').datasource;
+  var config = require('config');
   console.log(config);
 
   var poolConfig = {
