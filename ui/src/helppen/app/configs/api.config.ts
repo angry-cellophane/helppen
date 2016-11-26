@@ -1,6 +1,6 @@
 export class Api {
-    public hostname: string = 'http://localhost';
-    public port: number = 8000;
+    public hostname: string = 'http://dev.helppen.com';
+    public port: number = 80;
     public path: string = 'api';
 
     get root(): string {

@@ -1,11 +1,15 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var compression = require('compression');
-var token = require('app/js/auth/tokenController');
 var cookieParser = require('cookie-parser');
-var task = require('app/js/task/taskController');
-var filters = require('app/js/auth/filters');
-var tokenService = require('app/js/auth/tokenService');
+
+var token = require('src/app/auth/tokenController');
+var task = require('src/app/task/taskController');
+var filters = require('src/app/auth/filters');
+var tokenService = require('src/app/auth/tokenService');
+
+var Config = require('config-js');
+var config = new Config('config');
 
 var app = express();
 app.use(bodyParser.urlencoded({
@@ -48,7 +52,7 @@ app.all('/', filters.authenticate, function(req, res) {
 });
 
 
-var port = process.env.PORT || 8000;
+var port = config.port || 8000;
 app.listen(port);
 
 console.log('server is running');
