@@ -1,7 +1,7 @@
 module.exports = function() {
 
-  var users = require('app/js/auth/userDao');
-  var enc = require('app/js/auth/encrypt');
+  var users = require('src/app/auth/userDao');
+  var enc = require('src/app/auth/encrypt');
 
   var provideTokenInfo = function(userForm, cb) {
     users.findUserByLogin(userForm.login, function(err, user) {

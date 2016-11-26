@@ -1,6 +1,6 @@
 module.exports = function() {
-  var enc = require('app/js/auth/encrypt');
-  var users = require('app/js/auth/userDao');
+  var enc = require('src/app/auth/encrypt');
+  var users = require('src/app/auth/userDao');
 
   var authenticate = function(req, res, next) {
     var token = req.cookies.authToken;

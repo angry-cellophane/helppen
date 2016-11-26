@@ -1,8 +1,8 @@
 module.exports = function () {
 
   var uuid = require('node-uuid');
-  var db = require('app/js/db');
-  var date = require('app/js/date');
+  var db = require('src/app/db');
+  var date = require('src/app/date');
 
   var getAllByUser = function (ownerId, callback) {
     var sql = 'select * from task where ownerId = ' + db.escape(ownerId) + ' order by orderNumber desc';
