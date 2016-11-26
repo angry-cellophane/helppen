@@ -8,8 +8,7 @@ var task = require('src/app/task/taskController');
 var filters = require('src/app/auth/filters');
 var tokenService = require('src/app/auth/tokenService');
 
-var Config = require('config-js');
-var config = new Config('config');
+var config = require('config');
 
 var app = express();
 app.use(bodyParser.urlencoded({

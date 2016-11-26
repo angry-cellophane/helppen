@@ -2,7 +2,7 @@ module.exports = function() {
 
   var users = require('src/app/auth/userDao');
   var enc = require('src/app/auth/encrypt');
-  var tokenService = require('app/js/auth/tokenService');
+  var tokenService = require('src/app/auth/tokenService');
 
   var controller = function authController(req, res) {
     var login = req.body.login;

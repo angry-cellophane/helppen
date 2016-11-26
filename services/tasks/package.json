@@ -12,7 +12,6 @@
     "requirejs": "latest",
     "connect": "2.7.0",
     "cookie-parser":"1.4.1",
-    "config-js": "1.1.9",
     "winston": "~0.7.2",
     "async": "~0.2.9",
     "validator": "~2.0.0",

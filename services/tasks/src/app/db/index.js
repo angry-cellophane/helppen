@@ -1,14 +1,15 @@
 module.exports = function () {
   var mysql = require('mysql');
-  var config = require('config');
+  var config = require('config').datasource;
+  console.log(config);
 
   var poolConfig = {
     connectionLimit: 100,
-    host: config.get('datasource:host'),
-    user: config.get('datasource:username'),
-    password: config.get('datasource:password'),
-    database: config.get('datasource:database'),
-    debug: config.get('datasource:debug')
+    host: config.host,
+    user: config.username,
+    password: config.password,
+    database: config.database,
+    debug: config.debug
   };
 
   var pool = mysql.createPool(poolConfig);
