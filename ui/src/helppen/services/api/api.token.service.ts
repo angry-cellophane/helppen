@@ -5,9 +5,7 @@ import {Observable} from 'rxjs/Rx';
 
 @Injectable()
 export class ApiToken {
-    private api: any = new Api();
-
-    constructor (private http: Http) {
+    constructor (private http: Http, private api: Api) {
 
     }
 

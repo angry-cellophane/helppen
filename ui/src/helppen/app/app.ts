@@ -25,9 +25,7 @@ import {TranslationService} from '../services/translation';
 export class App {
     public appName: string = 'helppen';
 
-    private api: any = new Api();
-
-    constructor(private translationService: TranslationService) {
+    constructor(private translationService: TranslationService, private api: Api) {
 
     }
 }

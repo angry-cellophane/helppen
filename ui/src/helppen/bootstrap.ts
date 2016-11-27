@@ -18,6 +18,7 @@ if (PRODUCTION) {
  * our top level component that holds all of our components
  */
 import {App} from './app';
+import {Api} from './app/configs/api.config';
 import {CustomBrowserXhr} from './services/xhr/xhr.service';
 import {Preloader} from '../common/extensions/preloader/preloader.extension';
 import {APP_ROUTER_PROVIDERS} from './app/routes';
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function main() {
             useFactory: (http: Http) => new TranslateStaticLoader(http, '', '.json'),
             deps: [Http]
         }),
+	provide(Api, {useClass: Api}),
         disableDeprecatedForms(),
         provideForms(),
 

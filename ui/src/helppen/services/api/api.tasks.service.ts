@@ -7,9 +7,8 @@ import {TaskStatus} from '../../../common/models/task.status.enum';
 
 @Injectable()
 export class ApiTasks {
-    private api: any = new Api();
 
-    constructor (private http: Http) {
+    constructor (private http: Http, private api: Api) {
 
     }
 

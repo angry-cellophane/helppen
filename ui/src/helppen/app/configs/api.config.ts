@@ -1,13 +1,13 @@
+import {Injectable} from '@angular/core';
+
+@Injectable()
 export class Api {
-    public hostname: string = 'http://dev.helppen.com';
-    public port: number = 80;
-    public path: string = 'api';
 
     get root(): string {
-        return `${this.hostname}:${this.port}/${this.path}`;
+        return `${this.host}/api`;
     }
 
     get host(): string {
-        return `${this.hostname}:${this.port}`;
+        return window.location.host;
     }
 }
