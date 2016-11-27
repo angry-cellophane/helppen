@@ -14,7 +14,7 @@ export class ApiToken {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
 
-        return this.http.post(`${this.api.host}/auth/token`, body, options)
+	return this.http.post(`${this.api.authUrl}/token`, body, options)
             .map<any>((data: any) => {
                 return data;
             })

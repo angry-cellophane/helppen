@@ -13,7 +13,7 @@ export class ApiTasks {
     }
 
     get root(): string {
-        return this.api.root;
+        return this.api.tasksUrl;
     }
 
     get headers(): Headers {
