@@ -3,3 +3,8 @@ dev.helppen.com
 
 [beta]
 beta.helppen.com
+
+[all:children]
+dev
+beta
+
