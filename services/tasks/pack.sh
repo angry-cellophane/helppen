@@ -40,8 +40,12 @@ function build_deployment {
 function pack {
   echo 'Packing archive ...'
   local work_dir="$1"
-  tar cfz "$work_dir/.build/tasks.tar.gz" "$work_dir/.build/tasks"
-  echo 'The project packed into $work_dir/.build/tasks.tar.gz'
+  old_pwd="$(pwd)"
+  cd "$work_dir/.build/"
+  tar cfz tasks.tar.gz ./tasks/
+
+  pwd "$old_pwd"
+  echo "The project packed into $work_dir/.build/tasks.tar.gz"
 }
 
 work_dir="$(dirname ${BASH_SOURCE[0]})"
