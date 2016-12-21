@@ -1,0 +1,6 @@
+---
+- hosts: "{{ hosts }}"
+
+  tasks:
+  - name: Deploy database scripts 
+    command: flyway migrate -user=${HP_DATABASE_USERNAME} -url=${HP_DATABASE_URL} -password=${HP_DATABASSE_PASSWORD} -configFile="./database/flyway.conf"
