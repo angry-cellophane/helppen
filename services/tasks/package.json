@@ -9,6 +9,7 @@
     "requirejs": "latest",
     "cookie-parser":"1.4.1",
     "compression": "^1.6.1",
-    "uuid": "3.0.0"
+    "uuid": "3.0.0",
+    "forever": "0.15.3"
   }
 }
