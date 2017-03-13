@@ -1,8 +1,8 @@
 [dev]
-dev.helppen.com ansible_user=hpapp_dev
+dev.helppen.com ansible_user=hpapp_ops
 
 [beta]
-beta.helppen.com ansible_user=hpapp_beta
+beta.helppen.com ansible_user=hpapp_ops
 
 [all:children]
 dev
