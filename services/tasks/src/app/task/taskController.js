@@ -1,7 +1,7 @@
 module.exports = function () {
 
-  var tasks = require('src/app/task/taskDao');
-  var enc = require('src/app/auth/encrypt');
+  var tasks = require('app/task/taskDao');
+  var enc = require('app/auth/encrypt');
 
   var getAll = function(req, res) {
     var user = req.currentUser;

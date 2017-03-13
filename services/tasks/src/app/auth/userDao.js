@@ -1,5 +1,5 @@
 module.exports = function () {
-  var db = require('src/app/db');
+  var db = require('app/db');
 
   var findUserByQuery = function (sql, callback) {
     db.query(sql, function(err, rows) {

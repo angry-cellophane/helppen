@@ -1,6 +1,6 @@
 module.exports = function () {
   var mysql = require('mysql');
-  var config = require('config').datasource;
+  var config = require('app/config').datasource;
   console.log(config);
 
   var poolConfig = {
@@ -14,7 +14,7 @@ module.exports = function () {
 
   var pool = mysql.createPool(poolConfig);
 
-  console.log('Connection esstablished: ' + poolConfig.user + '@' + poolConfig.host + '/' + poolConfig.database);
+  console.log('Connection esstablished: ' + poolConfig.user + '@' + poolConfig.url + '/' + poolConfig.database);
 
   var query = function (sql, callback) {
     pool.getConnection(function (err, connection) {
