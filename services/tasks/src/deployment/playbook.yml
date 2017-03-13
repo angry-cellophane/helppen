@@ -1,0 +1,94 @@
+---
+- hosts: "{{ hosts }}"
+  vars:
+    db_url: "{{ lookup('env', 'HP_DATABASE_URL') }}"
+    db_username: "{{ lookup('env', 'HP_DATABASE_USERNAME') }}"
+    db_password: "{{ lookup('env', 'HP_DATABASE_PASSWORD') }}"
+    src_dir: "{{ playbook_dir }}/.."
+    db_scripts_dir: "{{ playbook_dir }}/../database"
+
+  pre_tasks:
+
+  - fail: msg="hpapp_dir is not defined"
+    when: hpapp_dir is undefined
+
+  - fail: msg="No app user defined. Please define the hpapp_username playbook parameter"
+    when: hpapp_username is undefined
+
+  - fail: msg="No app user group defined. Please define the hpapp_groupname playbook parameter"
+    when: hpapp_groupname is undefined
+
+  - fail: msg="HP_DATABASE_USERNAME is not defined"
+    when: db_username is undefined
+
+  - fail: msg="HP_DATABASE_PASSWORD is not defined"
+    when: db_password is undefined
+  
+  - fail: msg="HP_DATABASE_URL is not defined"
+    when: db_url is undefined
+
+  - stat:
+      path: "{{ db_scripts_dir }}/flyway.conf"
+    register: db_scripts_dir_st
+
+  - fail: msg="flyway config not found in src/database/flyway.conf"
+    when: db_scripts_dir_st.stat.exists == False
+
+  tasks:
+
+  - block:
+    - name: Check if forever exists
+      stat:
+        path: "{{ hpapp_dir }}/node_modules/.bin/forever"
+      register: old_forever
+
+    - name: Check if app exists
+      stat:
+        path: "{{ hpapp_dir }}/app/server.js"
+      register: old_app
+
+    - name: Stop app
+      command: "{{ hpapp_dir }}/node_modules/.bin/forever stop {{ hpapp_dir }}/app/server.js"
+      when: old_forever.stat.exists == True and old_app.stat.exists == True
+
+    rescue:
+    - debug: msg="got an error while stopping app"
+
+    become: true
+    become_user: "{{ hpapp_username }}"
+
+  - name: Deploy database scripts 
+    command: flyway migrate -user="{{ db_username }}"  -url="{{ db_url }}" -password="{{ db_password }}" -configFile="{{ db_scripts_dir }}/flyway.conf"
+
+  - name: Clean app's folder
+    file:
+      path: "{{ hpapp_dir }}"
+      state: absent
+
+  - name: Create the app's root folder
+    file:
+      path: "{{ hpapp_dir }}"
+      owner: "{{ hpapp_username }}"
+      group: "{{ hpapp_groupname }}"
+      mode: 0755  
+      state: directory
+
+  - name: Copy code
+    copy:
+      src: "{{ src_dir }}/app"
+      dest: "{{ hpapp_dir }}"
+      owner: "{{ hpapp_username }}"
+      group: "{{ hpapp_groupname }}"
+      mode: 0755
+
+  - block:
+    - name: Installing npm packages
+      command: npm install "{{ src_dir }}/deployment" --prefix "{{ hpapp_dir }}"
+
+    - name: Running app 
+      command: "{{ hpapp_dir }}/node_modules/.bin/forever start {{ hpapp_dir }}/app/server.js"
+
+    become: true
+    become_user: "{{ hpapp_username }}"
+    environment:
+      NODE_PATH: "{{ hpapp_dir }}"
